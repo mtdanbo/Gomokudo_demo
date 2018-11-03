@@ -1,0 +1,2 @@
+winner X
+looser O

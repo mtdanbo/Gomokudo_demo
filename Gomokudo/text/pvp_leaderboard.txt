@@ -1,0 +1,3 @@
+triet
+ad
+main

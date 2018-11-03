@@ -1,0 +1,6 @@
+Welcome to PvC mode. Are you ready to challenge your self
+Plz choose 1 option below to start the game
+  1.Easy mode
+  2.Normal mode
+  3.Hard mode
+Your choice is: 

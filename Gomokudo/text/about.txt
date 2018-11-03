@@ -1,0 +1,10 @@
+Welcome to our caro game
+This is my first game on C++ console. So you are in instruction of game. I will show you some information
+ First you will have 2 mode to play a game
+    1. Player vs Player mode
+    2. Player vs Computer mode
+ In PvC mode you will have 3 difficulty
+    1. Easy mode
+    2. Normal mode
+    3. Hard mode
+Press Esc if you want to comeback main menu

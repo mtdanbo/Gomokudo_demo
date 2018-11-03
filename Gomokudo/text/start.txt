@@ -1,0 +1,4 @@
+Welcome to our caro game. Now please choose your mode
+We have 2 option for you
+  1. PvP mode
+  2. PvC mode
