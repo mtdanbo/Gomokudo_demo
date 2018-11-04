@@ -4,6 +4,6 @@
 #include "control.h"
 #include "compute.h"
 #include "save.h"
-#include "hard.h"
+#include "bot.h"
 
 void load();

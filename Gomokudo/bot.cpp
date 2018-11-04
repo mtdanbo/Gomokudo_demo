@@ -1,4 +1,4 @@
-#include "hard.h"
+#include "bot.h"
 
 #pragma region setScoreBoard
 
@@ -336,8 +336,6 @@ void findMaxPoints(int maxMove, int size, Object &o, vector<pair<int, int>> &max
 	}
 
 }
-
-
 
 #pragma endregion
 

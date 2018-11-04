@@ -11,6 +11,6 @@
 #include "load.h"
 #include "undo.h"
 #include "leaderboard.h"
-#include "hard.h"
+#include "bot.h"
 
 void PvC_mode();

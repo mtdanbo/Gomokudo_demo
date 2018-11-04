@@ -64,4 +64,4 @@ const int maxDepthMed = 3;
 const int maxMoveMed = 3;
 
 const int maxDepthEasy = 2;
-const int maxxMoveEasy = 2;
+const int maxMoveEasy = 2;

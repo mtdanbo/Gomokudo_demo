@@ -1,8 +1,104 @@
-﻿  library.cpp
+﻿  about.cpp
+  base.cpp
+  bot.cpp
+f:\gomokudo\gomokudo\bot.cpp(42): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(46): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(55): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(59): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(104): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(108): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(117): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(121): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(167): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(171): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(180): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(184): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(235): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(239): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(246): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(250): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+f:\gomokudo\gomokudo\bot.cpp(380): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\bot.cpp(445): warning C4018: '<': signed/unsigned mismatch
+  compute.cpp
+  console.cpp
+  control.cpp
+  draw.cpp
+  intro.cpp
+  library.cpp
   load.cpp
+  menu.cpp
   pvc.cpp
   pvp.cpp
+  save.cpp
   start.cpp
+  undo.cpp
   Generating Code...
+f:\gomokudo\gomokudo\bot.cpp(476): warning C4715: 'findMove': not all control paths return a value
+  leaderboard.cpp
   main.cpp
+  Generating Code...
   Gomokudo.vcxproj -> F:\Gomokudo\Debug\Gomokudo.exe

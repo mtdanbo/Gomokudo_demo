@@ -124,7 +124,7 @@
     <ClCompile Include="console.cpp" />
     <ClCompile Include="control.cpp" />
     <ClCompile Include="draw.cpp" />
-    <ClCompile Include="hard.cpp" />
+    <ClCompile Include="bot.cpp" />
     <ClCompile Include="intro.cpp" />
     <ClCompile Include="leaderboard.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -148,7 +148,7 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="control.h" />
     <ClInclude Include="draw.h" />
-    <ClInclude Include="hard.h" />
+    <ClInclude Include="bot.h" />
     <ClInclude Include="intro.h" />
     <ClInclude Include="leaderboard.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
