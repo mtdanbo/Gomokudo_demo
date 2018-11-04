@@ -7,7 +7,6 @@
 #include "draw.h"
 #include "control.h"
 #include "compute.h"
-#include "bot.h"
 #include "save.h"
 #include "load.h"
 #include "undo.h"

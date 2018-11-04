@@ -54,10 +54,14 @@ const int red = 12;
 const int yellow = 14;
 const int green = 10;
 
-const int  atk_point = 9;
-const int def_point = 6;
+const int atkPoint = 9;
+const int defPoint = 6;
 
-const int maxDepth = 5;
-const int maxMove = 3;
+const int maxDepthHard = 8;
+const int maxMoveHard = 4;
 
+const int maxDepthMed = 3;
+const int maxMoveMed = 3;
 
+const int maxDepthEasy = 2;
+const int maxxMoveEasy = 2;

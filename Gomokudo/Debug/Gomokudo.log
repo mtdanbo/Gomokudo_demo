@@ -1,2 +1,8 @@
-﻿  pvc.cpp
+﻿  library.cpp
+  load.cpp
+  pvc.cpp
+  pvp.cpp
+  start.cpp
+  Generating Code...
+  main.cpp
   Gomokudo.vcxproj -> F:\Gomokudo\Debug\Gomokudo.exe

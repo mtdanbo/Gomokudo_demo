@@ -1,5 +1,7 @@
 #include "hard.h"
 
+#pragma region setScoreBoard
+
 void setScoreVertical(int size, vector<vector<string>> Board, int turn, Object &o)
 {
 	int numPlayer = 0;
@@ -37,24 +39,24 @@ void setScoreVertical(int size, vector<vector<string>> Board, int turn, Object &
 						{
 							if (turn == 2)
 							{
-								o.Score[x][y + temp] = o.Score[x][y + temp] + pow(def_point, numPlayer);
+								o.Score[x][y + temp] = o.Score[x][y + temp] + pow(defPoint, numPlayer);
 							}
 							else
 							{
-								o.Score[x][y + temp] = o.Score[x][y + temp] + pow(atk_point, numPlayer);
+								o.Score[x][y + temp] = o.Score[x][y + temp] + pow(atkPoint, numPlayer);
 							}
 
-							
+
 						}
 						if (numPlayer == 0)
 						{
 							if (turn == 1)
 							{
-								o.Score[x][y + temp] = o.Score[x][y + temp] + pow(def_point, numBot);
+								o.Score[x][y + temp] = o.Score[x][y + temp] + pow(defPoint, numBot);
 							}
 							else
 							{
-								o.Score[x][y + temp] = o.Score[x][y + temp] + pow(atk_point, numBot);
+								o.Score[x][y + temp] = o.Score[x][y + temp] + pow(atkPoint, numBot);
 							}
 						}
 
@@ -99,24 +101,24 @@ void setScoreHorizontal(int size, vector<vector<string>> Board, int turn, Object
 						{
 							if (turn == 2)
 							{
-								o.Score[x + temp][y] = o.Score[x + temp][y] + pow(def_point, numPlayer);
-							}					   
-							else				   
-							{					   
-								o.Score[x + temp][y] = o.Score[x + temp][y] + pow(atk_point, numPlayer);
-							}					   
-												   
-												   
-						}						   
-						if (numPlayer == 0)		   
-						{						   
-							if (turn == 1)		   
-							{					   
-								o.Score[x + temp][y] = o.Score[x + temp][y] + pow(def_point, numBot);
-							}					   
-							else				   
-							{					   
-								o.Score[x + temp][y] = o.Score[x + temp][y] + pow(atk_point, numBot);
+								o.Score[x + temp][y] = o.Score[x + temp][y] + pow(defPoint, numPlayer);
+							}
+							else
+							{
+								o.Score[x + temp][y] = o.Score[x + temp][y] + pow(atkPoint, numPlayer);
+							}
+
+
+						}
+						if (numPlayer == 0)
+						{
+							if (turn == 1)
+							{
+								o.Score[x + temp][y] = o.Score[x + temp][y] + pow(defPoint, numBot);
+							}
+							else
+							{
+								o.Score[x + temp][y] = o.Score[x + temp][y] + pow(atkPoint, numBot);
 							}
 						}
 
@@ -162,11 +164,11 @@ void setScoreDiagonalDown(int size, vector<vector<string>> Board, int turn, Obje
 						{
 							if (turn == 2)
 							{
-								o.Score[x + temp][y + temp] = o.Score[x + temp][y + temp] + pow(def_point, numPlayer);
+								o.Score[x + temp][y + temp] = o.Score[x + temp][y + temp] + pow(defPoint, numPlayer);
 							}
 							else
 							{
-								o.Score[x + temp][y + temp] = o.Score[x + temp][y + temp] + pow(atk_point, numPlayer);
+								o.Score[x + temp][y + temp] = o.Score[x + temp][y + temp] + pow(atkPoint, numPlayer);
 							}
 
 
@@ -175,11 +177,11 @@ void setScoreDiagonalDown(int size, vector<vector<string>> Board, int turn, Obje
 						{
 							if (turn == 1)
 							{
-								o.Score[x + temp][y + temp] = o.Score[x + temp][y + temp] + pow(def_point, numBot);
+								o.Score[x + temp][y + temp] = o.Score[x + temp][y + temp] + pow(defPoint, numBot);
 							}
 							else
 							{
-								o.Score[x + temp][y + temp] = o.Score[x + temp][y + temp] + pow(atk_point, numBot);
+								o.Score[x + temp][y + temp] = o.Score[x + temp][y + temp] + pow(atkPoint, numBot);
 							}
 						}
 
@@ -230,22 +232,22 @@ void setScoreDiagonalUp(int size, vector<vector<string>> Board, int turn, Object
 							{
 								if (turn == 2)
 								{
-									o.Score[x + temp][y - temp] = o.Score[x + temp][y - temp] + pow(def_point, numPlayer);
+									o.Score[x + temp][y - temp] = o.Score[x + temp][y - temp] + pow(defPoint, numPlayer);
 								}
 								else
 								{
-									o.Score[x + temp][y - temp] = o.Score[x + temp][y - temp] + pow(atk_point, numPlayer);
+									o.Score[x + temp][y - temp] = o.Score[x + temp][y - temp] + pow(atkPoint, numPlayer);
 								}
 							}
 							if (numPlayer == 0)
 							{
 								if (turn == 1)
 								{
-									o.Score[x + temp][y - temp] = o.Score[x + temp][y - temp] + pow(def_point, numBot);
+									o.Score[x + temp][y - temp] = o.Score[x + temp][y - temp] + pow(defPoint, numBot);
 								}
 								else
 								{
-									o.Score[x + temp][y - temp] = o.Score[x + temp][y - temp] + pow(atk_point, numBot);
+									o.Score[x + temp][y - temp] = o.Score[x + temp][y - temp] + pow(atkPoint, numBot);
 								}
 							}
 
@@ -261,13 +263,31 @@ void setScoreDiagonalUp(int size, vector<vector<string>> Board, int turn, Object
 	}
 }
 
-
 void setScore(int size, vector<vector<string>> Board, int turn, Object &o)
 {
 	setScoreVertical(size, Board, turn, o);
 	setScoreHorizontal(size, Board, turn, o);
 	setScoreDiagonalUp(size, Board, turn, o);
 	setScoreDiagonalDown(size, Board, turn, o);
+
+}
+
+#pragma endregion
+
+#pragma region fundamentalAction
+
+void resetScore(int size, Object &o)
+{
+
+	for (int x = 0; x < size; x++)
+	{
+		for (int y = 0; y < size; y++)
+		{
+			o.Score[x][y] = 0;
+		}
+	}
+
+	o.max_score = 0;
 
 }
 
@@ -290,21 +310,7 @@ void findMaxScore(int size, Object &o)
 
 }
 
-void resetScore(int size, Object &o)
-{
-
-	for (int x = 0; x < size; x++)
-	{
-		for (int y = 0; y < size; y++)
-		{
-			o.Score[x][y] = 0;
-		}
-	}
-
-	o.max_score = 0;
-
-}
-void findMaxPoints(int size, Object &o, vector<pair<int,int>> &maxScorePoint)
+void findMaxPoints(int maxMove, int size, Object &o, vector<pair<int, int>> &maxScorePoint)
 {
 	int count = 0;
 
@@ -332,25 +338,30 @@ void findMaxPoints(int size, Object &o, vector<pair<int,int>> &maxScorePoint)
 }
 
 
-Point findMoveHard(int depth,vector<vector<string>> Board, Object p, Object b, int size, int &miniMax, Point point)
-{
-	if (depth >= maxDepth)
-	{
-		return point;
-	}
 
+#pragma endregion
+
+#pragma region findMove
+
+int findMove(int maxDepth, int maxMove, int depth, vector<vector<string>> Board, Object p, Object b, int size, int &miniMax, Point &point)
+{
 	if (miniMax == 10)
 	{
-		return point;
+		return 0;
+
 	}
 
 	if (miniMax == -10)
 	{
 		miniMax = 0;
-
-		return point;
 	}
 
+	if (depth >= maxDepth)
+	{
+
+		return 0;
+
+	}
 	else
 	{
 
@@ -366,7 +377,7 @@ Point findMoveHard(int depth,vector<vector<string>> Board, Object p, Object b, i
 
 			vector<pair<int, int>> maxScorePoint;
 
-			findMaxPoints(size, b, maxScorePoint);
+			findMaxPoints(maxMove, size, b, maxScorePoint);
 
 			for (int i = 0; i < maxScorePoint.size(); i++)
 			{
@@ -381,11 +392,11 @@ Point findMoveHard(int depth,vector<vector<string>> Board, Object p, Object b, i
 				}
 
 
-				findMoveHard(depth + 1, Board, p, b, size, miniMax,point);
+				findMove(maxDepth, maxMove, depth + 1, Board, p, b, size, miniMax, point);
 
 				if (miniMax == 10 && depth != 0)
 				{
-					break;
+					return 0;
 				}
 
 				if (miniMax == 10 && depth == 0)
@@ -395,19 +406,24 @@ Point findMoveHard(int depth,vector<vector<string>> Board, Object p, Object b, i
 					point.x = maxScorePoint[i].first;
 					point.y = maxScorePoint[i].second;
 
-					return point;
+
+					return 0;
 				}
 
 
-				Board[maxScorePoint[i].first][maxScorePoint[i].second] = '_';
+				Board[maxScorePoint[i].first][maxScorePoint[i].second] = "_";
 
 				if (miniMax == 0 && depth == 0 && i == maxScorePoint.size() - 1)
 				{
-					gotoXY(maxScorePoint[i].first * 2, maxScorePoint[i].second);
+
+					int random = rand() % maxScorePoint.size();
+
+					gotoXY(maxScorePoint[random].first * 2, maxScorePoint[random].second);
 					cout << b.icon;
-					point.x = maxScorePoint[i].first;
-					point.y = maxScorePoint[i].second;
-					return point;
+					point.x = maxScorePoint[random].first;
+					point.y = maxScorePoint[random].second;
+
+					return 0;
 				}
 
 
@@ -426,7 +442,7 @@ Point findMoveHard(int depth,vector<vector<string>> Board, Object p, Object b, i
 
 			vector<pair<int, int>> maxScorePoint;
 
-			findMaxPoints(size, p, maxScorePoint);
+			findMaxPoints(maxMove, size, p, maxScorePoint);
 
 			for (int i = 0; i < maxScorePoint.size(); i++)
 			{
@@ -440,9 +456,15 @@ Point findMoveHard(int depth,vector<vector<string>> Board, Object p, Object b, i
 					miniMax = -10;
 				}
 
-				findMoveHard(depth + 1, Board, p, b, size, miniMax,point);
+				findMove(maxDepth, maxMove, depth + 1, Board, p, b, size, miniMax, point);
 
-				Board[maxScorePoint[i].first][maxScorePoint[i].second] = '_';
+				if (miniMax == 10 && depth != 0)
+				{
+					return 0;
+				}
+
+
+				Board[maxScorePoint[i].first][maxScorePoint[i].second] = "_";
 
 			}
 
@@ -455,10 +477,7 @@ Point findMoveHard(int depth,vector<vector<string>> Board, Object p, Object b, i
 
 }
 
-
-
-
-
+#pragma endregion
 
 
 

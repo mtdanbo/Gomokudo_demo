@@ -354,9 +354,12 @@ void loadPvC() {
 		b.x = 0;
 		b.y = 0;
 
-		Data d;
-		d.Atk.resize(100, vector<int>(100, 0));
-		d.Def.resize(100, vector<int>(100, 0));
+		p.Score.resize(100, vector<int>(100, 0));
+		b.Score.resize(100, vector<int>(100, 0));
+
+		p.max_score = 0;
+		b.max_score = 0;
+
 		while (1)
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p.color);
@@ -381,22 +384,25 @@ void loadPvC() {
 			}
 
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b.color);
-			d = findMove(size, Board, d);
-			b.x = d.current_x_max * 2;
-			b.y = d.current_y_max;
-			gotoXY(b.x, b.y);
-			cout << b.icon;
-			Board[d.current_x_max][d.current_y_max] = b.icon;
+
+			int depth = 0;
+			int miniMax = 0;
+
+			Point point;
+
+			findMove(maxDepthMed, maxMoveMed, depth, Board, p, b, size, miniMax, point);
+
+			Board[point.x][point.y] = b.icon;
 
 			b.win = Compute(b, size, Board);
 
 			if (b.win == 1)
 			{
 				animateBotWin(size);
-				escape();
-				break;
 			}
+
 		}
+		
 	}
 
 }

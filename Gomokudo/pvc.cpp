@@ -116,93 +116,6 @@ void normal_mode()
 {
 	system("cls");
 
-
-	int size;
-	cout << "Please choose the size of your board: ";
-	cin >> size;
-
-	vector<string> temp{ 100,"_" };
-	vector<vector<string>> Board{ 100,temp };
-
-	Object p;
-	p.x = 0;
-	p.y = 0;
-	p.icon = "X";
-	p.color = red;
-
-	Object b;
-	b.x = 0;
-	b.y = 0;
-	b.icon = "O";
-	b.color = green;
-
-	system("cls");
-	Board = drawBoard(size, Board, temp, p, b);
-
-	Data d;
-	d.Atk.resize(100, vector<int>(100, 0));
-	d.Def.resize(100, vector<int>(100, 0));
-
-	gotoXY((size + 5) * 2, 0);
-	cout << "Press L to save your game";
-
-	while (1)
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p.color);
-		gotoXY(p.x, p.y);
-		// Require the use control p1
-		p = pControl_char(p, size, Board);
-		Board[p.x / 2][p.y] = p.icon;
-		// Compute p1 win or loose
-		p.win = Compute(p, size, Board);
-
-		if (p.win == 1)
-		{
-			animateP1Win(size);
-			escape();
-			break;
-		}
-
-		if (p.save == 1)
-		{
-			savePvC(Board, size, p, b, 2);
-			break;
-		}
-
-
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b.color);
-		d = findMove(size, Board, d);
-		b.x = d.current_x_max * 2;
-		b.y = d.current_y_max;
-
-
-
-
-		gotoXY(b.x, b.y);
-		cout << b.icon;
-		Board[d.current_x_max][d.current_y_max] = b.icon;
-
-		b.win = Compute(b, size, Board);
-
-		if (b.win == 1)
-		{
-			animateBotWin(size);
-			escape();
-			break;
-		}
-
-
-
-
-	}
-}
-
-
-void hard_mode()
-{
-	system("cls");
-
-
 	int size;
 	cout << "Please choose the size of your board: ";
 	cin >> size;
@@ -253,6 +166,83 @@ void hard_mode()
 			break;
 		}
 
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b.color);
+
+		int depth = 0;
+		int miniMax = 0;
+
+		Point point;
+
+		findMove(maxDepthMed, maxMoveMed, depth, Board, p, b, size, miniMax, point);
+
+		Board[point.x][point.y] = b.icon;
+
+		b.win = Compute(b, size, Board);
+
+		if (b.win == 1)
+		{
+			animateBotWin(size);
+		}
+
+	}
+
+}
+
+
+void hard_mode()
+{
+	system("cls");
+
+	int size;
+	cout << "Please choose the size of your board: ";
+	cin >> size;
+
+	vector<string> temp{ 100,"_" };
+	vector<vector<string>> Board{ 100,temp };
+
+	Object p;
+	p.x = 0;
+	p.y = 0;
+	p.icon = "X";
+	p.color = red;
+	p.Score.resize(100, vector<int>(100, 0));
+
+	Object b;
+	b.x = 0;
+	b.y = 0;
+	b.icon = "O";
+	b.color = green;
+	b.Score.resize(100, vector<int>(100, 0));
+
+	system("cls");
+	Board = drawBoard(size, Board, temp, p, b);
+
+	gotoXY((size + 5) * 2, 0);
+	cout << "Press L to save your game";
+
+	while (1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p.color);
+		gotoXY(p.x, p.y);
+		// Require the use control p1
+		p = pControl_char(p, size, Board);
+		Board[p.x / 2][p.y] = p.icon;
+		// Compute p1 win or loose
+		p.win = Compute(p, size, Board);
+
+		if (p.win == 1)
+		{
+			animateP1Win(size);
+			escape();
+				break;
+		}
+
+		if (p.save == 1)
+		{
+			savePvC(Board, size, p, b, 2);
+			break;
+		}
+
 
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b.color);
 
@@ -261,7 +251,7 @@ void hard_mode()
 
 		Point point;
 
-		point = findMoveHard(depth, Board, p, b, size, miniMax,point);
+		findMove(maxDepthHard, maxMoveHard, depth, Board, p, b, size, miniMax, point);
 
 		Board[point.x][point.y] = b.icon;
 
@@ -274,8 +264,6 @@ void hard_mode()
 
 
 	}
-
-
 
 }
 
@@ -297,5 +285,5 @@ void PvC_mode() {
 	//	normal_mode();
 	//}
 
-	hard_mode();
+	normal_mode();
 }

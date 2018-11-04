@@ -42,9 +42,6 @@
     <ClCompile Include="compute.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="bot.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="save.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
@@ -96,9 +93,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="compute.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="save.h">

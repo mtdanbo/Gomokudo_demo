@@ -120,7 +120,6 @@
   <ItemGroup>
     <ClCompile Include="about.cpp" />
     <ClCompile Include="base.cpp" />
-    <ClCompile Include="bot.cpp" />
     <ClCompile Include="compute.cpp" />
     <ClCompile Include="console.cpp" />
     <ClCompile Include="control.cpp" />
@@ -145,7 +144,6 @@
   <ItemGroup>
     <ClInclude Include="about.h" />
     <ClInclude Include="base.h" />
-    <ClInclude Include="bot.h" />
     <ClInclude Include="compute.h" />
     <ClInclude Include="console.h" />
     <ClInclude Include="control.h" />
