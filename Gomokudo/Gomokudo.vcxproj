@@ -135,6 +135,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="option.cpp" />
     <ClCompile Include="pvc.cpp" />
     <ClCompile Include="pvp.cpp" />
     <ClCompile Include="save.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="library.h" />
     <ClInclude Include="load.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="option.h" />
     <ClInclude Include="pvc.h" />
     <ClInclude Include="pvp.h" />
     <ClInclude Include="save.h" />

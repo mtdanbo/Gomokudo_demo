@@ -2,7 +2,7 @@
 
 #pragma region setScoreBoard
 
-void setScoreVertical(int size, vector<vector<string>> Board, int turn, Object &o)
+void setScoreVertical(int size, vector<vector<string>> board, int turn, Object &o)
 {
 	int numPlayer = 0;
 	int numBot = 0;
@@ -18,12 +18,12 @@ void setScoreVertical(int size, vector<vector<string>> Board, int turn, Object &
 			}
 			for (int temp = 0; temp < 5; temp++)
 			{
-				if (Board[x][y + temp] == "X")
+				if (board[x][y + temp] == "X")
 				{
 					numPlayer++;
 
 				}
-				if (Board[x][y + temp] == "O")
+				if (board[x][y + temp] == "O")
 				{
 					numBot++;
 
@@ -33,7 +33,7 @@ void setScoreVertical(int size, vector<vector<string>> Board, int turn, Object &
 			{
 				for (int temp = 0; temp < 5; temp++)
 				{
-					if (Board[x][y + temp] == "_")
+					if (board[x][y + temp] == "_")
 					{
 						if (numBot == 0)
 						{

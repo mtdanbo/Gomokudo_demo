@@ -1,6 +1,8 @@
 #include "control.h"
 Object pControl_char(Object p, int size, vector<vector<string>> Board) {
 
+	ControlKey controlKey;
+
 	int press = 0;
 	while (press == 0)
 	{
@@ -65,22 +67,30 @@ Object pControl_char(Object p, int size, vector<vector<string>> Board) {
 			}
 
 		}
-		if (key == 'L' || key == 'l')
+		if (key == controlKey.save || key == controlKey.save + 32)
 		{
 			p.save = 1;
 			break;
 		}
 
-		if (key == 'U' || key == 'u')
+		if (key == controlKey.undo || key == controlKey.undo + 32)
 		{
 			p.undo = 1;
 			break;
 		}
+		if (key == controlKey.back || key == controlKey.back + 32)
+		{
+			p.quit = 1;
+			break;
+		}
+
 
 	}
 	return p;
 }
 Object pControl_num(Object p, int size, vector<vector<string>> Board) {
+
+	ControlKey controlKey;
 
 	int press = 0;
 	while (press == 0)
@@ -145,15 +155,20 @@ Object pControl_num(Object p, int size, vector<vector<string>> Board) {
 			}
 		}
 
-		if (key == 'L' || key == 'l')
+		if (key == controlKey.save || key == controlKey.save + 32)
 		{
 			p.save = 1;
 			break;
 		}
 
-		if (key == 'U' || key == 'u')
+		if (key == controlKey.undo || key == controlKey.undo + 32)
 		{
 			p.undo = 1;
+			break;
+		}
+		if (key == controlKey.back || key == controlKey.back + 32)
+		{
+			p.quit = 1;
 			break;
 		}
 	}

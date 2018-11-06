@@ -1,6 +1,10 @@
 #include "menu.h"
 
 int menu() {
+	Color color;
+	getColor(color);
+
+
 	Sleep(1500);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), yellow);
 	ifstream menu;
@@ -15,8 +19,11 @@ int menu() {
 	int state = 0;
 	int cursor_x = 80 / 2 + 10;
 	int cursor_y = 15;
-	string menuContent[] = { "Start game", "Load game","About game", "Leaderboard", "Quit game" };
+	string menuContent[] = { "Start game", "Load game","Option","About game", "Leaderboard", "Quit game" };
 	int menuLength = sizeof(menuContent) / sizeof(menuContent[0]);
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+
 	for (int i = 0; i < menuLength; i++)
 	{
 		gotoXY(cursor_x, 15 + i);
@@ -27,7 +34,7 @@ int menu() {
 	while (true)
 	{
 		gotoXY(cursor_x, cursor_y);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), yellow);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
 		char key = _getch();
 		if (key == 72)
 		{
@@ -64,7 +71,7 @@ int menu() {
 			cout << menuContent[i];
 		}
 		gotoXY(cursor_x, cursor_y);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), red);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
 		cout << menuContent[state];
 
 	}

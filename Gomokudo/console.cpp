@@ -115,3 +115,76 @@ void animateBotWin(int size) {
 	}
 
 }
+
+int controlMenuByArrow(vector<string> data)
+{
+	Color color;
+	getColor(color);
+
+	int width = getConsoleWidth();
+	int height = getConsoleHeight();
+
+	gotoXY(width / 2, height / 2);
+
+	int currentX = width / 2;
+	int currentY = height / 2;
+	int currentIndex = 0;
+
+	
+	while (1)
+	{
+		char key = _getch();
+
+		if (key == 80)
+		{
+
+			if (currentIndex == data.size() - 1)
+			{
+				currentY = currentY;
+				currentIndex = currentIndex;
+			}
+			else
+			{
+				currentY++;
+				currentIndex++;
+			}
+
+
+		}
+
+		if (key == 72)
+		{
+			if (currentIndex == 0)
+			{
+				currentY = currentY;
+				currentIndex = currentIndex;
+			}
+			else
+			{
+				currentY--;
+				currentIndex--;
+			}
+		}
+
+		if (key == 13)
+		{
+			return currentIndex;
+		}
+
+		for (int i = 0; i < data.size(); i++)
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+			gotoXY(width / 2, height / 2 + i);
+			cout << data[i];
+		}
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+		gotoXY(currentX, currentY);
+		cout << data[currentIndex];
+		
+	}
+
+
+
+
+}

@@ -9,4 +9,4 @@
 #include "undo.h"
 #include "leaderboard.h"
 
-void PvP_mode();
+int PvP_mode();

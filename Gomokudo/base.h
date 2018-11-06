@@ -5,55 +5,60 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cstdio>
 using namespace std;
 
+/*-----------Basic function---------*/
 void gotoXY(int x_pos, int y_pos);
+int getConsoleWidth();
+int getConsoleHeight();
 
+/*-----------Color---------*/
+const int red = 12;
+const int yellow = 14;
+const int green = 10;
 
+/*-------------Create object and point--------------*/
 struct Object
 {
-	int x, y;
+	int x = 0;
+	int y = 0;
 	string icon;
 	int win;
 	int color;
 	int save;
 	int turn;
-	int undo;
+	int undo = 0;
 	int quit = 0;
 	int max_score = 0;
-
 	vector<vector<int>> Score;
+	vector<pair<int, int>> historyMove;
+};
+struct Point
+{
+	int x = 0;
+	int y = 0;
 };
 
-struct Bot
+struct OnState
 {
-	int x, y;
-	string icon;
-	int win;
+	bool on;
+};
+struct ColorState
+{
 	int color;
 };
 
-struct Data
+struct Color
 {
-	vector<vector<int>> Atk;
-	vector<vector<int>> Def;
-	int current_x_max;
-	int current_y_max;
+	int textColor;
+	int hightLightColor;
+	int activeColor;
 };
-
-struct Point
-{
-
-	int x = 0;
-	int y = 0;
-
-};
+void getColor(Color &color);
 
 
-const int red = 12;
-const int yellow = 14;
-const int green = 10;
-
+/*---------------AI feature------------*/
 const int atkPoint = 9;
 const int defPoint = 6;
 
@@ -65,3 +70,25 @@ const int maxMoveMed = 3;
 
 const int maxDepthEasy = 2;
 const int maxMoveEasy = 2;
+
+/*------------Default key-------------*/
+struct PlayerKey 
+{
+
+	char up;
+	char down;
+	char left;
+	char right;
+	char attack;
+
+};
+
+struct ControlKey 
+{
+	char back = 'B';
+	char undo = 'U';
+	char save = 'L';
+};
+
+
+

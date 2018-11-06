@@ -1,4 +1,1 @@
-What type of game do you want to load
-1.PvP mode
-2.PvC mode
-Your choice is: 
+Welcome to load game section, what type of game do you want to load

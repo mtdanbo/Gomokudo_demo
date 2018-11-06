@@ -1,6 +1,1 @@
 Welcome to PvP mode. Are you ready to play caro game with your friend
-Plz choose 1 option below to start the game
-  1.3*3
-  2.4*4
-  3.N*N with (N >= 5)
-Your choice is: 

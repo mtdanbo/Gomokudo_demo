@@ -1,3 +1,1 @@
-Please choose your mode to see leaderboard
-1.PvP
-2.PvC
+Welcome to leaderboard section

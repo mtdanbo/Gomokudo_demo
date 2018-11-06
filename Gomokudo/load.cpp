@@ -1,203 +1,44 @@
 #include "load.h"
-void loadPvP() {
-
-	// Show saved file
-	ifstream savelist;
-	savelist.open("text/pvp_savelist.txt");
-	animateText(savelist);
-
-	// Require the user choose file
-	cout << "What file do you want to load: ";
-	string filename;
-	cin >> filename;
-
-	// Set figure
-	ifstream figure;
-	figure.open("save_pvp/" + filename + "figure.txt");
-	int size;
-
-	Object p1;
-	Object p2;
-
-	figure >> size;
-	figure >> p1.icon;
-	figure >> p1.color;
-	figure >> p2.icon;
-	figure >> p2.color;
-
-
-	//Set property of the board
-
+int loadSaveFile_PvC()
+{
 	system("cls");
-	vector<string> temp = { 100,"_" };
-	vector<vector<string>> Board{ 100,temp };
-
-
-	ifstream p1move;
-	p1move.open("save_pvp/" + filename + "p1.txt");
-	int p1_x;
-	int p1_y;
-	int p1_step = 0;
-	int p2_step = 0;
-	while (!p1move.eof())
-	{
-		p1move >> p1_x;
-		p1move >> p1_y;
-		Board[p1_x][p1_y] = p1.icon;
-		p1_step++;
-	}
-
-	p1move.close();
-
-	ifstream p2move;
-	p2move.open("save_pvp/" + filename + "p2.txt");
-	int p2_x;
-	int p2_y;
-	while (!p2move.eof())
-	{
-		p2move >> p2_x;
-		p2move >> p2_y;
-		Board[p2_x][p2_y] = p2.icon;
-		p2_step++;
-	}
-
-	p2move.close();
-
-	Board = drawBoard(size, Board, temp, p1, p2);
-
-	gotoXY((size + 5) * 2, 0);
-	cout << "Press L if you want to save the game";
-
-	//Continue the game
-
-	p1.x = 0;
-	p1.y = 0;
-	p2.x = 0;
-	p2.y = 0;
-
-	//Define P1 or P2 go after saving
-
-	if(p1_step == p2_step)
-	{
-		// Gameplay
-		while (1)
-		{
-			// P1 Zone
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
-			gotoXY(p1.x, p1.y);
-			// Require the use control p1
-			p1 = pControl_char(p1, size, Board);
-			Board[p1.x / 2][p1.y] = p1.icon;
-			// Compute p1 win or loose
-			p1.win = Compute(p1, size, Board);
-
-			if (p1.win == 1)
-			{
-				animateP1Win(size);
-				escape();
-				break;
-			}
-
-			if (p1.save == 1 || p2.save == 1)
-			{
-				savePvP(Board, size, p1, p2);
-				break;
-			}
-
-			//P2 Zone
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);
-			gotoXY(p2.x, p2.y);
-			// Require the use control p2
-			p2 = pControl_num(p2, size, Board);
-			Board[p2.x / 2][p2.y] = p2.icon;
-			// Compute p2 win or loose
-			p2.win = Compute(p2, size, Board);
-
-			if (p2.win == 1)
-			{
-				animateP2Win(size);
-				escape();
-				break;
-			}
-
-
-			if (p1.save == 1 || p2.save == 1)
-			{
-				savePvP(Board, size, p1, p2);
-				break;
-			}
-		}
-	}
-
-
-	if (p1_step > p2_step)
-	{
-		// Gameplay
-		while (1)
-		{
-			//P2 Zone
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);
-			gotoXY(p2.x, p2.y);
-			// Require the use control p2
-			p2 = pControl_num(p2, size, Board);
-			Board[p2.x / 2][p2.y] = p2.icon;
-			// Compute p2 win or loose
-			p2.win = Compute(p2, size, Board);
-
-			if (p2.win == 1)
-			{
-				animateP2Win(size);
-				escape();
-				break;
-			}
-
-
-			if (p1.save == 1 || p2.save == 1)
-			{
-				savePvP(Board, size, p1, p2);
-				break;
-			}
-
-			// P1 Zone
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
-			gotoXY(p1.x, p1.y);
-			// Require the use control p1
-			p1 = pControl_char(p1, size, Board);
-			Board[p1.x / 2][p1.y] = p1.icon;
-			// Compute p1 win or loose
-			p1.win = Compute(p1, size, Board);
-
-			if (p1.win == 1)
-			{
-				animateP1Win(size);
-				escape();
-				break;
-			}
-
-			if (p1.save == 1 || p2.save == 1)
-			{
-				savePvP(Board, size, p1, p2);
-				break;
-			}
-
-		}
-	}
-
-
-}
-
-
-void loadPvC() {
 
 	// Show saved file
-	ifstream savelist;
-	savelist.open("text/pvc_savelist.txt");
-	animateText(savelist);
+	ifstream savelistRead;
+	savelistRead.open("text/pvc_savelist.txt");
 
-	// Require the user choose file
-	cout << "What file do you want to load: ";
-	string filename;
-	cin >> filename;
+	int width = getConsoleWidth();
+	int height = getConsoleHeight();
+
+	gotoXY(width / 2, height / 2);
+
+	int index = 0;
+
+	vector<string> fileName;
+
+	while (!savelistRead.eof())
+	{
+		string temp;
+		savelistRead >> temp;
+
+		cout << temp;
+
+		fileName.push_back(temp);
+
+		index++;
+
+		gotoXY(width / 2, height / 2 + index);
+
+	}
+
+	savelistRead.close();
+
+	fileName.pop_back();
+
+	int choice = controlMenuByArrow(fileName);
+
+
+	string filename = fileName[choice];
 
 	// Set figure
 	ifstream figure;
@@ -205,226 +46,884 @@ void loadPvC() {
 	int size;
 	int mode;
 
-	Object p;
-	Object b;
+	Object player;
+	player.x = 0;
+	player.y = 0;
+	player.turn = 1;
+	player.Score.resize(100, vector<int>(100, 0));
+	player.undo = 0;
+
+
+	Object bot;
+	bot.x = 0;
+	bot.y = 0;
+	bot.turn = 0;
+	bot.Score.resize(100, vector<int>(100, 0));
+	bot.undo = 0;
 
 	figure >> size;
-	figure >> p.icon;
-	figure >> p.color;
-	figure >> b.icon;
-	figure >> b.color;
+	figure >> player.icon;
+	figure >> player.color;
+	figure >> bot.icon;
+	figure >> bot.color;
 	figure >> mode;
 
 	//Set property of the board
 
 	system("cls");
 	vector<string> temp = { 100,"_" };
-	vector<vector<string>> Board{ 100,temp };
+	vector<vector<string>> board{ 100,temp };
 
 
-	ifstream pmove;
-	pmove.open("save_pvc/" + filename + "p.txt");
-	int p_x;
-	int p_y;
+	ifstream playerMove;
+	playerMove.open("save_pvc/" + filename + "p.txt");
+	int playerX;
+	int playerY;
 
-	while (!pmove.eof())
+	while (!playerMove.eof())
 	{
-		pmove >> p_x;
-		pmove >> p_y;
-		Board[p_x][p_y] = p.icon;
+		playerMove >> playerX;
+		playerMove >> playerY;
+		board[playerX][playerY] = player.icon;
 	}
 
-	pmove.close();
+	playerMove.close();
 
-	ifstream bmove;
-	bmove.open("save_pvc/" + filename + "b.txt");
-	int b_x;
-	int b_y;
-	while (!bmove.eof())
+	ifstream botMove;
+	botMove.open("save_pvc/" + filename + "b.txt");
+	int botX;
+	int botY;
+	while (!botMove.eof())
 	{
-		bmove >> b_x;
-		bmove >> b_y;
-		Board[b_x][b_y] = b.icon;
+		botMove >> botX;
+		botMove >> botY;
+		board[botX][botY] = bot.icon;
 	}
 
-	bmove.close();
+	botMove.close();
 
-	Board = drawBoard(size, Board, temp, p, b);
-	gotoXY((size + 5) * 2, 0);
-	cout << "Press L if you want to save the game";
+	drawBoard(size, board, player, bot);
+
+	//Continue the game
+
+	gotoXY(0, 0);
 
 	if (mode == 1)
 	{
-		p.x = 0;
-		p.y = 0;
-		b.x = 0;
-		b.y = 0;
-
+		int maxDepth = maxDepthEasy;
+		int maxMove = maxMoveEasy;
 		while (1)
 		{
-			p.x = p.x * 2;
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p.color);
-			gotoXY(p.x, p.y);
-			// Require the use control p1
-			p = pControl_char(p, size, Board);
-			Board[p.x / 2][p.y] = p.icon;
-			// Compute p1 win or loose
-			p.win = Compute(p, size, Board);
 
-			p.x = p.x / 2;
-			if (p.win == 1)
+			if (player.turn == 1 && bot.turn == 0)
 			{
-				animateP1Win(size);
-				escape();
-				break;
-			}
+				/*-------------------- Player zone--------------------------*/
 
-			if (p.save == 1)
-			{
-				savePvC(Board, size, p, b, 1);
-				break;
-			}
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player.color);
+				gotoXY(player.x, player.y);
 
+				// Require the use control p1
 
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), green);
-			while (1)
-			{
-				int random = rand() % 8 + 1;
-				switch (random)
+				player = pControl_char(player, size, board);
+
+				if (player.undo == 0)
 				{
-				case 1:
-					b.x = p.x - 1;
-					b.y = p.y - 1;
-					break;
-				case 2:
-					b.y = p.y - 1;
-					b.x = p.x;
-					break;
-				case 3:
-					b.x = p.x + 1;
-					b.y = p.y - 1;
-					break;
-				case 4:
-					b.x = p.x + 1;
-					b.y = p.y;
-					break;
-				case 5:
-					b.x = p.x + 1;
-					b.y = p.y + 1;
-					break;
-				case 6:
-					b.y = p.y + 1;
-					b.x = p.x;
-					break;
-				case 7:
-					b.x = p.x - 1;
-					b.y = p.y + 1;
-					break;
-				case 8:
-					b.x = p.x - 1;
-					b.y = p.y;
+					board[player.x / 2][player.y] = player.icon;
+					player.historyMove.push_back(make_pair(player.x / 2, player.y));
+					player.win = Compute(player, size, board);
+				}
+
+				player.turn = 0;
+				bot.turn = 1;
+
+				// Compute player win or loose
+
+				if (player.win == 1)
+				{
+					animateP1Win(size);
+					escape();
 					break;
 				}
-				if (Board[b.x][b.y] == "_" && b.x <= size - 1 && b.y <= size - 1)
+
+				// Save game
+
+				if (player.save == 1)
 				{
-					gotoXY(b.x * 2, b.y);
-					cout << b.icon;
-					Board[b.x][b.y] = b.icon;
+					savePvC(board, size, player, bot, mode);
 					break;
+				}
+
+				// Undo
+
+				if (player.undo == 1)
+				{
+					undoPvC(player, bot, board, size);
+				}
+
+				if (player.quit == 1)
+				{
+					return 0;
+				}
+
+
+			}
+
+			if (player.turn == 0 && bot.turn == 1)
+			{
+				/*------------------Computer zone-------------------*/
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), bot.color);
+
+				int depth = 0;
+				int miniMax = 0;
+
+				Point point;
+
+				findMove(maxDepth, maxMove, depth, board, player, bot, size, miniMax, point);
+
+				board[point.x][point.y] = bot.icon;
+
+				player.turn = 1;
+				bot.turn = 0;
+
+				bot.historyMove.push_back(make_pair(point.x, point.y));
+
+				//Compute bot win or loose
+
+				bot.win = Compute(bot, size, board);
+				if (bot.win == 1)
+				{
+					animateBotWin(size);
 				}
 			}
 
-			b.win = Compute(b, size, Board);
-
-			if (b.win == 1)
-			{
-				animateBotWin(size);
-				escape();
-				break;
-			}
 
 		}
 	}
 
 	if (mode == 2)
 	{
-		p.x = 0;
-		p.y = 0;
-
-		b.x = 0;
-		b.y = 0;
-
-		p.Score.resize(100, vector<int>(100, 0));
-		b.Score.resize(100, vector<int>(100, 0));
-
-		p.max_score = 0;
-		b.max_score = 0;
-
+		int maxDepth = maxDepthMed;
+		int maxMove = maxMoveMed;
 		while (1)
 		{
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p.color);
-			gotoXY(p.x, p.y);
-			// Require the use control p1
-			p = pControl_char(p, size, Board);
-			Board[p.x / 2][p.y] = p.icon;
-			// Compute p1 win or loose
-			p.win = Compute(p, size, Board);
 
-			if (p.win == 1)
+			if (player.turn == 1 && bot.turn == 0)
 			{
-				animateP1Win(size);
-				escape();
-				break;
+				/*-------------------- Player zone--------------------------*/
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player.color);
+				gotoXY(player.x, player.y);
+
+				// Require the use control p1
+
+				player = pControl_char(player, size, board);
+
+				if (player.undo == 0)
+				{
+					board[player.x / 2][player.y] = player.icon;
+					player.historyMove.push_back(make_pair(player.x / 2, player.y));
+					player.win = Compute(player, size, board);
+				}
+
+				player.turn = 0;
+				bot.turn = 1;
+
+				// Compute player win or loose
+
+				if (player.win == 1)
+				{
+					animateP1Win(size);
+					escape();
+					break;
+				}
+
+				// Save game
+
+				if (player.save == 1)
+				{
+					savePvC(board, size, player, bot, mode);
+					break;
+				}
+
+				// Undo
+
+				if (player.undo == 1)
+				{
+					undoPvC(player, bot, board, size);
+				}
+
+				if (player.quit == 1)
+				{
+					return 0;
+				}
+
+
 			}
 
-			if (p.save == 1)
+			if (player.turn == 0 && bot.turn == 1)
 			{
-				savePvC(Board, size, p, b, 2);
-				break;
+				/*------------------Computer zone-------------------*/
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), bot.color);
+
+				int depth = 0;
+				int miniMax = 0;
+
+				Point point;
+
+				findMove(maxDepth, maxMove, depth, board, player, bot, size, miniMax, point);
+
+				board[point.x][point.y] = bot.icon;
+
+				player.turn = 1;
+				bot.turn = 0;
+
+				bot.historyMove.push_back(make_pair(point.x, point.y));
+
+				//Compute bot win or loose
+
+				bot.win = Compute(bot, size, board);
+				if (bot.win == 1)
+				{
+					animateBotWin(size);
+				}
 			}
 
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), b.color);
-
-			int depth = 0;
-			int miniMax = 0;
-
-			Point point;
-
-			findMove(maxDepthMed, maxMoveMed, depth, Board, p, b, size, miniMax, point);
-
-			Board[point.x][point.y] = b.icon;
-
-			b.win = Compute(b, size, Board);
-
-			if (b.win == 1)
-			{
-				animateBotWin(size);
-			}
 
 		}
-		
+	}
+
+	if (mode == 3)
+	{
+		int maxDepth = maxDepthHard;
+		int maxMove = maxMoveHard;
+		while (1)
+		{
+
+			if (player.turn == 1 && bot.turn == 0)
+			{
+				/*-------------------- Player zone--------------------------*/
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player.color);
+				gotoXY(player.x, player.y);
+
+				// Require the use control p1
+
+				player = pControl_char(player, size, board);
+
+				if (player.undo == 0)
+				{
+					board[player.x / 2][player.y] = player.icon;
+					player.historyMove.push_back(make_pair(player.x / 2, player.y));
+					player.win = Compute(player, size, board);
+				}
+
+				player.turn = 0;
+				bot.turn = 1;
+
+				// Compute player win or loose
+
+				if (player.win == 1)
+				{
+					animateP1Win(size);
+					escape();
+					break;
+				}
+
+				// Save game
+
+				if (player.save == 1)
+				{
+					savePvC(board, size, player, bot, mode);
+					break;
+				}
+
+				// Undo
+
+				if (player.undo == 1)
+				{
+					undoPvC(player, bot, board, size);
+				}
+
+				if (player.quit == 1)
+				{
+					return 0;
+				}
+
+
+			}
+
+			if (player.turn == 0 && bot.turn == 1)
+			{
+				/*------------------Computer zone-------------------*/
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), bot.color);
+
+				int depth = 0;
+				int miniMax = 0;
+
+				Point point;
+
+				findMove(maxDepth, maxMove, depth, board, player, bot, size, miniMax, point);
+
+				board[point.x][point.y] = bot.icon;
+
+				player.turn = 1;
+				bot.turn = 0;
+
+				bot.historyMove.push_back(make_pair(point.x, point.y));
+
+				//Compute bot win or loose
+
+				bot.win = Compute(bot, size, board);
+				if (bot.win == 1)
+				{
+					animateBotWin(size);
+				}
+			}
+
+
+		}
+
+	}
+}
+
+void deleteSavedFile_PvC()
+{
+	system("cls");
+
+	// Show saved file
+	ifstream savelistRead;
+	savelistRead.open("text/pvc_savelist.txt");
+
+	int width = getConsoleWidth();
+	int height = getConsoleHeight();
+
+	gotoXY(width / 2, height / 2);
+
+	int index = 0;
+
+	vector<string> fileName;
+
+	while (!savelistRead.eof())
+	{
+		string temp;
+		savelistRead >> temp;
+
+		cout << temp;
+
+		fileName.push_back(temp);
+
+		index++;
+
+		gotoXY(width / 2, height / 2 + index);
+
+	}
+
+	savelistRead.close();
+	fileName.pop_back();
+
+	int choice = controlMenuByArrow(fileName);
+
+
+	string filename = fileName[choice];
+
+
+	for (int i = 0; i < fileName.size(); i++)
+	{
+
+		if (filename == fileName[i])
+		{
+			fileName.erase(fileName.begin() + i);
+			break;
+		}
+
+	}
+
+	ofstream savelistWrite;
+	savelistWrite.open("text/pvc_savelist.txt");
+
+	for (int i = 0; i < fileName.size(); i++)
+	{
+		savelistWrite << fileName[i] << endl;
+	}
+
+	savelistWrite.close();
+
+	string playerFile = "save_pvc/" + filename + "p.txt";
+	string botFile = "save_pvc/" + filename + "b.txt";
+	string figureFile = "save_pvc/" + filename + "figure.txt";
+
+	const char* playerFile1 = playerFile.c_str();
+	const char* botFile1 = botFile.c_str();
+	const char* figureFile1 = figureFile.c_str();
+
+	remove(playerFile1);
+	remove(botFile1);
+	remove(figureFile1);
+}
+
+int loadSaveFile_PvP()
+{
+	system("cls");
+
+	// Show saved file
+	ifstream savelistRead;
+	savelistRead.open("text/pvp_savelist.txt");
+
+	int width = getConsoleWidth();
+	int height = getConsoleHeight();
+
+	gotoXY(width / 2, height / 2);
+
+	int index = 0;
+
+	vector<string> fileName;
+
+	while (!savelistRead.eof())
+	{
+		string temp;
+		savelistRead >> temp;
+
+		cout << temp;
+
+		fileName.push_back(temp);
+
+		index++;
+
+		gotoXY(width / 2, height / 2 + index);
+
+	}
+
+	savelistRead.close();
+
+	fileName.pop_back();
+
+	int choice = controlMenuByArrow(fileName);
+
+
+	string filename = fileName[choice];
+
+	// Set figure
+	ifstream figure;
+	figure.open("save_pvp/" + filename + "figure.txt");
+	int size;
+
+	Object player1;
+	player1.x = 0;
+	player1.y = 0;
+	player1.undo = 0;
+
+	Object player2;
+	player2.x = 0;
+	player2.y = 0;
+	player2.undo = 0;
+
+	figure >> size;
+	figure >> player1.icon;
+	figure >> player1.color;
+	figure >> player2.icon;
+	figure >> player2.color;
+
+
+	//Set property of the board
+
+	system("cls");
+	vector<string> temp = { 100,"_" };
+	vector<vector<string>> board{ 100,temp };
+
+
+	ifstream player1Move;
+	player1Move.open("save_pvp/" + filename + "p1.txt");
+	int player1X;
+	int player1Y;
+	int player1Step = 0;
+	int player2Step = 0;
+	while (!player1Move.eof())
+	{
+		player1Move >> player1X;
+		player1Move >> player1Y;
+		board[player1X][player1Y] = player1.icon;
+		player1Step++;
+	}
+
+	player1Move.close();
+
+	ifstream player2Move;
+	player2Move.open("save_pvp/" + filename + "p2.txt");
+	int player2X;
+	int player2Y;
+	while (!player2Move.eof())
+	{
+		player2Move >> player2X;
+		player2Move >> player2Y;
+		board[player2X][player2Y] = player2.icon;
+		player2Step++;
+	}
+
+	player2Move.close();
+
+	board = drawBoard(size, board, player1, player2);
+
+	int goFirst = 0;
+
+	//Define P1 or P2 go after saving
+
+	if (player1Step == player2Step)
+	{
+		player1.turn = 1;
+		player2.turn = 0;
+		goFirst = 1;
+
+		// Gameplay
+		while (1)
+		{
+			if (player1.turn == 1 && player2.turn == 0)
+			{
+				// P1 Zone
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player1.color);
+				gotoXY(player1.x, player1.y);
+				// Require the use control p1
+				player1 = pControl_char(player1, size, board);
+
+				if (player1.undo != 1)
+				{
+					board[player1.x / 2][player1.y] = player1.icon;
+					// Compute p1 win or loose
+					player1.win = Compute(player1, size, board);
+					player1.historyMove.push_back(make_pair(player1.x / 2, player1.y));
+				}
+
+				player1.turn = 0;
+				player2.turn = 1;
+
+				if (player1.win == 1)
+				{
+					animateP1Win(size);
+
+					leaderboard_pvp_save(player1, player2, size,board);
+
+					break;
+				}
+
+				if (player1.save == 1 || player2.save == 1)
+				{
+					savePvP(board, size, player1, player2);
+					break;
+				}
+
+				if (player1.undo == 1)
+				{
+					undop1(player1, player2, board, size, goFirst);
+				}
+
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
+				}
+			}
+
+			if (player1.turn == 0 && player2.turn == 1)
+			{
+				//P2 Zone
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player2.color);
+				gotoXY(player2.x, player2.y);
+				// Require the use control p2
+				player2 = pControl_num(player2, size, board);
+
+				if (player2.undo != 1)
+				{
+					board[player2.x / 2][player2.y] = player2.icon;
+
+					// Compute p2 win or loose
+					player2.win = Compute(player2, size, board);
+					player2.historyMove.push_back(make_pair(player2.x / 2, player2.y));
+				}
+
+				player1.turn = 1;
+				player2.turn = 0;
+
+				if (player2.win == 1)
+				{
+					animateP2Win(size);
+
+					leaderboard_pvp_save(player1, player2, size, board);
+
+					break;
+				}
+
+				if (player2.undo == 1)
+				{
+					undop2(player1, player2, board, size, goFirst);
+				}
+
+
+				if (player1.save == 1 || player2.save == 1)
+				{
+					savePvP(board, size, player1, player2);
+					break;
+				}
+
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
+				}
+
+
+			}
+		}
+	}
+
+	if (player1Step > player2Step)
+	{
+		player1.turn = 0;
+		player2.turn = 1;
+		goFirst = 2;
+
+		// Gameplay
+		while (1)
+		{
+
+			if (player1.turn == 0 && player2.turn == 1)
+			{
+				//P2 Zone
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player2.color);
+				gotoXY(player2.x, player2.y);
+
+				// Require the use control p2
+				player2 = pControl_num(player2, size, board);
+
+				if (player2.undo != 1)
+				{
+					board[player2.x / 2][player2.y] = player2.icon;
+					// Compute p2 win or loose
+					player2.win = Compute(player2, size, board);
+					player2.historyMove.push_back(make_pair(player2.x / 2, player2.y));
+				}
+
+				player1.turn = 1;
+				player2.turn = 0;
+
+				if (player2.win == 1)
+				{
+					animateP2Win(size);
+
+					leaderboard_pvp_save(player1, player2, size, board);
+
+					break;
+				}
+
+
+				if (player1.save == 1 || player2.save == 1)
+				{
+					savePvP(board, size, player1, player2);
+					break;
+				}
+
+				if (player2.undo == 1)
+				{
+					undop2(player1, player2, board, size, goFirst);
+				}
+
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
+				}
+
+
+			}
+
+			if (player1.turn == 1 && player2.turn == 0)
+			{
+				// P1 Zone
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player1.color);
+				gotoXY(player1.x, player1.y);
+
+				// Require the use control p1
+				player1 = pControl_char(player1, size, board);
+
+				if (player1.undo != 1)
+				{
+
+					board[player1.x / 2][player1.y] = player1.icon;
+
+					// Compute p1 win or loose
+					player1.win = Compute(player1, size, board);
+
+					player1.historyMove.push_back(make_pair(player1.x / 2, player1.y));
+				}
+
+				player1.turn = 0;
+				player2.turn = 1;
+
+				if (player1.win == 1)
+				{
+					animateP1Win(size);
+
+					leaderboard_pvp_save(player1, player2, size, board);
+
+					break;
+				}
+
+				if (player1.save == 1 || player2.save == 1)
+				{
+					savePvP(board, size, player1, player2);
+					break;
+				}
+
+				if (player1.undo == 1)
+				{
+					undop1(player1, player2, board, size, goFirst);
+				}
+
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
+				}
+
+			}
+
+
+
+
+		}
+	}
+
+}
+
+void deleteSavedFile_PvP()
+{
+	system("cls");
+
+	// Show saved file
+	ifstream savelistRead;
+	savelistRead.open("text/pvp_savelist.txt");
+
+	int width = getConsoleWidth();
+	int height = getConsoleHeight();
+
+	gotoXY(width / 2, height / 2);
+
+	int index = 0;
+
+	vector<string> fileName;
+
+	while (!savelistRead.eof())
+	{
+		string temp;
+		savelistRead >> temp;
+
+		cout << temp;
+
+		fileName.push_back(temp);
+
+		index++;
+
+		gotoXY(width / 2, height / 2 + index);
+
+	}
+
+	savelistRead.close();
+	fileName.pop_back();
+
+	int choice = controlMenuByArrow(fileName);
+
+
+	string filename = fileName[choice];
+
+
+	for (int i = 0; i < fileName.size(); i++)
+	{
+
+		if (filename == fileName[i])
+		{
+			fileName.erase(fileName.begin() + i);
+			break;
+		}
+
+	}
+
+	ofstream savelistWrite;
+	savelistWrite.open("text/pvp_savelist.txt");
+
+	for (int i = 0; i < fileName.size(); i++)
+	{
+		savelistWrite << fileName[i] << endl;
+	}
+
+	savelistWrite.close();
+
+	string playerOneFile = "save_pvp/" + filename + "p1.txt";
+	string playerTwoFile = "save_pvp/" + filename + "p2.txt";
+	string figureFile = "save_pvp/" + filename + "figure.txt";
+
+	const char* playerOneFile1 = playerOneFile.c_str();
+	const char* playerTwoFile1 = playerTwoFile.c_str();
+	const char* figureFile1 = figureFile.c_str();
+
+	remove(playerOneFile1);
+	remove(playerTwoFile1);
+	remove(figureFile1);
+
+
+}
+
+void loadPvP() {
+
+	vector<string> task = { "Load saved file", "Delete saved file" };
+
+	int choice = controlMenuByArrow(task);
+
+	if (choice == 0)
+	{
+		loadSaveFile_PvP();
+	}
+
+	if (choice == 1)
+	{
+		deleteSavedFile_PvP();
+	}
+}
+
+void loadPvC() {
+
+	vector<string> task = { "Load saved file", "Delete saved file" };
+
+	int choice = controlMenuByArrow(task);
+
+	if (choice == 0)
+	{
+		loadSaveFile_PvC();
+	}
+
+	if (choice == 1)
+	{
+		deleteSavedFile_PvC();
 	}
 
 }
 
 void load() {
-	ifstream loadmode;
-	loadmode.open("text/loadmode.txt");
-	animateText(loadmode);
-	char key = _getch();
+	int width = getConsoleWidth();
+	int height = getConsoleHeight();
+	ifstream loadIntro;
+	loadIntro.open("text/loadmode.txt");
 
+	gotoXY(width / 2 - 30, height / 2 - 1);
+	animateText(loadIntro);
+	loadIntro.close();
 
-	while (key != '1' && key != '2')
-	{
-		key = _getch();
-	}
+	vector<string> type = { "PvP mode", "PvC mode" };
 
-	if (key == '1')
+	int choice = controlMenuByArrow(type);
+
+	if (choice == 0)
 	{
 		system("cls");
 		loadPvP();
 	}
-	if (key == '2')
+	if (choice == 1)
 	{
 		system("cls");
 		loadPvC();

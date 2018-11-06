@@ -1,6 +1,6 @@
 #include "save.h"
 
-void savePvP(vector<vector<string>> Board, int size, Object p1, Object p2) {
+void savePvP(vector<vector<string>> board, int size, Object p1, Object p2) {
 
 	// Require user enter file name
 	system("cls");
@@ -70,7 +70,7 @@ void savePvP(vector<vector<string>> Board, int size, Object p1, Object p2) {
 	{
 		for (int y = 0; y < 20; y++)
 		{
-			if (Board[x][y] == p1.icon)
+			if (board[x][y] == p1.icon)
 			{
 				p1move << x << " " << y << endl;
 			}
@@ -88,7 +88,7 @@ void savePvP(vector<vector<string>> Board, int size, Object p1, Object p2) {
 	{
 		for (int y = 0; y < 20; y++)
 		{
-			if (Board[x][y] == p2.icon)
+			if (board[x][y] == p2.icon)
 			{
 				p2move << x << " " << y << endl;
 			}
@@ -110,8 +110,7 @@ void savePvP(vector<vector<string>> Board, int size, Object p1, Object p2) {
 
 }
 
-
-void savePvC(vector<vector<string>> Board, int size, Object p, Object b, int mode) {
+void savePvC(vector<vector<string>> board, int size, Object player, Object bot, int mode) {
 
 	// Require user enter file name
 	system("cls");
@@ -119,8 +118,6 @@ void savePvC(vector<vector<string>> Board, int size, Object p, Object b, int mod
 	cout << "Please enter your name to save file: ";
 	string filename;
 	cin >> filename;
-
-
 
 	// Check file name exist or not
 	ifstream savelist_check;
@@ -140,7 +137,7 @@ void savePvC(vector<vector<string>> Board, int size, Object p, Object b, int mod
 	// If exist, Ask user about overwriting
 	if (exist == 1)
 	{
-		cout << filename + "exsit. Do you want to overwrite it" << endl;
+		cout << filename + " exsit. Do you want to overwrite it" << endl;
 		cout << "Yes or No (Y/N). Your choice is: ";
 		char key = _getch();
 		while (key != 'y' && key != 'Y' && key != 'n' && key != 'N') {
@@ -172,41 +169,41 @@ void savePvC(vector<vector<string>> Board, int size, Object p, Object b, int mod
 	}
 
 
-	// Save p location
-	ofstream pmove;
+	// Save player location
+	ofstream playerMove;
 
-	pmove.open("save_pvc/" + filename + "p.txt");
+	playerMove.open("save_pvc/" + filename + "p.txt");
 
-	for (int x = 0; x < 20; x++)
+	for (int x = 0; x < size; x++)
 	{
-		for (int y = 0; y < 20; y++)
+		for (int y = 0; y < size; y++)
 		{
-			if (Board[x][y] == p.icon)
+			if (board[x][y] == player.icon)
 			{
-				pmove << x << " " << y << endl;
+				playerMove << x << " " << y << endl;
 			}
 		}
 	}
 
-	pmove.close();
+	playerMove.close();
 
 	// Save bot location
 
-	ofstream bmove;
-	bmove.open("save_pvc/" + filename + "b.txt");
+	ofstream botMove;
+	botMove.open("save_pvc/" + filename + "b.txt");
 
 	for (int x = 0; x < 20; x++)
 	{
 		for (int y = 0; y < 20; y++)
 		{
-			if (Board[x][y] == b.icon)
+			if (board[x][y] == bot.icon)
 			{
-				bmove << x << " " << y << endl;
+				botMove << x << " " << y << endl;
 			}
 		}
 	}
 
-	bmove.close();
+	botMove.close();
 
 	// Save the figure of the board
 
@@ -214,8 +211,8 @@ void savePvC(vector<vector<string>> Board, int size, Object p, Object b, int mod
 	figure.open("save_pvc/" + filename + "figure.txt");
 
 	figure << size << endl;
-	figure << p.icon << " " << p.color << endl;
-	figure << b.icon << " " << b.color << endl;
+	figure << player.icon << " " << player.color << endl;
+	figure << bot.icon << " " << bot.color << endl;
 	figure << mode << endl;
 
 	figure.close();

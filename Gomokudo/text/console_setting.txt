@@ -1,0 +1,7 @@
+introMusic: 1
+bgMusic: 1
+introAnimate: 1
+winAnimate: 1
+textColor: 10
+highlightedColor: 12
+activeColor: 14

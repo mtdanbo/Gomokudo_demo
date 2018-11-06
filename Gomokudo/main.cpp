@@ -1,8 +1,13 @@
 #include "library.h"
 
+
+
 int main() {
+
 	//PlaySound("sound.wav",NULL, SND_FILENAME | SND_ASYNC);
 	//intro();
+	
+
 	int quitGame = 0;
 
 	while (quitGame == 0)	
@@ -21,12 +26,16 @@ int main() {
 			load();
 			break;
 		case 2:
+			option();
+			break;
+		case 3:
 			about();
 			escape();
 			break;
-		case 3:
-			leaderboard_show();
 		case 4:
+			leaderboard();
+			break;
+		case 5:
 			quitGame = 1;
 		}
 	}

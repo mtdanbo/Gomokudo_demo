@@ -1,34 +1,42 @@
 #include "pvp.h"
 
-void PvP_mode() {
+int PvP_mode() {
+	system("cls");
+	Color color;
+	getColor(color);
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+
+	int width = getConsoleWidth();
+	int height = getConsoleHeight();
+
+	gotoXY(width / 2 - 15, height/2 - 1);
 	ifstream pvp;
 	pvp.open("text/pvp.txt");
 	animateText(pvp);
-	char key = _getch();
-	while (key != '1' && key != '2' && key != '3')
-	{
-		key = _getch();
-	}
 
-	if (key == '3')
+	gotoXY(width / 2, height / 2);
+	system("pause");
+
+	system("cls");
+
+	vector<string> type = { "3 x 3","4 x 4","N x N (N > 4)" };
+
+	int choice = controlMenuByArrow(type);
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+
+	if (choice == 2)
 	{
 		// Initialize player properties
 
-		Object p1;
-		p1.x = 0;
-		p1.y = 0;
-		p1.turn = 0;
-		p1.undo = 0;
+		Object player1;
+		player1.turn = 0;
 
-		vector <pair<int, int>> p1undo;
 
-		Object p2;
-		p2.x = 0;
-		p2.y = 0;
-		p2.turn = 0;
-		p2.undo = 0;
+		Object player2;
+		player2.turn = 0;
 
-		vector <pair<int, int>> p2undo;
 
 		// Require user choose the size of the board
 
@@ -41,9 +49,9 @@ void PvP_mode() {
 		system("cls");
 		cout << "Plz choose icon for each player" << endl;
 		cout << "Player 1: ";
-		cin >> p1.icon;
+		cin >> player1.icon;
 		cout << "Player 2: ";
-		cin >> p2.icon;
+		cin >> player2.icon;
 
 		// Require user choose icon color
 
@@ -54,13 +62,13 @@ void PvP_mode() {
 		cin >> change;
 		if (change == 'Y' || change == 'y')
 		{
-			p1.color = green;
-			p2.color = red;
+			player1.color = green;
+			player2.color = red;
 		}
 		if (change == 'N' || change == 'n')
 		{
-			p1.color = red;
-			p2.color = green;
+			player1.color = red;
+			player2.color = green;
 		}
 
 
@@ -70,132 +78,128 @@ void PvP_mode() {
 		cout << "Press 1 if you want p1 go first" << endl;
 		cout << "Press 2 if you want p2 go first" << endl;
 		cout << "Your choice is: ";
-		int go_first;
-		cin >> go_first;
-		while (go_first != 1 && go_first != 2)
+		int goFirst;
+		cin >> goFirst;
+		while (goFirst != 1 && goFirst != 2)
 		{
 			cout << "Wrong please choose again" << endl;
 			cout << "Your choice is: ";
-			cin >> go_first;
+			cin >> goFirst;
 		}
 
-		if (go_first == 1)
+		if (goFirst == 1)
 		{
-			p1.turn = 1;
-			p2.turn = 0;
+			player1.turn = 1;
+			player2.turn = 0;
 
 		}
-		if (go_first == 2)
+		if (goFirst == 2)
 		{
-			p1.turn = 0;
-			p2.turn = 1;
+			player1.turn = 0;
+			player2.turn = 1;
 		}
 
 		// Draw the board
 		system("cls");
 		vector<string> temp = { 100,"_" };
-		vector<vector<string>> Board{ 100,temp };
-		Board = drawBoard(size, Board, temp, p1, p2);
-
-		gotoXY((size + 5) * 2, 0);
-		cout << "Press L if you want to save the game";
-		gotoXY((size + 5) * 2, 1);
-		cout << "Press U if you want to undo the game";
+		vector<vector<string>> board{ 100,temp };
+		board = drawBoard(size, board, player1, player2);
 
 		// Gameplay
 		while (1)
 		{
-			if (p1.turn == 1 && p2.turn == 0)
+			if (player1.turn == 1 && player2.turn == 0)
 			{
 				// P1 Zone
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
-				gotoXY(p1.x, p1.y);
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player1.color);
+				gotoXY(player1.x, player1.y);
 				// Require the use control p1
-				p1 = pControl_char(p1, size, Board);
+				player1 = pControl_char(player1, size, board);
 
-				if (p1.undo != 1)
+				if (player1.undo != 1)
 				{
-					Board[p1.x / 2][p1.y] = p1.icon;
-					p1undo.push_back(make_pair(p1.x / 2, p1.y));
+					board[player1.x / 2][player1.y] = player1.icon;
+					player1.historyMove.push_back(make_pair(player1.x / 2, player1.y));
 
 
 					// Compute p1 win or loose
-					p1.win = Compute(p1, size, Board);
+					player1.win = Compute(player1, size, board);
 				}
 
-				p1.turn = 0;
-				p2.turn = 1;
+				player1.turn = 0;
+				player2.turn = 1;
 
 
-				if (p1.win == 1)
+				if (player1.win == 1)
 				{
 					animateP1Win(size);
 
-					leaderboard_pvp(p1, p2, size, Board);
+					leaderboard_pvp_save(player1, player2, size, board);
 
 					break;
 				}
 
-				if (p1.undo == 1 || p2.undo == 1)
+				if (player1.undo == 1 || player2.undo == 1)
 				{
-					undop1(p1, p2, p1undo, p2undo, Board, size, temp, go_first);
+					undop1(player1, player2, board, size, goFirst);
 				}
 
-
-
-
-				if (p1.save == 1 || p2.save == 1)
+				if (player1.save == 1 || player2.save == 1)
 				{
-					savePvP(Board, size, p1, p2);
+					savePvP(board, size, player1, player2);
 					break;
+				}
+
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
 				}
 			}
 
-			if (p2.turn == 1 && p1.turn == 0)
+			if (player2.turn == 1 && player1.turn == 0)
 			{
 				//P2 Zone
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);
-				gotoXY(p2.x, p2.y);
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player2.color);
+				gotoXY(player2.x, player2.y);
 				// Require the use control p2
-				p2 = pControl_num(p2, size, Board);
+				player2 = pControl_num(player2, size, board);
 
-				if (p2.undo != 1)
+				if (player2.undo != 1)
 				{
-					Board[p2.x / 2][p2.y] = p2.icon;
-					p2undo.push_back(make_pair(p2.x / 2, p2.y));
+					board[player2.x / 2][player2.y] = player2.icon;
+					player2.historyMove.push_back(make_pair(player2.x / 2, player2.y));
 
 					// Compute p2 win or loose
-					p2.win = Compute(p2, size, Board);
+					player2.win = Compute(player2, size, board);
 				}
 
+				player1.turn = 1;
+				player2.turn = 0;
 
-
-				p1.turn = 1;
-				p2.turn = 0;
-
-
-
-
-
-				if (p2.win == 1)
+				if (player2.win == 1)
 				{
 					animateP2Win(size);
-					leaderboard_pvp(p1, p2, size, Board);
+					leaderboard_pvp_save(player1, player2, size, board);
 
 					break;
 				}
 
-				if (p1.undo == 1 || p2.undo == 1)
+				if (player1.undo == 1 || player2.undo == 1)
 				{
-					undop2(p1, p2, p1undo, p2undo, Board, size, temp, go_first);
+					undop2(player1, player2, board, size, goFirst);
 
 				}
 
 
-				if (p1.save == 1 || p2.save == 1)
+				if (player1.save == 1 || player2.save == 1)
 				{
-					savePvP(Board, size, p1, p2);
+					savePvP(board, size, player1, player2);
 					break;
+				}
+
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
 				}
 			}
 		}
