@@ -1,7 +1,7 @@
 #include "draw.h"
 vector<vector<string>> drawBoard(int size, vector<vector<string>> board, Object o1, Object o2) {
 
-	ControlKey controlKey;
+	ControlGame controlKey;
 
 	system("cls");
 

@@ -6,17 +6,23 @@
 #include <string>
 #include <vector>
 #include <cstdio>
+#include <algorithm>
 using namespace std;
 
 /*-----------Basic function---------*/
 void gotoXY(int x_pos, int y_pos);
 int getConsoleWidth();
 int getConsoleHeight();
+void setCursorSize(int size);
 
 /*-----------Color---------*/
 const int red = 12;
 const int yellow = 14;
 const int green = 10;
+
+/*-------Cursor Size-------*/
+const int smallCursor = 20;
+const int largeCursor = 100;
 
 /*-------------Create object and point--------------*/
 struct Object
@@ -83,12 +89,17 @@ struct PlayerKey
 
 };
 
-struct ControlKey 
+struct ControlGame
 {
 	char back = 'B';
 	char undo = 'U';
 	char save = 'L';
 };
+
+void getKey(PlayerKey &mainPlayer, PlayerKey &secondPlayer, ControlGame &controlGame);
+
+
+
 
 
 

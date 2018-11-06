@@ -6,7 +6,12 @@ int main() {
 
 	//PlaySound("sound.wav",NULL, SND_FILENAME | SND_ASYNC);
 	//intro();
-	
+	COORD size;
+	size.X = 114;
+	size.Y = 27;
+	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), size);
+
+	setCursorSize(smallCursor);
 
 	int quitGame = 0;
 

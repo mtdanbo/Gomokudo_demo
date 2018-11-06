@@ -114,7 +114,7 @@ int PvP_mode() {
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player1.color);
 				gotoXY(player1.x, player1.y);
 				// Require the use control p1
-				player1 = pControl_char(player1, size, board);
+				player1 = mainControl(player1, size, board);
 
 				if (player1.undo != 1)
 				{
@@ -162,7 +162,7 @@ int PvP_mode() {
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player2.color);
 				gotoXY(player2.x, player2.y);
 				// Require the use control p2
-				player2 = pControl_num(player2, size, board);
+				player2 = secondControl(player2, size, board);
 
 				if (player2.undo != 1)
 				{

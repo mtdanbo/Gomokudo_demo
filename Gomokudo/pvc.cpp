@@ -52,7 +52,7 @@ int gameMode(int maxDepth, int maxMove, int mode)
 
 			// Require the use control p1
 
-			player = pControl_char(player, size, board);
+			player = mainControl(player, size, board);
 
 			if (player.undo == 0)
 			{

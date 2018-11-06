@@ -1,14 +1,38 @@
 #include "control.h"
-Object pControl_char(Object p, int size, vector<vector<string>> Board) {
+Object mainControl(Object p, int size, vector<vector<string>> Board) {
 
-	ControlKey controlKey;
+	PlayerKey mainPlayer;
+	PlayerKey secondPlayer;
+	ControlGame controlGame;
+	getKey(mainPlayer, secondPlayer, controlGame);
 
 	int press = 0;
 	while (press == 0)
 	{
 		press = 0;
 		char key = _getch();
-		if (key == 'A' || key == 'a')
+
+		if (mainPlayer.up == 'w')
+		{
+			mainPlayer.up = 72;
+		}
+		if (mainPlayer.left == 'a')
+		{
+			mainPlayer.left = 75;
+		}
+		if (mainPlayer.right == 'd')
+		{
+			mainPlayer.right = 77;
+		}
+		if (mainPlayer.down == 's')
+		{
+			mainPlayer.down = 80;
+		}
+
+
+
+
+		if (key == mainPlayer.left || key == mainPlayer.left + 32)
 		{
 			if (p.x == 0) 
 			{
@@ -19,7 +43,7 @@ Object pControl_char(Object p, int size, vector<vector<string>> Board) {
 				p.x -= 2;
 			}
 		}
-		if (key == 'D' || key == 'd')
+		if (key == mainPlayer.right || key == mainPlayer.right + 32)
 		{
 			if (p.x / 2 == size-1)
 			{
@@ -30,7 +54,7 @@ Object pControl_char(Object p, int size, vector<vector<string>> Board) {
 				p.x += 2;
 			}
 		}
-		if (key == 'W' || key == 'w')
+		if (key == mainPlayer.up || key == mainPlayer.up + 32)
 		{
 			if (p.y == 0)
 			{
@@ -41,7 +65,7 @@ Object pControl_char(Object p, int size, vector<vector<string>> Board) {
 				p.y -= 1;
 			}
 		}
-		if (key == 'S' || key == 's')
+		if (key == mainPlayer.down || key == mainPlayer.down + 32)
 		{
 			if (p.y == size - 1)
 			{
@@ -53,7 +77,7 @@ Object pControl_char(Object p, int size, vector<vector<string>> Board) {
 			}
 		}
 		gotoXY(p.x, p.y);
-		if (key == 'H' || key == 'h')
+		if (key == mainPlayer.attack || key == mainPlayer.attack + 32)
 		{
 			if (Board[p.x/2][p.y] == "_")
 			{
@@ -67,18 +91,18 @@ Object pControl_char(Object p, int size, vector<vector<string>> Board) {
 			}
 
 		}
-		if (key == controlKey.save || key == controlKey.save + 32)
+		if (key == controlGame.save || key == controlGame.save + 32)
 		{
 			p.save = 1;
 			break;
 		}
 
-		if (key == controlKey.undo || key == controlKey.undo + 32)
+		if (key == controlGame.undo || key == controlGame.undo + 32)
 		{
 			p.undo = 1;
 			break;
 		}
-		if (key == controlKey.back || key == controlKey.back + 32)
+		if (key == controlGame.back || key == controlGame.back + 32)
 		{
 			p.quit = 1;
 			break;
@@ -88,16 +112,40 @@ Object pControl_char(Object p, int size, vector<vector<string>> Board) {
 	}
 	return p;
 }
-Object pControl_num(Object p, int size, vector<vector<string>> Board) {
+Object secondControl(Object p, int size, vector<vector<string>> Board) {
 
-	ControlKey controlKey;
+	PlayerKey mainPlayer;
+	PlayerKey secondPlayer;
+	ControlGame controlGame;
+	getKey(mainPlayer, secondPlayer, controlGame);
+
 
 	int press = 0;
 	while (press == 0)
 	{
 		press = 0;
 		char key = _getch();
-		if (key == 75)
+
+		if (secondPlayer.up == 'w')
+		{
+			secondPlayer.up = 72;
+		}
+		if (secondPlayer.left == 'a')
+		{
+			secondPlayer.left = 75;
+		}
+		if (secondPlayer.right == 'd')
+		{
+			secondPlayer.right = 77;
+		}
+		if (secondPlayer.down == 's')
+		{
+			secondPlayer.down = 80;
+		}
+
+
+
+		if (key == secondPlayer.left || key == secondPlayer.left + 32)
 		{
 			if (p.x == 0)
 			{
@@ -108,7 +156,7 @@ Object pControl_num(Object p, int size, vector<vector<string>> Board) {
 				p.x -= 2;
 			}
 		}
-		if (key == 77)
+		if (key == secondPlayer.right || key == secondPlayer.right + 32)
 		{
 			if (p.x / 2 == size - 1)
 			{
@@ -119,7 +167,7 @@ Object pControl_num(Object p, int size, vector<vector<string>> Board) {
 				p.x += 2;
 			}
 		}
-		if (key == 72)
+		if (key == secondPlayer.up || key == secondPlayer.up + 32)
 		{
 			if (p.y == 0)
 			{
@@ -130,7 +178,7 @@ Object pControl_num(Object p, int size, vector<vector<string>> Board) {
 				p.y -= 1;
 			}
 		}
-		if (key == 80)
+		if (key == secondPlayer.down || key == secondPlayer.down + 32)
 		{
 			if (p.y == size - 1)
 			{
@@ -142,7 +190,7 @@ Object pControl_num(Object p, int size, vector<vector<string>> Board) {
 			}
 		}
 		gotoXY(p.x, p.y);
-		if (key == '1' || key == '1')
+		if (key == secondPlayer.attack || key == secondPlayer.attack + 32)
 		{
 			if (Board[p.x / 2][p.y] == "_")
 			{
@@ -155,18 +203,18 @@ Object pControl_num(Object p, int size, vector<vector<string>> Board) {
 			}
 		}
 
-		if (key == controlKey.save || key == controlKey.save + 32)
+		if (key == controlGame.save || key == controlGame.save + 32)
 		{
 			p.save = 1;
 			break;
 		}
 
-		if (key == controlKey.undo || key == controlKey.undo + 32)
+		if (key == controlGame.undo || key == controlGame.undo + 32)
 		{
 			p.undo = 1;
 			break;
 		}
-		if (key == controlKey.back || key == controlKey.back + 32)
+		if (key == controlGame.back || key == controlGame.back + 32)
 		{
 			p.quit = 1;
 			break;
@@ -174,5 +222,4 @@ Object pControl_num(Object p, int size, vector<vector<string>> Board) {
 	}
 	return p;
 
-	
 }
