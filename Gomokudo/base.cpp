@@ -165,3 +165,88 @@ void getKey(PlayerKey &mainPlayer, PlayerKey &secondPlayer, ControlGame &control
 	getSecondKey(secondPlayer);
 }
 
+void getPvPConfig(PvPConfig &pvpConfig)
+{
+	ifstream pvp;
+	pvp.open("text/pvp_config.txt", ios_base::app);
+
+	while (!pvp.eof())
+	{
+		string temp;
+		pvp >> temp;
+
+		if (temp == "mainIcon:")
+		{
+			pvp >> pvpConfig.mainIcon;
+		}
+		if (temp == "secondIcon:")
+		{
+			pvp >> pvpConfig.secondIcon;
+		}
+		if (temp == "boardSize:")
+		{
+			pvp >> pvpConfig.sizeBoard;
+		}
+		if (temp == "boardColor:")
+		{
+			pvp >> pvpConfig.boardColor;
+		}
+		if (temp == "goFirst:")
+		{
+			pvp >> pvpConfig.goFirst;
+		}
+		if (temp == "mainColor:")
+		{
+			pvp >> pvpConfig.mainColor;
+		}
+		if (temp == "secondColor:")
+		{
+			pvp >> pvpConfig.secondColor;
+		}
+	}
+
+	pvp.close();
+}
+
+void getPvCConfig(PvCConfig &pvcConfig)
+{
+	ifstream pvc;
+	pvc.open("text/pvc_config.txt", ios_base::app);
+
+	while (!pvc.eof())
+	{
+		string temp;
+		pvc >> temp;
+
+		if (temp == "playerIcon:")
+		{
+			pvc >> pvcConfig.playerIcon;
+		}
+		if (temp == "botIcon:")
+		{
+			pvc >> pvcConfig.botIcon;
+		}
+		if (temp == "boardSize:")
+		{
+			pvc >> pvcConfig.sizeBoard;
+		}
+		if (temp == "boardColor:")
+		{
+			pvc >> pvcConfig.boardColor;
+		}
+		if (temp == "goFirst:")
+		{
+			pvc >> pvcConfig.goFirst;
+		}
+		if (temp == "playerColor:")
+		{
+			pvc >> pvcConfig.playerColor;
+		}
+		if (temp == "botColor:")
+		{
+			pvc >> pvcConfig.botColor;
+		}
+	}
+
+	pvc.close();
+}

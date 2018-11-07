@@ -1,12 +1,16 @@
 ﻿  option.cpp
-f:\gomokudo\gomokudo\option.cpp(96): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(456): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(502): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(505): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(113): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(473): warning C4018: '<': signed/unsigned mismatch
 f:\gomokudo\gomokudo\option.cpp(519): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(521): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(535): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(537): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(735): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(829): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(522): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(536): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(538): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(552): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(554): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(752): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(846): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(1038): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(1042): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(1089): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\option.cpp(1093): warning C4018: '<': signed/unsigned mismatch
   Gomokudo.vcxproj -> F:\Gomokudo\Debug\Gomokudo.exe

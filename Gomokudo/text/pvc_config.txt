@@ -1,0 +1,7 @@
+playerIcon: X
+botIcon: O
+boardSize: 20
+boardColor: 14
+goFirst: player
+playerColor: 12
+botColor: 10

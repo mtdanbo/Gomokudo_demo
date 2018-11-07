@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdio>
 #include <algorithm>
+
 using namespace std;
 
 /*-----------Basic function---------*/
@@ -23,6 +24,13 @@ const int green = 10;
 /*-------Cursor Size-------*/
 const int smallCursor = 20;
 const int largeCursor = 100;
+
+/*-------Arrow Key-------*/
+const int arrowUp = 72;
+const int arrowRight = 77;
+const int arrowLeft = 75;
+const int arrowDown = 80;
+const int escKey = 27;
 
 /*-------------Create object and point--------------*/
 struct Object
@@ -98,6 +106,35 @@ struct ControlGame
 
 void getKey(PlayerKey &mainPlayer, PlayerKey &secondPlayer, ControlGame &controlGame);
 
+struct PvPConfig
+{
+	string mainIcon;
+	string secondIcon;
+	int mainColor;
+	int secondColor;
+	int sizeBoard;
+	int boardColor;
+	string goFirst;
+};
+
+struct PvCConfig
+{
+	string playerIcon;
+	string botIcon;
+	int playerColor;
+	int botColor;
+	int sizeBoard;
+	int boardColor;
+	string goFirst;
+};
+
+struct Priority
+{
+	string prior;
+};
+
+void getPvPConfig(PvPConfig &pvpConfig);
+void getPvCConfig(PvCConfig &pvcConfig);
 
 
 

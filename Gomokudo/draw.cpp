@@ -1,7 +1,11 @@
 #include "draw.h"
 vector<vector<string>> drawBoard(int size, vector<vector<string>> board, Object o1, Object o2) {
 
-	ControlGame controlKey;
+	ControlGame controlGame;
+	PlayerKey mainPlayer;
+	PlayerKey secondPlayer;
+
+	getKey(mainPlayer, secondPlayer, controlGame);
 
 	system("cls");
 
@@ -30,9 +34,9 @@ vector<vector<string>> drawBoard(int size, vector<vector<string>> board, Object 
 	string undoCommandLine = "Press U to undo your game";
 	string backCommandLine = "Press Q to back to main menu";
 
-	saveCommandLine[6] = controlKey.save;
-	undoCommandLine[6] = controlKey.undo;
-	backCommandLine[6] = controlKey.back;
+	saveCommandLine[6] = controlGame.save;
+	undoCommandLine[6] = controlGame.undo;
+	backCommandLine[6] = controlGame.back;
 
 	Color color;
 	getColor(color);

@@ -1,5 +1,6 @@
 #include "option.h"
 
+#pragma region Variable and Struct
 OnState introMusic;
 OnState bgMusic;
 OnState introAnimate;
@@ -8,16 +9,40 @@ OnState winAnimate;
 ColorState curTextColor;
 ColorState curHightlightColor;
 ColorState curActiveColor;
+ColorState curBoardColor_PvP;
+ColorState curMainPlayer;
+ColorState curSecondPlayer;
+ColorState curBoardColor_PvC;
+ColorState curPlayerColor;
+ColorState curBotColor;
+
 
 ColorState nextTextColor;
 ColorState nextHighlightColor;
 ColorState nextActiveColor;
+ColorState nextBoardColor_PvP;
+ColorState nextMainPlayer;
+ColorState nextSecondPlayer;
+ColorState nextBoardColor_PvC;
+ColorState nextPlayerColor;
+ColorState nextBotColor;
+
 
 PlayerKey mainPlayer;
 PlayerKey secondPlayer;
 ControlGame controlGame;
 
-void drawOnState(int width, int height, int currentIndex, vector<pair<string,string>> configuration, OnState onState)
+Priority priorityPvP;
+Priority priorityPvC;
+#pragma endregion
+
+void backAction(bool &back)
+{
+	back = true;
+}
+
+#pragma region Console Setting
+void drawOnState(int width, int height, int currentIndex, vector<pair<string, string>> configuration, OnState onState)
 {
 	gotoXY(width / 4 + 40, height / 4 + currentIndex * 2);
 
@@ -47,7 +72,7 @@ void drawOnState(int width, int height, int currentIndex, vector<pair<string,str
 	cout << offString;
 }
 
-void drawColorState(int width, int height, int currentIndex, vector<pair<string, string>> configuration, ColorState currentColor, ColorState &nextColor)
+void drawColorStateSetting(int width, int height, int currentIndex, vector<pair<string, string>> configuration, ColorState currentColor, ColorState &nextColor)
 {
 	gotoXY(width / 4 + 40, height / 4 + currentIndex * 2);
 	string redState = configuration[currentIndex].second.substr(0, 3);
@@ -90,7 +115,7 @@ void drawColorState(int width, int height, int currentIndex, vector<pair<string,
 	cout << greenState;
 }
 
-void drawConsoleSetting(int width, int height, vector<pair<string,string>> configuration)
+void drawConsoleSetting(int width, int height, vector<pair<string, string>> configuration)
 {
 
 	for (int i = 0; i < configuration.size(); i++)
@@ -117,20 +142,20 @@ void drawConsoleSetting(int width, int height, vector<pair<string,string>> confi
 		}
 		if (i == 4)
 		{
-			drawColorState(width, height, i, configuration, curTextColor,nextTextColor);
+			drawColorStateSetting(width, height, i, configuration, curTextColor, nextTextColor);
 		}
 		if (i == 5)
 		{
-			drawColorState(width, height, i, configuration, curHightlightColor,nextHighlightColor);
+			drawColorStateSetting(width, height, i, configuration, curHightlightColor, nextHighlightColor);
 		}
 		if (i == 6)
 		{
-			drawColorState(width, height, i, configuration, curActiveColor,nextActiveColor);
+			drawColorStateSetting(width, height, i, configuration, curActiveColor, nextActiveColor);
 		}
 	}
 }
 
-void modifyConsoleOn(int width, int height, int currentIndex, vector<pair<string,string>> configuration, OnState &onState)
+void modifyConsoleOn(int width, int height, int currentIndex, vector<pair<string, string>> configuration, OnState &onState)
 {
 	while (1)
 	{
@@ -188,7 +213,7 @@ void modifyConsoleOn(int width, int height, int currentIndex, vector<pair<string
 	cout << configuration[currentIndex].first;
 }
 
-void modifyConsoleColor(int width, int height,int currentIndex, vector<pair<string,string>> configuration, ColorState currentColor, ColorState &nextColor)
+void modifyConsoleColor(int width, int height, int currentIndex, vector<pair<string, string>> configuration, ColorState currentColor, ColorState &nextColor)
 {
 	int colorIndex;
 
@@ -258,10 +283,10 @@ void modifyConsoleColor(int width, int height,int currentIndex, vector<pair<stri
 
 		if (colorIndex == 1)
 		{
-			gotoXY(width / 4 + 40, height / 4 + currentIndex*2);
+			gotoXY(width / 4 + 40, height / 4 + currentIndex * 2);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), curTextColor.color);
 			cout << redState << "/" << yellowState << "/" << greenState;
-			
+
 			gotoXY(width / 4 + 40 + 11, height / 4 + currentIndex * 2);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), curHightlightColor.color);
 			cout << greenState;
@@ -270,7 +295,7 @@ void modifyConsoleColor(int width, int height,int currentIndex, vector<pair<stri
 		}
 		if (colorIndex == -1)
 		{
-			gotoXY(width / 4 + 40, height / 4 + currentIndex*2);
+			gotoXY(width / 4 + 40, height / 4 + currentIndex * 2);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), curTextColor.color);
 			cout << redState << "/" << yellowState << "/" << greenState;
 
@@ -282,7 +307,7 @@ void modifyConsoleColor(int width, int height,int currentIndex, vector<pair<stri
 		}
 		if (colorIndex == 0)
 		{
-			gotoXY(width / 4 + 40, height / 4 + currentIndex*2);
+			gotoXY(width / 4 + 40, height / 4 + currentIndex * 2);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), curTextColor.color);
 			cout << redState << "/" << yellowState << "/" << greenState;
 
@@ -294,7 +319,7 @@ void modifyConsoleColor(int width, int height,int currentIndex, vector<pair<stri
 	}
 }
 
-void modifyConsoleSetting(int width, int height, vector<pair<string,string>> configuration, int currentIndex)
+void modifyConsoleSetting(int width, int height, vector<pair<string, string>> configuration, int currentIndex)
 {
 	if (currentIndex == 0)
 	{
@@ -318,17 +343,17 @@ void modifyConsoleSetting(int width, int height, vector<pair<string,string>> con
 
 	if (currentIndex == 4)
 	{
-		modifyConsoleColor(width, height, currentIndex, configuration, curTextColor,nextTextColor);
+		modifyConsoleColor(width, height, currentIndex, configuration, curTextColor, nextTextColor);
 	}
 
 	if (currentIndex == 5)
 	{
-		modifyConsoleColor(width, height, currentIndex, configuration, curHightlightColor,nextHighlightColor);
+		modifyConsoleColor(width, height, currentIndex, configuration, curHightlightColor, nextHighlightColor);
 	}
 
 	if (currentIndex == 6)
 	{
-		modifyConsoleColor(width, height, currentIndex, configuration, curActiveColor,nextActiveColor);
+		modifyConsoleColor(width, height, currentIndex, configuration, curActiveColor, nextActiveColor);
 	}
 
 }
@@ -348,11 +373,6 @@ void confirmConsoleSetting()
 	saveSetting << "activeColor: " << nextActiveColor.color << endl;
 
 	saveSetting.close();
-}
-
-void backAction(bool &back)
-{
-	back = true;
 }
 
 void consoleSetting(int width, int height)
@@ -483,8 +503,11 @@ void consoleSetting(int width, int height)
 
 	}
 }
+#pragma endregion
 
-void drawKeyPadSetting(int width, int height, vector<pair<string, char>> mainKey, vector<pair<string, char>> secondKey, vector<pair<string,char>> controlKey)
+#pragma region Keypad Setting
+
+void drawKeyPadSetting(int width, int height, vector<pair<string, char>> mainKey, vector<pair<string, char>> secondKey, vector<pair<string, char>> controlKey)
 {
 	Color color;
 	getColor(color);
@@ -504,14 +527,14 @@ void drawKeyPadSetting(int width, int height, vector<pair<string, char>> mainKey
 
 		if (i < mainKey.size() - 2)
 		{
-			gotoXY(width / 4 - 20, height / 4 + i*2);
+			gotoXY(width / 4 - 20, height / 4 + i * 2);
 			cout << mainKey[i].first;
-			gotoXY(width / 4 - 20 + 10, height / 4 + i*2);
+			gotoXY(width / 4 - 20 + 10, height / 4 + i * 2);
 			cout << mainKey[i].second;
 		}
 		else
 		{
-			gotoXY(width / 4 - 20, height / 4 + i*2);
+			gotoXY(width / 4 - 20, height / 4 + i * 2);
 			cout << mainKey[i].first;
 		}
 	}
@@ -520,14 +543,14 @@ void drawKeyPadSetting(int width, int height, vector<pair<string, char>> mainKey
 	{
 		if (i < secondKey.size() - 2)
 		{
-			gotoXY(width / 4 + 20, height / 4 + i*2);
+			gotoXY(width / 4 + 20, height / 4 + i * 2);
 			cout << secondKey[i].first;
-			gotoXY(width / 4 + 10 + 20, height / 4 + i*2);
+			gotoXY(width / 4 + 10 + 20, height / 4 + i * 2);
 			cout << secondKey[i].second;
 		}
 		else
 		{
-			gotoXY(width / 4 + 20, height / 4 + i*2);
+			gotoXY(width / 4 + 20, height / 4 + i * 2);
 			cout << secondKey[i].first;
 		}
 	}
@@ -536,25 +559,25 @@ void drawKeyPadSetting(int width, int height, vector<pair<string, char>> mainKey
 	{
 		if (i < controlKey.size() - 4)
 		{
-			gotoXY(width / 4 + 60, height / 4 + i*2);
+			gotoXY(width / 4 + 60, height / 4 + i * 2);
 			cout << controlKey[i].first;
-			gotoXY(width / 4 + 10 + 60, height / 4 + i*2);
+			gotoXY(width / 4 + 10 + 60, height / 4 + i * 2);
 			cout << controlKey[i].second;
 		}
 		else
 		{
-			gotoXY(width / 4 + 60, height / 4 + i*2);
+			gotoXY(width / 4 + 60, height / 4 + i * 2);
 			cout << controlKey[i].first;
 		}
 	}
 
 }
 
-void confirmKeyPad(vector<pair<string, char>> mainKey, vector<pair<string, char>> secondKey,vector<pair<string, char>> controlKey)
+void confirmKeyPad(vector<pair<string, char>> mainKey, vector<pair<string, char>> secondKey, vector<pair<string, char>> controlKey)
 {
 
 	ofstream keypadMain;
-	
+
 	keypadMain.open("text/mainplayer_key.txt");
 
 	keypadMain << "up: " << mainKey[0].second << endl;
@@ -628,9 +651,9 @@ void keypadSetting(int width, int height)
 	secondKey.push_back(make_pair("FIGHT:", secondPlayer.attack));
 	secondKey.push_back(make_pair("", 'a'));
 	secondKey.push_back(make_pair("", 'a'));
-	
+
 	vector<pair<string, char>> controlKey;
-	controlKey.push_back(make_pair("BACK:",controlGame.back));
+	controlKey.push_back(make_pair("BACK:", controlGame.back));
 	controlKey.push_back(make_pair("UNDO:", controlGame.undo));
 	controlKey.push_back(make_pair("SAVE:", controlGame.save));
 	controlKey.push_back(make_pair("", 'a'));
@@ -638,7 +661,7 @@ void keypadSetting(int width, int height)
 	controlKey.push_back(make_pair("", 'a'));
 	controlKey.push_back(make_pair("", 'a'));
 
-	drawKeyPadSetting(width, height, mainKey, secondKey,controlKey);
+	drawKeyPadSetting(width, height, mainKey, secondKey, controlKey);
 
 
 
@@ -653,7 +676,7 @@ void keypadSetting(int width, int height)
 		char key = _getch();
 		if (key == 75)
 		{
-			if (currentX == width/4 - 20)
+			if (currentX == width / 4 - 20)
 			{
 				currentX = currentX;
 			}
@@ -662,12 +685,12 @@ void keypadSetting(int width, int height)
 				currentX = currentX - 40;
 			}
 
-			
+
 		}
 
 		if (key == 77)
 		{
-			if (currentX == width/4 + 60)
+			if (currentX == width / 4 + 60)
 			{
 				currentX = currentX;
 			}
@@ -676,12 +699,12 @@ void keypadSetting(int width, int height)
 				currentX = currentX + 40;
 			}
 
-			
+
 		}
 
 		if (key == 72)
 		{
-			if (currentY == height/4)
+			if (currentY == height / 4)
 			{
 				currentY = currentY;
 				currentIndex = currentIndex;
@@ -692,7 +715,7 @@ void keypadSetting(int width, int height)
 				currentIndex--;
 			}
 
-			
+
 		}
 
 		if (key == 80)
@@ -709,21 +732,21 @@ void keypadSetting(int width, int height)
 			}
 		}
 
-		drawKeyPadSetting(width, height, mainKey, secondKey,controlKey);
+		drawKeyPadSetting(width, height, mainKey, secondKey, controlKey);
 
 		gotoXY(currentX, currentY);
 
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
 
-		if (currentX == width/4 - 20)
+		if (currentX == width / 4 - 20)
 		{
 			cout << mainKey[currentIndex].first;
 		}
-		if (currentX == width/4 +20)
+		if (currentX == width / 4 + 20)
 		{
 			cout << secondKey[currentIndex].first;
 		}
-		if (currentX == width/4 +60)
+		if (currentX == width / 4 + 60)
 		{
 			cout << controlKey[currentIndex].first;
 		}
@@ -734,7 +757,7 @@ void keypadSetting(int width, int height)
 		{
 			if (currentIndex < mainKey.size() - 2)
 			{
-				drawKeyPadSetting(width, height, mainKey, secondKey,controlKey);
+				drawKeyPadSetting(width, height, mainKey, secondKey, controlKey);
 
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.activeColor);
 
@@ -782,7 +805,7 @@ void keypadSetting(int width, int height)
 
 							cout << temp_key;
 
-							if (currentX == width / 4-20)
+							if (currentX == width / 4 - 20)
 							{
 								mainKey[currentIndex].second = temp_key;
 							}
@@ -790,7 +813,7 @@ void keypadSetting(int width, int height)
 							{
 								secondKey[currentIndex].second = temp_key;
 							}
-							if (currentX == width/4 +60)
+							if (currentX == width / 4 + 60)
 							{
 								controlKey[currentIndex].second = temp_key;
 							}
@@ -861,6 +884,818 @@ void keypadSetting(int width, int height)
 
 }
 
+#pragma endregion
+
+#pragma region Gameplay Config
+void drawColorStateConfig(vector<pair<string, string>> configuration, int currentIndex, ColorState nextColor, Color color)
+{
+	int colorIndex;
+
+	if (nextColor.color == yellow)
+	{
+		colorIndex = 0;
+	}
+	if (nextColor.color == red)
+	{
+		colorIndex = -1;
+	}
+	if (nextColor.color == green)
+	{
+		colorIndex = 1;
+	}
+
+	string redState = configuration[currentIndex].second.substr(0, 3);
+	string yellowState = configuration[currentIndex].second.substr(4, 6);
+	string greenState = configuration[currentIndex].second.substr(11, 5);
+
+	if (colorIndex == 0)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << redState;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+		cout << yellowState;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << greenState;
+	}
+
+	if (colorIndex == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << redState;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << yellowState;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+		cout << greenState;
+	}
+
+	if (colorIndex == -1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+		cout << redState;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << yellowState;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << greenState;
+	}
+}
+
+void drawPriorityConfigPvP(int width, int height, int currentIndex, Priority prior, vector<pair<string, string>> configuration)
+{
+	Color color;
+	getColor(color);
+
+	string mainState = configuration[currentIndex].second.substr(0, 4);
+	string secondState = configuration[currentIndex].second.substr(5, 6);
+
+	gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+
+	if (prior.prior == "main")
+	{
+		gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+		cout << mainState;
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << secondState;
+
+		gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+
+	}
+
+	if (prior.prior == "second")
+	{
+		gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << mainState;
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+		cout << secondState;
+
+		gotoXY(width / 4 + 30 + 5, height / 4 + currentIndex * 2);
+
+	}
+
+}
+
+void drawPriorityConfigPvC(int width, int height, int currentIndex, Priority prior, vector<pair<string, string>> configuration)
+{
+	Color color;
+	getColor(color);
+
+	string mainState = configuration[currentIndex].second.substr(0, 6);
+	string secondState = configuration[currentIndex].second.substr(7, 3);
+
+	gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+
+	if (prior.prior == "player")
+	{
+		gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+		cout << mainState;
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << secondState;
+
+		gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+
+	}
+
+	if (prior.prior == "bot")
+	{
+		gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << mainState;
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+		cout << "/";
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+		cout << secondState;
+
+		gotoXY(width / 4 + 30 + 7, height / 4 + currentIndex * 2);
+
+	}
+
+}
+
+void drawGamePlayPvP(int width, int height, vector<pair<string, string>> configuration, Priority prior)
+{
+	Color color;
+	getColor(color);
+
+	for (int i = 0; i < configuration.size(); i++)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+
+		if (i < configuration.size() - 2)
+		{
+			gotoXY(width / 4, height / 4 + i * 2);
+			cout << configuration[i].first;
+
+			gotoXY(width / 4 + 30, height / 4 + i * 2);
+
+			if (i == 3)
+			{
+				drawColorStateConfig(configuration, i, nextBoardColor_PvP, color);
+			}
+			if (i == 5)
+			{
+				drawColorStateConfig(configuration, i, nextMainPlayer, color);
+			}
+			if (i == 6)
+			{
+				drawColorStateConfig(configuration, i, nextSecondPlayer, color);
+			}
+
+			if (i == 4)
+			{
+				drawPriorityConfigPvP(width, height, i, prior, configuration);
+			}
+
+			if (i != 3 && i != 5 && i != 6 && i != 4)
+			{
+				cout << configuration[i].second;
+			}
+		}
+		else
+		{
+			gotoXY(width / 4, height / 4 + i * 2);
+			cout << configuration[i].first;
+		}
+	}
+
+
+}
+
+void drawGamePlayPvC(int width, int height, vector<pair<string, string>> configuration, Priority prior)
+{
+	Color color;
+	getColor(color);
+
+
+
+	for (int i = 0; i < configuration.size(); i++)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+
+		if (i < configuration.size() - 2)
+		{
+			gotoXY(width / 4, height / 4 + i * 2);
+			cout << configuration[i].first;
+
+			gotoXY(width / 4 + 30, height / 4 + i * 2);
+
+			if (i == 3)
+			{
+				drawColorStateConfig(configuration, i, nextBoardColor_PvC, color);
+			}
+			if (i == 5)
+			{
+				drawColorStateConfig(configuration, i, nextPlayerColor, color);
+			}
+			if (i == 6)
+			{
+				drawColorStateConfig(configuration, i, nextBotColor, color);
+			}
+
+			if (i == 4)
+			{
+				drawPriorityConfigPvC(width, height, i, prior, configuration);
+			}
+
+			if (i != 3 && i != 5 && i != 6 && i != 4)
+			{
+				cout << configuration[i].second;
+			}
+		}
+		else
+		{
+			gotoXY(width / 4, height / 4 + i * 2);
+			cout << configuration[i].first;
+		}
+	}
+
+
+}
+
+void configIcon(int width, int height, int currentIndex, vector<pair<string, string>> &configuration)
+{
+	gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+	Color color;
+	getColor(color);
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+
+	int index = 0;
+
+
+	while (1)
+	{
+		char tempKey = _getch();
+
+		if (tempKey == 27)
+		{
+			break;
+		}
+
+		if (index % 2 != 0)
+		{
+			string icon(1, tempKey);
+			configuration[currentIndex].second = icon;
+
+			gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+
+			cout << icon;
+		}
+
+		index++;
+
+	}
+}
+
+void configColor(int width, int height, vector<pair<string, string>> configuration, int currentIndex, ColorState currentColor, ColorState &nextColor)
+{
+	Color color;
+	getColor(color);
+
+
+	int colorIndex;
+
+	if (nextColor.color == yellow)
+	{
+		colorIndex = 0;
+	}
+
+	if (nextColor.color == red)
+	{
+		colorIndex = -1;
+	}
+
+	if (nextColor.color == green)
+	{
+		colorIndex = 1;
+	}
+	gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+
+	drawColorStateConfig(configuration, currentIndex, nextColor, color);
+
+	while (1)
+	{
+		char tempKey = _getch();
+		if (tempKey == arrowLeft)
+		{
+			if (colorIndex == -1)
+			{
+				colorIndex = colorIndex;
+			}
+			else
+			{
+				colorIndex--;
+			}
+		}
+
+		if (tempKey == arrowRight)
+		{
+
+			if (colorIndex == 1)
+			{
+				colorIndex = colorIndex;
+			}
+			else
+			{
+				colorIndex++;
+			}
+		}
+
+		gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+
+		if (colorIndex == 1)
+		{
+			nextColor.color = green;
+		}
+		if (colorIndex == -1)
+		{
+			nextColor.color = red;
+		}
+		if (colorIndex == 0)
+		{
+			nextColor.color = yellow;
+		}
+
+		drawColorStateConfig(configuration, currentIndex, nextColor, color);
+
+		if (tempKey == escKey)
+		{
+
+			if (colorIndex == 1)
+			{
+				nextColor.color = green;
+			}
+			if (colorIndex == -1)
+			{
+				nextColor.color = red;
+			}
+			if (colorIndex == 0)
+			{
+				nextColor.color = yellow;
+			}
+
+			gotoXY(width / 4, height / 4 + currentIndex * 2);
+			break;
+
+		}
+
+	}
+
+}
+
+void configBoard(int width, int height, int currentIndex, vector<pair<string, string>> &configuration)
+{
+	Color color;
+	getColor(color);
+
+	gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);
+	string size;
+	cin >> size;
+
+	configuration[currentIndex].second = size;
+
+}
+
+void configPriorityPvP(int width, int height, vector<pair<string, string>> configuration, int currentIndex, Priority &prior)
+{
+	Color color;
+	getColor(color);
+
+
+
+	while (1)
+	{
+		char tempKey = _getch();
+
+		if (tempKey == arrowLeft)
+		{
+			prior.prior = "main";
+		}
+		if (tempKey == arrowRight)
+		{
+			prior.prior = "second";
+		}
+		if (tempKey == escKey)
+		{
+			break;
+		}
+
+		drawPriorityConfigPvP(width, height, currentIndex, prior, configuration);
+	}
+
+
+
+}
+
+void configPriorityPvC(int width, int height, vector<pair<string, string>> configuration, int currentIndex, Priority &prior)
+{
+	Color color;
+	getColor(color);
+
+
+
+	while (1)
+	{
+		char tempKey = _getch();
+
+		if (tempKey == arrowLeft)
+		{
+			prior.prior = "player";
+		}
+		if (tempKey == arrowRight)
+		{
+			prior.prior = "bot";
+		}
+		if (tempKey == escKey)
+		{
+			break;
+		}
+
+		drawPriorityConfigPvC(width, height, currentIndex, prior, configuration);
+	}
+
+
+
+}
+
+void confirmPvPConfig(vector<pair<string, string>> configuration)
+{
+	ofstream pvpConfig;
+	pvpConfig.open("text/pvp_config.txt");
+
+	pvpConfig << "mainIcon: " << configuration[0].second << endl;
+	pvpConfig << "secondIcon: " << configuration[1].second << endl;
+	pvpConfig << "boardSize: " << configuration[2].second << endl;
+	pvpConfig << "boardColor: " << nextBoardColor_PvP.color << endl;
+	pvpConfig << "goFirst: " << priorityPvP.prior << endl;
+	pvpConfig << "mainColor: " << nextMainPlayer.color << endl;
+	pvpConfig << "secondColor: " << nextSecondPlayer.color << endl;
+
+	pvpConfig.close();
+
+}
+
+void confirmPvCConfig(vector<pair<string, string>> configuration)
+{
+	ofstream pvcConfig;
+	pvcConfig.open("text/pvc_config.txt");
+
+	pvcConfig << "playerIcon: " << configuration[0].second << endl;
+	pvcConfig << "botIcon: " << configuration[1].second << endl;
+	pvcConfig << "boardSize: " << configuration[2].second << endl;
+	pvcConfig << "boardColor: " << nextBoardColor_PvC.color << endl;
+	pvcConfig << "goFirst: " << priorityPvC.prior << endl;
+	pvcConfig << "playerColor: " << nextPlayerColor.color << endl;
+	pvcConfig << "botColor: " << nextBotColor.color << endl;
+
+	pvcConfig.close();
+
+}
+
+void gameplayPvP(int width, int height)
+{
+	system("cls");
+
+	Color color;
+	getColor(color);
+
+	PvPConfig pvpConfig;
+	getPvPConfig(pvpConfig);
+
+	curBoardColor_PvP.color = pvpConfig.boardColor;
+	curMainPlayer.color = pvpConfig.mainColor;
+	curSecondPlayer.color = pvpConfig.secondColor;
+
+	nextBoardColor_PvP.color = curBoardColor_PvP.color;
+	nextMainPlayer.color = curMainPlayer.color;
+	nextSecondPlayer.color = curSecondPlayer.color;
+
+	priorityPvP.prior = pvpConfig.goFirst;
+
+	vector<pair<string, string>> configuration;
+
+	configuration.push_back(make_pair("MAIN PLAYER ICON: ", pvpConfig.mainIcon));
+	configuration.push_back(make_pair("SECOND PLAYER ICON: ", pvpConfig.secondIcon));
+	configuration.push_back(make_pair("BOARD SIZE: ", to_string(pvpConfig.sizeBoard)));
+	configuration.push_back(make_pair("BOARD COLOR: ", "RED/YELLOW/GREEN"));
+	configuration.push_back(make_pair("GO FIRST: ", "MAIN/SECOND"));
+	configuration.push_back(make_pair("MAIN PLAYER COLOR: ", "RED/YELLOW/GREEN"));
+	configuration.push_back(make_pair("SECOND PLAYER COLOR: ", "RED/YELLOW/GREEN"));
+	configuration.push_back(make_pair("CONFIRM", ""));
+	configuration.push_back(make_pair("BACK", ""));
+
+	drawGamePlayPvP(width, height, configuration, priorityPvP);
+
+	int currentX = width / 4;
+	int currentY = height / 4;
+	int currentIndex = 0;
+	bool back = false;
+
+	while (back == false)
+	{
+		char key = _getch();
+
+		if (key == arrowUp)
+		{
+			if (currentY == height / 4)
+			{
+				currentY = currentY;
+				currentIndex = currentIndex;
+			}
+			else
+			{
+				currentY = currentY - 2;
+				currentIndex--;
+			}
+		}
+
+		if (key == arrowDown)
+		{
+			if (currentIndex == configuration.size() - 1)
+			{
+				currentY = currentY;
+				currentIndex = currentIndex;
+			}
+			else
+			{
+				currentY = currentY + 2;
+				currentIndex++;
+			}
+		}
+
+		drawGamePlayPvP(width, height, configuration, priorityPvP);
+
+		gotoXY(currentX, currentY);
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+
+		cout << configuration[currentIndex].first;
+
+		gotoXY(currentX, currentY);
+
+		if (key == 13)
+		{
+			drawGamePlayPvP(width, height, configuration, priorityPvP);
+
+			gotoXY(width / 4, height / 4 + currentIndex * 2);
+
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.activeColor);
+
+			cout << configuration[currentIndex].first;
+
+			gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+
+
+			if (currentIndex == 0 || currentIndex == 1)
+			{
+				configIcon(width, height, currentIndex, configuration);
+			}
+
+			if (currentIndex == 3)
+			{
+				configColor(width, height, configuration, currentIndex, curBoardColor_PvP, nextBoardColor_PvP);
+			}
+
+			if (currentIndex == 5)
+			{
+				configColor(width, height, configuration, currentIndex, curMainPlayer, nextMainPlayer);
+			}
+
+			if (currentIndex == 6)
+			{
+				configColor(width, height, configuration, currentIndex, curSecondPlayer, nextSecondPlayer);
+			}
+
+			if (currentIndex == 2)
+			{
+				configBoard(width, height, currentIndex, configuration);
+			}
+			if (currentIndex == 4)
+			{
+				configPriorityPvP(width, height, configuration, currentIndex, priorityPvP);
+			}
+
+			if (currentIndex == 7)
+			{
+				confirmPvPConfig(configuration);
+				system("cls");
+				break;
+			}
+
+			if (currentIndex == 8)
+			{
+				backAction(back);
+				system("cls");
+			}
+
+
+			gotoXY(currentX, currentY);
+		}
+	}
+}
+
+void gameplayPvC(int width, int height)
+{
+	system("cls");
+
+	Color color;
+	getColor(color);
+
+	PvCConfig pvcConfig;
+	getPvCConfig(pvcConfig);
+
+	curBoardColor_PvC.color = pvcConfig.boardColor;
+	curPlayerColor.color = pvcConfig.playerColor;
+	curBotColor.color = pvcConfig.botColor;
+
+	nextBoardColor_PvC.color = curBoardColor_PvC.color;
+	nextPlayerColor.color = pvcConfig.playerColor;
+	nextBotColor.color = pvcConfig.botColor;
+
+	priorityPvC.prior = pvcConfig.goFirst;
+
+	vector<pair<string, string>> configuration;
+
+	configuration.push_back(make_pair("MAIN PLAYER ICON: ", pvcConfig.playerIcon));
+	configuration.push_back(make_pair("BOT ICON: ", pvcConfig.botIcon));
+	configuration.push_back(make_pair("BOARD SIZE: ", to_string(pvcConfig.sizeBoard)));
+	configuration.push_back(make_pair("BOARD COLOR: ", "RED/YELLOW/GREEN"));
+	configuration.push_back(make_pair("GO FIRST: ", "PLAYER/BOT"));
+	configuration.push_back(make_pair("MAIN PLAYER COLOR: ", "RED/YELLOW/GREEN"));
+	configuration.push_back(make_pair("BOT PLAYER COLOR: ", "RED/YELLOW/GREEN"));
+	configuration.push_back(make_pair("CONFIRM", ""));
+	configuration.push_back(make_pair("BACK", ""));
+
+	drawGamePlayPvC(width, height, configuration, priorityPvC);
+
+	int currentX = width / 4;
+	int currentY = height / 4;
+	int currentIndex = 0;
+	bool back = false;
+
+	while (back == false)
+	{
+		char key = _getch();
+
+		if (key == arrowUp)
+		{
+			if (currentY == height / 4)
+			{
+				currentY = currentY;
+				currentIndex = currentIndex;
+			}
+			else
+			{
+				currentY = currentY - 2;
+				currentIndex--;
+			}
+		}
+
+		if (key == arrowDown)
+		{
+			if (currentIndex == configuration.size() - 1)
+			{
+				currentY = currentY;
+				currentIndex = currentIndex;
+			}
+			else
+			{
+				currentY = currentY + 2;
+				currentIndex++;
+			}
+		}
+
+		drawGamePlayPvC(width, height, configuration, priorityPvC);
+
+		gotoXY(currentX, currentY);
+
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.hightLightColor);
+
+		cout << configuration[currentIndex].first;
+
+		gotoXY(currentX, currentY);
+
+		if (key == 13)
+		{
+			drawGamePlayPvC(width, height, configuration, priorityPvC);
+
+			gotoXY(width / 4, height / 4 + currentIndex * 2);
+
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.activeColor);
+
+			cout << configuration[currentIndex].first;
+
+			gotoXY(width / 4 + 30, height / 4 + currentIndex * 2);
+
+
+			if (currentIndex == 0 || currentIndex == 1)
+			{
+				configIcon(width, height, currentIndex, configuration);
+			}
+
+			if (currentIndex == 3)
+			{
+				configColor(width, height, configuration, currentIndex, curBoardColor_PvC, nextBoardColor_PvC);
+			}
+
+			if (currentIndex == 5)
+			{
+				configColor(width, height, configuration, currentIndex, curPlayerColor, nextPlayerColor);
+			}
+
+			if (currentIndex == 6)
+			{
+				configColor(width, height, configuration, currentIndex, curBotColor, nextBotColor);
+			}
+
+			if (currentIndex == 2)
+			{
+				configBoard(width, height, currentIndex, configuration);
+			}
+			if (currentIndex == 4)
+			{
+				configPriorityPvC(width, height, configuration, currentIndex, priorityPvC);
+			}
+
+			if (currentIndex == 7)
+			{
+				confirmPvCConfig(configuration);
+				system("cls");
+				break;
+			}
+
+			if (currentIndex == 8)
+			{
+				backAction(back);
+				system("cls");
+			}
+
+
+			gotoXY(currentX, currentY);
+		}
+	}
+
+}
+
+void gameplayConfig(int width, int height)
+{
+	system("cls");
+	vector<string> type = { "PLAYER VS PLAYER","PLAYER VS COMPUTER", "BACK" };
+
+	bool back = false;
+
+	while (back == false)
+	{
+		int choice = controlMenuByArrow(type);
+
+		if (choice == 0)
+		{
+			gameplayPvP(width, height);
+		}
+
+		if (choice == 1)
+		{
+			gameplayPvC(width, height);
+		}
+
+		if (choice == 2)
+		{
+			backAction(back);
+		}
+	}
+
+}
+#pragma endregion
+
+
 void option()
 {
 	int width = getConsoleWidth();
@@ -886,7 +1721,7 @@ void option()
 		}
 		if (choice == 2)
 		{
-
+			gameplayConfig(width, height);
 		}
 		if (choice == 3)
 		{
