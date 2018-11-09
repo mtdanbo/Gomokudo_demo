@@ -1,6 +1,6 @@
 mainIcon: X
 secondIcon: O
-boardSize: 20
+boardSize: 5
 boardColor: 14
 goFirst: main
 mainColor: 12

@@ -5,21 +5,21 @@ int menu() {
 	getColor(color);
 
 
-	Sleep(1500);
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), yellow);
-	ifstream menu;
-	menu.open("text/intro.txt");
-	while (!menu.eof())
-	{
-		char ascii;
-		menu.get(ascii);
-		cout << ascii;
-		Sleep(3);
-	}
+	//Sleep(1500);
+	//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), yellow);
+	//ifstream menu;
+	//menu.open("text/intro.txt");
+	//while (!menu.eof())
+	//{
+	//	char ascii;
+	//	menu.get(ascii);
+	//	cout << ascii;
+	//	Sleep(3);
+	//}
 	int state = 0;
 	int cursor_x = 80 / 2 + 10;
 	int cursor_y = 15;
-	string menuContent[] = { "Start game", "Load game","Option","About game", "Leaderboard", "Quit game" };
+	string menuContent[] = { "Start game", "Load game","Option","About game", "Leaderboard", "Quit game","Rule demo" };
 	int menuLength = sizeof(menuContent) / sizeof(menuContent[0]);
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color.textColor);

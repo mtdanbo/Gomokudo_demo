@@ -1,2 +1,0 @@
-winner O_Bot
-looser X_Player

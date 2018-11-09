@@ -1,7 +1,2 @@
-demo
-demo2
-demo3
-mtdanbo
-mtdanbo1
-save1
-abc
+triet
+triet1

@@ -27,7 +27,7 @@ void animateP1Win(int size) {
 
 			ifstream p1win;
 			p1win.open("text/p1win.txt");
-			gotoXY(0, size + 5);
+			gotoXY(0, size * 2 + 2);
 			while (!p1win.eof())
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), i);
@@ -38,7 +38,7 @@ void animateP1Win(int size) {
 
 		}
 	}
-	gotoXY(0, size + 5);
+	gotoXY(0, size * 2 + 2);
 	ifstream p1win;
 	p1win.open("text/p1win.txt");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), red);
@@ -59,7 +59,7 @@ void animateP2Win(int size) {
 
 			ifstream p2win;
 			p2win.open("text/p2win.txt");
-			gotoXY(0, size + 5);
+			gotoXY(0, size * 2 + 2);
 			while (!p2win.eof())
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), i);
@@ -70,7 +70,7 @@ void animateP2Win(int size) {
 
 		}
 	}
-	gotoXY(0, size + 5);
+	gotoXY(0, size * 2 + 2);
 	ifstream p2win;
 	p2win.open("text/p2win.txt");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), green);
@@ -92,7 +92,7 @@ void animateBotWin(int size) {
 
 			ifstream botwin;
 			botwin.open("text/botwin.txt");
-			gotoXY(0, size + 5);
+			gotoXY(0, size * 2 + 2);
 			while (!botwin.eof())
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), i);
@@ -103,7 +103,7 @@ void animateBotWin(int size) {
 
 		}
 	}
-	gotoXY(0, size + 5);
+	gotoXY(0, size * 2 + 2);
 	ifstream botwin;
 	botwin.open("text/botwin.txt");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), green);
@@ -116,8 +116,42 @@ void animateBotWin(int size) {
 
 }
 
+void animateDraw(int size) {
+
+	for (int k = 0; k < 50; k++)
+	{
+		for (int i = 10; i < 15; i++)
+		{
+
+			ifstream p1win;
+			p1win.open("text/draw.txt");
+			gotoXY(0, size * 2 + 2);
+			while (!p1win.eof())
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), i);
+				char ascii;
+				p1win.get(ascii);
+				cout << ascii;
+			}
+
+		}
+	}
+	gotoXY(0, size * 2 + 2);
+	ifstream p1win;
+	p1win.open("text/draw.txt");
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), red);
+	while (!p1win.eof())
+	{
+		char word;
+		p1win.get(word);
+		cout << word;
+	}
+
+}
+
 int controlMenuByArrow(vector<string> data)
 {
+	system("cls");
 	Color color;
 	getColor(color);
 
@@ -170,6 +204,8 @@ int controlMenuByArrow(vector<string> data)
 		{
 			return currentIndex;
 		}
+
+
 
 		for (int i = 0; i < data.size(); i++)
 		{

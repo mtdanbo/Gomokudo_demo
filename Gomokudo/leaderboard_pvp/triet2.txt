@@ -1,0 +1,2 @@
+winner O_Player2
+looser X_Player1

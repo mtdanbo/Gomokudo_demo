@@ -138,6 +138,7 @@
     <ClCompile Include="option.cpp" />
     <ClCompile Include="pvc.cpp" />
     <ClCompile Include="pvp.cpp" />
+    <ClCompile Include="rule.cpp" />
     <ClCompile Include="save.cpp" />
     <ClCompile Include="start.cpp" />
     <ClCompile Include="undo.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="option.h" />
     <ClInclude Include="pvc.h" />
     <ClInclude Include="pvp.h" />
+    <ClInclude Include="rule.h" />
     <ClInclude Include="save.h" />
     <ClInclude Include="start.h" />
     <ClInclude Include="undo.h" />

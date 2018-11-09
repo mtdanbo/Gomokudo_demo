@@ -1,6 +1,8 @@
 #pragma once
 #include "base.h"
 
-int Compute(Object p, int size, vector<vector<string>> Board);
+int ComputeN(Object p, int size, vector<vector<string>> Board);
 
-int computeVertical(vector<vector<string>>Board, int size, Object p);
+int Compute3(Object p, int size, vector<vector<string>> Board);
+
+int Compute4(Object p, int size, vector<vector<string>> Board);

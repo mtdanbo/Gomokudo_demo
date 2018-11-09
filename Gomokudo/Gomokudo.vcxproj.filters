@@ -72,6 +72,9 @@
     <ClCompile Include="option.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="rule.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="option.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

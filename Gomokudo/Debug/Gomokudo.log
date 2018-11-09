@@ -1,16 +1,8 @@
-﻿  option.cpp
-f:\gomokudo\gomokudo\option.cpp(113): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(473): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(519): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(522): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(536): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(538): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(552): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(554): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(752): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(846): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(1038): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(1042): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(1089): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\option.cpp(1093): warning C4018: '<': signed/unsigned mismatch
+﻿  load.cpp
+f:\gomokudo\gomokudo\load.cpp(329): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(343): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(1086): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(1100): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(286): warning C4715: 'loadSaveFile_PvP': not all control paths return a value
+f:\gomokudo\gomokudo\load.cpp(1043): warning C4715: 'loadSaveFile_PvC': not all control paths return a value
   Gomokudo.vcxproj -> F:\Gomokudo\Debug\Gomokudo.exe

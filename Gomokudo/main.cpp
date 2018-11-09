@@ -8,7 +8,7 @@ int main() {
 	//intro();
 	COORD size;
 	size.X = 114;
-	size.Y = 27;
+	size.Y = 1174;
 	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), size);
 
 	setCursorSize(smallCursor);
@@ -42,6 +42,10 @@ int main() {
 			break;
 		case 5:
 			quitGame = 1;
+			break;
+		case 6:
+			rule8();
 		}
+
 	}
 }

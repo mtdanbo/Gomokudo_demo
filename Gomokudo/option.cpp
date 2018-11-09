@@ -1405,10 +1405,10 @@ void gameplayPvP(int width, int height)
 	configuration.push_back(make_pair("MAIN PLAYER ICON: ", pvpConfig.mainIcon));
 	configuration.push_back(make_pair("SECOND PLAYER ICON: ", pvpConfig.secondIcon));
 	configuration.push_back(make_pair("BOARD SIZE: ", to_string(pvpConfig.sizeBoard)));
-	configuration.push_back(make_pair("BOARD COLOR: ", "RED/YELLOW/GREEN"));
+	configuration.push_back(make_pair("BOARD COLOR: ", "RED/YELLOW/GREEN/BLUE"));
 	configuration.push_back(make_pair("GO FIRST: ", "MAIN/SECOND"));
-	configuration.push_back(make_pair("MAIN PLAYER COLOR: ", "RED/YELLOW/GREEN"));
-	configuration.push_back(make_pair("SECOND PLAYER COLOR: ", "RED/YELLOW/GREEN"));
+	configuration.push_back(make_pair("MAIN PLAYER COLOR: ", "RED/YELLOW/GREEN/BLUE"));
+	configuration.push_back(make_pair("SECOND PLAYER COLOR: ", "RED/YELLOW/GREEN/BLUE"));
 	configuration.push_back(make_pair("CONFIRM", ""));
 	configuration.push_back(make_pair("BACK", ""));
 

@@ -8,5 +8,6 @@
 #include "load.h"
 #include "undo.h"
 #include "leaderboard.h"
+#include "rule.h"
 
 int PvP_mode();

@@ -20,6 +20,9 @@ void setCursorSize(int size);
 const int red = 12;
 const int yellow = 14;
 const int green = 10;
+const int blue = 11;
+const int purple = 13;
+const int grey = 8;
 
 /*-------Cursor Size-------*/
 const int smallCursor = 20;
@@ -35,8 +38,8 @@ const int escKey = 27;
 /*-------------Create object and point--------------*/
 struct Object
 {
-	int x = 0;
-	int y = 0;
+	int x = 2;
+	int y = 1;
 	string icon;
 	int win;
 	int color;

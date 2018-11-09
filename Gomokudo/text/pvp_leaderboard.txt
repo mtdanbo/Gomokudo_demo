@@ -1,0 +1,6 @@
+triet1
+triet2
+triet3
+triet4
+triet5
+triet
