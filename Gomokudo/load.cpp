@@ -37,6 +37,7 @@ int loadSaveFile_PvP()
 	figure.open("save_pvp/" + filename + "figure.txt");
 
 	int size;
+	int rule;
 	Object player1;
 	Object player2;
 
@@ -47,6 +48,7 @@ int loadSaveFile_PvP()
 	figure >> player2.color;
 	figure >> player1.turn;
 	figure >> player2.turn;
+
 
 	//Set property of the board
 	system("cls");
@@ -1136,6 +1138,854 @@ void loadPvC() {
 }
 #pragma endregion
 
+
+#pragma region Load rule mode
+
+#pragma region Load game Rule 1
+int loadSaveFile_Rule1()
+{
+#pragma region Initial Start
+
+	system("cls");
+
+	PvPConfig pvpConfig;
+	getPvPConfig(pvpConfig);
+
+	// Show saved file
+	ifstream savelistRead;
+	savelistRead.open("text/rule1_savelist.txt");
+	vector<string> fileName;
+
+	while (!savelistRead.eof())
+	{
+		string temp;
+		savelistRead >> temp;
+		fileName.push_back(temp);
+	}
+
+	savelistRead.close();
+
+	fileName.pop_back();
+#pragma endregion
+
+	if (fileName.size() > 0)
+	{
+		int choice = controlMenuByArrow(fileName);
+		string filename = fileName[choice];
+
+
+
+#pragma region Set Property
+
+		// Set figure
+		ifstream figure;
+		figure.open("save_rule1/" + filename + "figure.txt");
+
+		int size;
+		int rule;
+		Object player1;
+		Object player2;
+		Object obstacle;
+
+		figure >> size;
+		figure >> player1.icon;
+		figure >> player1.color;
+		figure >> player2.icon;
+		figure >> player2.color;
+		figure >> obstacle.icon;
+		figure >> obstacle.color;
+		figure >> player1.turn;
+		figure >> player2.turn;
+
+
+		//Set property of the board
+		system("cls");
+		vector<string> temp = { 100,"_" };
+		vector<vector<string>> board{ 100,temp };
+
+		ifstream player1Move;
+		player1Move.open("save_rule1/" + filename + "p1.txt");
+		int player1X;
+		int player1Y;
+		while (!player1Move.eof())
+		{
+			player1Move >> player1X;
+			player1Move >> player1Y;
+
+			if (player1X >= 0 && player1Y >= 0)
+			{
+				board[player1X][player1Y] = player1.icon;
+			}
+
+		}
+		player1Move.close();
+
+		ifstream player2Move;
+		player2Move.open("save_rule1/" + filename + "p2.txt");
+		int player2X;
+		int player2Y;
+		while (!player2Move.eof())
+		{
+			player2Move >> player2X;
+			player2Move >> player2Y;
+			if (player2X >= 0 && player2Y >= 0)
+			{
+				board[player2X][player2Y] = player2.icon;
+			}
+
+		}
+		player2Move.close();
+
+		ifstream obstacleMove;
+		obstacleMove.open("save_rule1/" + filename + "o.txt");
+		int obstacleX;
+		int obstacleY;
+		while (!obstacleMove.eof())
+		{
+			obstacleMove >> obstacleX;
+			obstacleMove >> obstacleY;
+			if (obstacleX >= 0 && obstacleY >= 0)
+			{
+				board[obstacleX][obstacleY] = obstacle.icon;
+			}
+
+		}
+		obstacleMove.close();
+
+		board = drawBoardRule1(size, board, player1, player2, obstacle, pvpConfig.boardColor, size*size / 8);
+
+		int goFirst = 0;
+
+		if (player1.turn == 1 && player2.turn == 0)
+		{
+			goFirst = 1;
+		}
+		if (player1.turn == 0 && player2.turn == 1)
+		{
+			goFirst = 2;
+		}
+
+#pragma endregion
+
+		while (1)
+		{
+			if (player1.turn == 1 && player2.turn == 0)
+			{
+#pragma region Player 1 Zone
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player1.color);
+				gotoXY(player1.x, player1.y);
+
+				// Require the use control p1
+				player1 = mainControl(player1, size, board);
+
+				if (player1.undo != 1 && player1.save != 1 && player1.quit != 1)
+				{
+					board[(player1.x - 2) / 4][(player1.y - 1) / 2] = player1.icon;
+					player1.historyMove.push_back(make_pair((player1.x - 2) / 4, (player1.y - 1) / 2));
+
+
+					// Compute p1 win or loose
+					if (size > 4)
+					{
+						player1.win = ComputeN(player1, size, board);
+					}
+					if (size == 3)
+					{
+						player1.win = Compute3(player1, size, board);
+					}
+					if (size == 4)
+					{
+						player1.win = Compute4(player1, size, board);
+					}
+
+				}
+
+				//Change turn
+				player1.turn = 0;
+				player2.turn = 1;
+
+				// Win algorithm
+				if (player1.win == 1)
+				{
+					animateP1Win(size);
+
+					leaderboard_pvp_save(player1, player2, size, board);
+
+					break;
+				}
+
+				// Undo algorithm
+				if (player1.undo == 1 || player2.undo == 1)
+				{
+					undop1Rule1(player1, player2, obstacle, board, size, goFirst, size*size / 8);
+				}
+
+				// Save algorithm
+				if (player1.save == 1 || player2.save == 1)
+				{
+					saveRule1(board, size, player1, player2, obstacle);
+					break;
+				}
+
+				// Quit algorithm
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
+				}
+
+				int checkDraw = 1;
+
+				for (int x = 0; x < size; x++)
+				{
+					for (int y = 0; y < size; y++)
+					{
+
+						if (board[x][y] == "_")
+						{
+							checkDraw = 0;
+						}
+
+					}
+				}
+
+				if (checkDraw == 1)
+				{
+					animateDraw(size);
+					leaderboard_pvp_save(player1, player2, size, board);
+					break;
+				}
+
+#pragma endregion
+			}
+
+			if (player2.turn == 1 && player1.turn == 0)
+			{
+#pragma region Player 2 Zone
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player2.color);
+				gotoXY(player2.x, player2.y);
+
+				// Require the use control p2
+				player2 = secondControl(player2, size, board);
+
+				if (player2.undo != 1 && player2.save != 1 && player2.quit != 1)
+				{
+					board[(player2.x - 2) / 4][(player2.y - 1) / 2] = player2.icon;
+					player2.historyMove.push_back(make_pair((player2.x - 2) / 4, (player2.y - 1) / 2));
+
+					// Compute p2 win or loose
+
+					if (size > 4)
+					{
+						player2.win = ComputeN(player2, size, board);
+					}
+					if (size == 3)
+					{
+						player2.win = Compute3(player2, size, board);
+					}
+					if (size == 4)
+					{
+						player2.win = Compute4(player2, size, board);
+					}
+
+				}
+
+				player1.turn = 1;
+				player2.turn = 0;
+
+				// Win algorithm
+				if (player2.win == 1)
+				{
+					animateP2Win(size);
+					leaderboard_pvp_save(player1, player2, size, board);
+
+					break;
+				}
+
+				// Undo algorithm
+				if (player1.undo == 1 || player2.undo == 1)
+				{
+					undop2Rule1(player1, player2, obstacle, board, size, goFirst, size*size / 8);
+
+				}
+
+				// Save algoritm
+				if (player1.save == 1 || player2.save == 1)
+				{
+					savePvP(board, size, player1, player2);
+					break;
+				}
+
+				// Quit algorithm
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
+				}
+
+				int checkDraw = 1;
+
+				for (int x = 0; x < size; x++)
+				{
+					for (int y = 0; y < size; y++)
+					{
+
+						if (board[x][y] == "_")
+						{
+							checkDraw = 0;
+						}
+
+					}
+				}
+
+				if (checkDraw == 1)
+				{
+					animateDraw(size);
+					leaderboard_pvp_save(player1, player2, size, board);
+					break;
+				}
+
+#pragma endregion
+			}
+		}
+
+	}
+	else
+	{
+
+	system("cls");
+	cout << "Error no file to load";
+	system("pause");
+
+	}
+
+}
+
+void deleteSavedFile_Rule1()
+{
+	system("cls");
+
+	// Show saved file
+	ifstream savelistRead;
+	savelistRead.open("text/rule1_savelist.txt");
+	vector<string> fileName;
+
+	while (!savelistRead.eof())
+	{
+		string temp;
+		savelistRead >> temp;
+		fileName.push_back(temp);
+
+	}
+
+	savelistRead.close();
+	fileName.pop_back();
+
+	int choice = controlMenuByArrow(fileName);
+
+
+	string filename = fileName[choice];
+
+
+	for (int i = 0; i < fileName.size(); i++)
+	{
+
+		if (filename == fileName[i])
+		{
+			fileName.erase(fileName.begin() + i);
+			break;
+		}
+
+	}
+
+	ofstream savelistWrite;
+	savelistWrite.open("text/rule1_savelist.txt");
+
+	for (int i = 0; i < fileName.size(); i++)
+	{
+		savelistWrite << fileName[i] << endl;
+	}
+
+	savelistWrite.close();
+
+	string playerOneFile = "save_rule1/" + filename + "p1.txt";
+	string playerTwoFile = "save_rule1/" + filename + "p2.txt";
+	string figureFile = "save_rule1/" + filename + "figure.txt";
+	string obstacleFile = "save_rule1/" + filename + "o.txt";
+
+	const char* playerOneFile1 = playerOneFile.c_str();
+	const char* playerTwoFile1 = playerTwoFile.c_str();
+	const char* figureFile1 = figureFile.c_str();
+	const char* obstacleFile1 = obstacleFile.c_str();
+
+	remove(playerOneFile1);
+	remove(playerTwoFile1);
+	remove(figureFile1);
+	remove(obstacleFile1);
+
+
+}
+
+void loadRule1() {
+
+	vector<string> task = { "Load saved file", "Delete saved file" };
+
+	int choice = controlMenuByArrow(task);
+
+	if (choice == 0)
+	{
+		loadSaveFile_Rule1();
+	}
+
+	if (choice == 1)
+	{
+		deleteSavedFile_Rule1();
+	}
+}
+#pragma endregion
+
+#pragma region Load game Rule 2
+int loadSaveFile_Rule2()
+{
+#pragma region Initial Start
+
+	system("cls");
+
+	PvPConfig pvpConfig;
+	getPvPConfig(pvpConfig);
+
+	// Show saved file
+	ifstream savelistRead;
+	savelistRead.open("text/rule2_savelist.txt");
+	vector<string> fileName;
+
+	while (!savelistRead.eof())
+	{
+		string temp;
+		savelistRead >> temp;
+		fileName.push_back(temp);
+	}
+
+	savelistRead.close();
+
+	fileName.pop_back();
+#pragma endregion
+
+	if (fileName.size() > 0)
+	{
+		int choice = controlMenuByArrow(fileName);
+		string filename = fileName[choice];
+
+
+
+#pragma region Set Property
+
+		// Set figure
+		ifstream figure;
+		figure.open("save_rule2/" + filename + "figure.txt");
+
+		int size;
+		int rule;
+		Object player1;
+		Object player2;
+		Object obstacle;
+
+		figure >> size;
+		figure >> player1.icon;
+		figure >> player1.color;
+		figure >> player2.icon;
+		figure >> player2.color;
+		figure >> obstacle.icon;
+		figure >> obstacle.color;
+		figure >> player1.turn;
+		figure >> player2.turn;
+
+
+		//Set property of the board
+		system("cls");
+		vector<string> temp = { 100,"_" };
+		vector<vector<string>> board{ 100,temp };
+
+		ifstream player1Move;
+		player1Move.open("save_rule2/" + filename + "p1.txt");
+		int player1X;
+		int player1Y;
+		while (!player1Move.eof())
+		{
+			player1Move >> player1X;
+			player1Move >> player1Y;
+
+			if (player1X >= 0 && player1Y >= 0)
+			{
+				board[player1X][player1Y] = player1.icon;
+			}
+
+		}
+		player1Move.close();
+
+		ifstream player2Move;
+		player2Move.open("save_rule2/" + filename + "p2.txt");
+		int player2X;
+		int player2Y;
+		while (!player2Move.eof())
+		{
+			player2Move >> player2X;
+			player2Move >> player2Y;
+			if (player2X >= 0 && player2Y >= 0)
+			{
+				board[player2X][player2Y] = player2.icon;
+			}
+
+		}
+		player2Move.close();
+
+		ifstream obstacleMove;
+		obstacleMove.open("save_rule2/" + filename + "o.txt");
+		int obstacleX;
+		int obstacleY;
+		while (!obstacleMove.eof())
+		{
+			obstacleMove >> obstacleX;
+			obstacleMove >> obstacleY;
+			if (obstacleX >= 0 && obstacleY >= 0)
+			{
+				board[obstacleX][obstacleY] = obstacle.icon;
+			}
+
+		}
+		obstacleMove.close();
+
+		board = drawBoardRule2(size, board, player1, player2, obstacle, pvpConfig.boardColor);
+
+		int goFirst = 0;
+
+		if (player1.turn == 1 && player2.turn == 0)
+		{
+			goFirst = 1;
+		}
+		if (player1.turn == 0 && player2.turn == 1)
+		{
+			goFirst = 2;
+		}
+
+#pragma endregion
+
+		while (1)
+		{
+			if (player1.turn == 1 && player2.turn == 0)
+			{
+#pragma region Player 1 Zone
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player1.color);
+				gotoXY(player1.x, player1.y);
+
+				// Require the use control p1
+				player1 = mainControl(player1, size, board);
+
+				if (player1.undo != 1 && player1.save != 1 && player1.quit != 1)
+				{
+					board[(player1.x - 2) / 4][(player1.y - 1) / 2] = player1.icon;
+					player1.historyMove.push_back(make_pair((player1.x - 2) / 4, (player1.y - 1) / 2));
+
+
+					// Compute p1 win or loose
+					if (size > 4)
+					{
+						player1.win = ComputeN(player1, size, board);
+					}
+					if (size == 3)
+					{
+						player1.win = Compute3(player1, size, board);
+					}
+					if (size == 4)
+					{
+						player1.win = Compute4(player1, size, board);
+					}
+
+				}
+
+				//Change turn
+				player1.turn = 0;
+				player2.turn = 1;
+
+				if (player1.win == 1)
+				{
+					animateP1Win(size);
+
+					leaderboard_pvp_save(player1, player2, size, board);
+
+					break;
+				}
+
+				if (player1.save == 1 || player2.save == 1)
+				{
+					savePvP(board, size, player1, player2);
+					break;
+				}
+
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
+				}
+
+				int checkDraw = 1;
+
+				for (int x = 0; x < size; x++)
+				{
+					for (int y = 0; y < size; y++)
+					{
+
+						if (board[x][y] == "_")
+						{
+							checkDraw = 0;
+						}
+
+					}
+				}
+
+				if (checkDraw == 1)
+				{
+					animateDraw(size);
+					leaderboard_pvp_save(player1, player2, size, board);
+					break;
+				}
+
+				if (player1.undo != 1 && player2.undo != 1)
+				{
+					int randomX = rand() % size;
+					int randomY = rand() % size;
+
+					while (board[randomX][randomY] != "_")
+					{
+						randomX = rand() % size;
+						randomY = rand() % size;
+					}
+
+					gotoXY(randomX * 4 + 2, randomY * 2 + 1);
+
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), purple);
+
+					cout << obstacle.icon;
+					board[randomX][randomY] = obstacle.icon;
+				}
+
+				if (player1.undo == 1 || player2.undo == 1)
+				{
+					undop1Rule2(player1, player2, obstacle, board, size, goFirst);
+				}
+
+				
+
+#pragma endregion
+			}
+
+			if (player2.turn == 1 && player1.turn == 0)
+			{
+#pragma region Player 2 Zone
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), player2.color);
+				gotoXY(player2.x, player2.y);
+
+				// Require the use control p2
+				player2 = secondControl(player2, size, board);
+
+				if (player2.undo != 1 && player2.save != 1 && player2.quit != 1)
+				{
+					board[(player2.x - 2) / 4][(player2.y - 1) / 2] = player2.icon;
+					player2.historyMove.push_back(make_pair((player2.x - 2) / 4, (player2.y - 1) / 2));
+
+					// Compute p2 win or loose
+
+					if (size > 4)
+					{
+						player2.win = ComputeN(player2, size, board);
+					}
+					if (size == 3)
+					{
+						player2.win = Compute3(player2, size, board);
+					}
+					if (size == 4)
+					{
+						player2.win = Compute4(player2, size, board);
+					}
+
+				}
+
+				player1.turn = 1;
+				player2.turn = 0;
+
+
+
+				if (player2.win == 1)
+				{
+					animateP2Win(size);
+					leaderboard_pvp_save(player1, player2, size, board);
+
+					break;
+				}
+
+
+				if (player1.save == 1 || player2.save == 1)
+				{
+					savePvP(board, size, player1, player2);
+					break;
+				}
+
+				if (player1.quit == 1 || player2.quit == 1)
+				{
+					return 0;
+				}
+
+				int checkDraw = 1;
+
+				for (int x = 0; x < size; x++)
+				{
+					for (int y = 0; y < size; y++)
+					{
+
+						if (board[x][y] == "_")
+						{
+							checkDraw = 0;
+						}
+
+					}
+				}
+
+				if (checkDraw == 1)
+				{
+					animateDraw(size);
+					leaderboard_pvp_save(player1, player2, size, board);
+					break;
+				}
+
+				if (player2.undo != 1 && player1.undo != 1)
+				{
+					int randomX = rand() % size;
+
+					int randomY = rand() % size;
+
+					while (board[randomX][randomY] != "_")
+					{
+						randomX = rand() % size;
+						randomY = rand() % size;
+					}
+
+					gotoXY(randomX * 4 + 2, randomY * 2 + 1);
+
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), purple);
+
+					cout << obstacle.icon;
+					board[randomX][randomY] = obstacle.icon;
+				}
+
+				if (player1.undo == 1 || player2.undo == 1)
+				{
+					undop2Rule2(player1, player2, obstacle, board, size, goFirst);
+				}
+
+#pragma endregion
+			}
+		}
+
+	}
+	else
+	{
+
+		system("cls");
+		cout << "Error no file to load";
+		system("pause");
+
+	}
+
+}
+
+void deleteSavedFile_Rule2()
+{
+	system("cls");
+
+	// Show saved file
+	ifstream savelistRead;
+	savelistRead.open("text/rule1_savelist.txt");
+	vector<string> fileName;
+
+	while (!savelistRead.eof())
+	{
+		string temp;
+		savelistRead >> temp;
+		fileName.push_back(temp);
+
+	}
+
+	savelistRead.close();
+	fileName.pop_back();
+
+	int choice = controlMenuByArrow(fileName);
+
+
+	string filename = fileName[choice];
+
+
+	for (int i = 0; i < fileName.size(); i++)
+	{
+
+		if (filename == fileName[i])
+		{
+			fileName.erase(fileName.begin() + i);
+			break;
+		}
+
+	}
+
+	ofstream savelistWrite;
+	savelistWrite.open("text/rule1_savelist.txt");
+
+	for (int i = 0; i < fileName.size(); i++)
+	{
+		savelistWrite << fileName[i] << endl;
+	}
+
+	savelistWrite.close();
+
+	string playerOneFile = "save_rule1/" + filename + "p1.txt";
+	string playerTwoFile = "save_rule1/" + filename + "p2.txt";
+	string figureFile = "save_rule1/" + filename + "figure.txt";
+	string obstacleFile = "save_rule1/" + filename + "o.txt";
+
+	const char* playerOneFile1 = playerOneFile.c_str();
+	const char* playerTwoFile1 = playerTwoFile.c_str();
+	const char* figureFile1 = figureFile.c_str();
+	const char* obstacleFile1 = obstacleFile.c_str();
+
+	remove(playerOneFile1);
+	remove(playerTwoFile1);
+	remove(figureFile1);
+	remove(obstacleFile1);
+
+
+}
+
+void loadRule2() {
+
+	vector<string> task = { "Load saved file", "Delete saved file" };
+
+	int choice = controlMenuByArrow(task);
+
+	if (choice == 0)
+	{
+		loadSaveFile_Rule2();
+	}
+
+	if (choice == 1)
+	{
+		deleteSavedFile_Rule2();
+	}
+}
+#pragma endregion
+
+#pragma endregion
+
+
+
 void load() {
 	int width = getConsoleWidth();
 	int height = getConsoleHeight();
@@ -1146,7 +1996,7 @@ void load() {
 	//animateText(loadIntro);
 	//loadIntro.close();
 
-	vector<string> type = { "PvP mode", "PvC mode" };
+	vector<string> type = { "PvP mode", "PvC mode" , "Rule mode" };
 
 	int choice = controlMenuByArrow(type);
 
@@ -1159,6 +2009,21 @@ void load() {
 	{
 		system("cls");
 		loadPvC();
+	}
+	if (choice == 2)
+	{
+		system("cls");
+		vector<string> rule = { "The story of the rock", "Another enenemy","Turn the tables","Decreasing Size","Take care hidden boom","Restriction","Shooter","Powerful of change" ,"Back" };
+		int ruleChoice = controlMenuByArrow(rule);
+
+		if (ruleChoice == 0)
+		{
+			loadRule1();
+		}
+		if (ruleChoice == 1)
+		{
+			loadRule2();
+		}
 	}
 }
 

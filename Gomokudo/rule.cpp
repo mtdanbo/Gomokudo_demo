@@ -2,6 +2,8 @@
 
 int rule1()
 {
+
+	#pragma region Initial Start
 	PvPConfig pvpConfig;
 
 	getPvPConfig(pvpConfig);
@@ -9,12 +11,10 @@ int rule1()
 	// Initialize player properties
 
 	Object player1;
-	player1.turn = 0;
 	player1.icon = pvpConfig.mainIcon;
 	player1.color = pvpConfig.mainColor;
 
 	Object player2;
-	player2.turn = 0;
 	player2.icon = pvpConfig.secondIcon;
 	player2.color = pvpConfig.secondColor;
 
@@ -48,13 +48,16 @@ int rule1()
 		player1.turn = 0;
 		player2.turn = 1;
 	}
+#pragma endregion
 
 	// Draw the board
 	system("cls");
 	vector<string> temp = { 100,"_" };
 	vector<vector<string>> board{ 100,temp };
 
-	int numRock = 15;
+	#pragma region Initial Num Rock
+
+	int numRock = size * size / 8;
 
 	for (int i = 0; i < numRock; i++)
 	{
@@ -64,9 +67,9 @@ int rule1()
 		board[randomX][randomY] = obstacle.icon;
 	}
 
-	board = drawBoardRule1(size, board, player1, player2, obstacle);
+	#pragma endregion
 
-	
+	board = drawBoardRule1(size, board, player1, player2, obstacle, pvpConfig.boardColor, numRock);
 
 	// Gameplay
 	while (1)
@@ -79,14 +82,26 @@ int rule1()
 			// Require the use control p1
 			player1 = mainControl(player1, size, board);
 
-			if (player1.undo != 1)
+			if (player1.undo != 1 && player1.save != 1 && player1.quit != 1)
 			{
-				board[player1.x / 2][player1.y] = player1.icon;
-				player1.historyMove.push_back(make_pair(player1.x / 2, player1.y));
-
+				board[(player1.x - 2) / 4][(player1.y - 1) / 2] = player1.icon;
+				player1.historyMove.push_back(make_pair((player1.x - 2) / 4, (player1.y - 1) / 2));
 
 				// Compute p1 win or loose
-				player1.win = ComputeN(player1, size, board);
+
+				if (size > 4)
+				{
+					player1.win = ComputeN(player1, size, board);
+				}
+				if (size == 4)
+				{
+					player1.win = Compute4(player1, size, board);
+				}
+				if (size == 3)
+				{
+					player1.win = Compute3(player1, size, board);
+				}
+				
 			}
 
 			player1.turn = 0;
@@ -104,12 +119,12 @@ int rule1()
 
 			if (player1.undo == 1 || player2.undo == 1)
 			{
-				undop1(player1, player2, board, size, goFirst);
+				undop1Rule1(player1, player2, obstacle, board, size, goFirst, numRock);
 			}
 
 			if (player1.save == 1 || player2.save == 1)
 			{
-				savePvP(board, size, player1, player2);
+				saveRule1(board, size, player1, player2,obstacle);
 				break;
 			}
 
@@ -117,6 +132,30 @@ int rule1()
 			{
 				return 0;
 			}
+
+			int checkDraw = 1;
+
+			for (int x = 0; x < size; x++)
+			{
+				for (int y = 0; y < size; y++)
+				{
+
+					if (board[x][y] == "_")
+					{
+						checkDraw = 0;
+					}
+
+				}
+			}
+
+			if (checkDraw == 1)
+			{
+				animateDraw(size);
+				leaderboard_pvp_save(player1, player2, size, board);
+				break;
+			}
+
+
 		}
 
 		if (player2.turn == 1 && player1.turn == 0)
@@ -127,13 +166,26 @@ int rule1()
 			// Require the use control p2
 			player2 = secondControl(player2, size, board);
 
-			if (player2.undo != 1)
+			if (player2.undo != 1 && player2.save != 1 && player2.quit != 1)
 			{
-				board[player2.x / 2][player2.y] = player2.icon;
-				player2.historyMove.push_back(make_pair(player2.x / 2, player2.y));
+				board[(player2.x - 2) / 4][(player2.y - 1) / 2] = player2.icon;
+				player2.historyMove.push_back(make_pair((player2.x - 2) / 4, (player2.y - 1) / 2));
 
 				// Compute p2 win or loose
-				player2.win = ComputeN(player2, size, board);
+				
+
+				if (size > 4)
+				{
+					player2.win = ComputeN(player2, size, board);
+				}
+				if (size == 4)
+				{
+					player2.win = Compute4(player2, size, board);
+				}
+				if (size == 3)
+				{
+					player2.win = Compute3(player2, size, board);
+				}
 			}
 
 			player1.turn = 1;
@@ -149,20 +201,42 @@ int rule1()
 
 			if (player1.undo == 1 || player2.undo == 1)
 			{
-				undop2(player1, player2, board, size, goFirst);
+				undop2Rule1(player1, player2, obstacle, board, size, goFirst, numRock);
 
 			}
 
 
 			if (player1.save == 1 || player2.save == 1)
 			{
-				savePvP(board, size, player1, player2);
+				saveRule1(board, size, player1, player2,obstacle);
 				break;
 			}
 
 			if (player1.quit == 1 || player2.quit == 1)
 			{
 				return 0;
+			}
+
+			int checkDraw = 1;
+
+			for (int x = 0; x < size; x++)
+			{
+				for (int y = 0; y < size; y++)
+				{
+
+					if (board[x][y] == "_")
+					{
+						checkDraw = 0;
+					}
+
+				}
+			}
+
+			if (checkDraw == 1)
+			{
+				animateDraw(size);
+				leaderboard_pvp_save(player1, player2, size, board);
+				break;
 			}
 		}
 	}
@@ -177,12 +251,10 @@ int rule2()
 	// Initialize player properties
 
 	Object player1;
-	player1.turn = 0;
 	player1.icon = pvpConfig.mainIcon;
 	player1.color = pvpConfig.mainColor;
 
 	Object player2;
-	player2.turn = 0;
 	player2.icon = pvpConfig.secondIcon;
 	player2.color = pvpConfig.secondColor;
 
@@ -222,7 +294,8 @@ int rule2()
 	vector<string> temp = { 100,"_" };
 	vector<vector<string>> board{ 100,temp };
 
-	drawBoard(size, board, player1, player2, pvpConfig.boardColor);
+
+	drawBoardRule2(size, board, player1, player2,obstacle, pvpConfig.boardColor);
 
 	// Gameplay
 	while (1)
@@ -235,14 +308,26 @@ int rule2()
 			// Require the use control p1
 			player1 = mainControl(player1, size, board);
 
-			if (player1.undo != 1)
+			if (player1.undo != 1 && player1.save != 1 && player1.quit != 1)
 			{
-				board[player1.x / 2][player1.y] = player1.icon;
-				player1.historyMove.push_back(make_pair(player1.x / 2, player1.y));
-
+				board[(player1.x - 2) / 4][(player1.y - 1) / 2] = player1.icon;
+				player1.historyMove.push_back(make_pair((player1.x - 2) / 4, (player1.y - 1) / 2));
 
 				// Compute p1 win or loose
-				player1.win = ComputeN(player1, size, board);
+
+				if (size > 4)
+				{
+					player1.win = ComputeN(player1, size, board);
+				}
+				if (size == 4)
+				{
+					player1.win = Compute4(player1, size, board);
+				}
+				if (size == 3)
+				{
+					player1.win = Compute3(player1, size, board);
+				}
+
 			}
 
 			player1.turn = 0;
@@ -258,14 +343,11 @@ int rule2()
 				break;
 			}
 
-			if (player1.undo == 1 || player2.undo == 1)
-			{
-				undop1(player1, player2, board, size, goFirst);
-			}
+
 
 			if (player1.save == 1 || player2.save == 1)
 			{
-				savePvP(board, size, player1, player2);
+				saveRule2(board, size, player1, player2,obstacle);
 				break;
 			}
 
@@ -274,21 +356,52 @@ int rule2()
 				return 0;
 			}
 
-			int randomX = rand() % size;
-			int randomY = rand() % size;
+			int checkDraw = 1;
 
-			while (board[randomX][randomY] != "_")
+			for (int x = 0; x < size; x++)
 			{
-				randomX = rand() % size;
-				randomY = rand() % size;
+				for (int y = 0; y < size; y++)
+				{
+
+					if (board[x][y] == "_")
+					{
+						checkDraw = 0;
+					}
+
+				}
 			}
 
-			gotoXY(randomX * 2, randomY);
+			if (checkDraw == 1)
+			{
+				animateDraw(size);
+				leaderboard_pvp_save(player1, player2, size, board);
+				break;
+			}
 
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), purple);
+			if (player1.undo != 1 && player2.undo != 1)
+			{
+				int randomX = rand() % size;
+				int randomY = rand() % size;
 
-			cout << obstacle.icon;
-			board[randomX][randomY] = obstacle.icon;
+				while (board[randomX][randomY] != "_")
+				{
+					randomX = rand() % size;
+					randomY = rand() % size;
+				}
+
+				gotoXY(randomX * 4 + 2, randomY * 2 + 1);
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), purple);
+
+				cout << obstacle.icon;
+				board[randomX][randomY] = obstacle.icon;
+			}
+
+			if (player1.undo == 1 || player2.undo == 1)
+			{
+				undop1Rule2(player1, player2, obstacle, board, size, goFirst);
+			}
+
 		}
 
 		if (player2.turn == 1 && player1.turn == 0)
@@ -299,13 +412,26 @@ int rule2()
 			// Require the use control p2
 			player2 = secondControl(player2, size, board);
 
-			if (player2.undo != 1)
+			if (player2.undo != 1 && player2.save != 1 && player2.quit != 1)
 			{
-				board[player2.x / 2][player2.y] = player2.icon;
-				player2.historyMove.push_back(make_pair(player2.x / 2, player2.y));
+				board[(player2.x - 2) / 4][(player2.y - 1) / 2] = player2.icon;
+				player2.historyMove.push_back(make_pair((player2.x - 2) / 4, (player2.y - 1) / 2));
 
 				// Compute p2 win or loose
-				player2.win = ComputeN(player2, size, board);
+
+
+				if (size > 4)
+				{
+					player2.win = ComputeN(player2, size, board);
+				}
+				if (size == 4)
+				{
+					player2.win = Compute4(player2, size, board);
+				}
+				if (size == 3)
+				{
+					player2.win = Compute3(player2, size, board);
+				}
 			}
 
 			player1.turn = 1;
@@ -319,16 +445,10 @@ int rule2()
 				break;
 			}
 
-			if (player1.undo == 1 || player2.undo == 1)
-			{
-				undop2(player1, player2, board, size, goFirst);
-
-			}
-
 
 			if (player1.save == 1 || player2.save == 1)
 			{
-				savePvP(board, size, player1, player2);
+				saveRule2(board, size, player1, player2,obstacle);
 				break;
 			}
 
@@ -337,26 +457,54 @@ int rule2()
 				return 0;
 			}
 
-			int randomX = rand() % size;
+			int checkDraw = 1;
 
-			int randomY = rand() % size;
-
-			while (board[randomX][randomY] != "_")
+			for (int x = 0; x < size; x++)
 			{
-				randomX = rand() % size;
-				randomY = rand() % size;
+				for (int y = 0; y < size; y++)
+				{
+
+					if (board[x][y] == "_")
+					{
+						checkDraw = 0;
+					}
+
+				}
 			}
 
-			gotoXY(randomX * 2, randomY);
+			if (checkDraw == 1)
+			{
+				animateDraw(size);
+				leaderboard_pvp_save(player1, player2, size, board);
+				break;
+			}
 
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), purple);
+			if (player2.undo != 1 && player1.undo != 1)
+			{
+				int randomX = rand() % size;
 
-			cout << obstacle.icon;
-			board[randomX][randomY] = obstacle.icon;
+				int randomY = rand() % size;
+
+				while (board[randomX][randomY] != "_")
+				{
+					randomX = rand() % size;
+					randomY = rand() % size;
+				}
+
+				gotoXY(randomX * 4 + 2, randomY * 2 + 1);
+
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), purple);
+
+				cout << obstacle.icon;
+				board[randomX][randomY] = obstacle.icon;
+			}
+
+			if (player1.undo == 1 || player2.undo == 1)
+			{
+				undop2Rule2(player1, player2, obstacle, board, size, goFirst);
+			}
+
 		}
-
-
-
 	}
 }
 

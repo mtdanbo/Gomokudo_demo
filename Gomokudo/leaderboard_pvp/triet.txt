@@ -1,2 +1,2 @@
-winner Draw
-loser Draw
+winner X_Player1
+looser O_Player2

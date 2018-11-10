@@ -1,8 +1,33 @@
 ﻿  load.cpp
-f:\gomokudo\gomokudo\load.cpp(329): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\load.cpp(343): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\load.cpp(1086): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\load.cpp(1100): warning C4018: '<': signed/unsigned mismatch
-f:\gomokudo\gomokudo\load.cpp(286): warning C4715: 'loadSaveFile_PvP': not all control paths return a value
-f:\gomokudo\gomokudo\load.cpp(1043): warning C4715: 'loadSaveFile_PvC': not all control paths return a value
+f:\gomokudo\gomokudo\load.cpp(40): warning C4101: 'rule': unreferenced local variable
+f:\gomokudo\gomokudo\load.cpp(331): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(345): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(1088): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(1102): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(1185): warning C4101: 'rule': unreferenced local variable
+f:\gomokudo\gomokudo\load.cpp(1490): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(1504): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(1588): warning C4101: 'rule': unreferenced local variable
+f:\gomokudo\gomokudo\load.cpp(1928): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\load.cpp(1942): warning C4018: '<': signed/unsigned mismatch
+  rule.cpp
+f:\gomokudo\gomokudo\rule.cpp(571): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\rule.cpp(576): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\rule.cpp(965): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\rule.cpp(986): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\rule.cpp(1544): warning C4018: '<': signed/unsigned mismatch
+f:\gomokudo\gomokudo\rule.cpp(1565): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+f:\gomokudo\gomokudo\rule.cpp(691): warning C4715: 'rule3': not all control paths return a value
+f:\gomokudo\gomokudo\rule.cpp(897): warning C4715: 'rule4': not all control paths return a value
+f:\gomokudo\gomokudo\rule.cpp(509): warning C4715: 'rule2': not all control paths return a value
+f:\gomokudo\gomokudo\rule.cpp(243): warning C4715: 'rule1': not all control paths return a value
+f:\gomokudo\gomokudo\rule.cpp(1304): warning C4715: 'rule6': not all control paths return a value
+f:\gomokudo\gomokudo\rule.cpp(1143): warning C4715: 'rule5': not all control paths return a value
+f:\gomokudo\gomokudo\rule.cpp(1476): warning C4715: 'rule7': not all control paths return a value
+f:\gomokudo\gomokudo\rule.cpp(1700): warning C4715: 'rule8': not all control paths return a value
+f:\gomokudo\gomokudo\load.cpp(288): warning C4715: 'loadSaveFile_PvP': not all control paths return a value
+f:\gomokudo\gomokudo\load.cpp(1462): warning C4715: 'loadSaveFile_Rule1': not all control paths return a value
+f:\gomokudo\gomokudo\load.cpp(1045): warning C4715: 'loadSaveFile_PvC': not all control paths return a value
+f:\gomokudo\gomokudo\load.cpp(1900): warning C4715: 'loadSaveFile_Rule2': not all control paths return a value
   Gomokudo.vcxproj -> F:\Gomokudo\Debug\Gomokudo.exe

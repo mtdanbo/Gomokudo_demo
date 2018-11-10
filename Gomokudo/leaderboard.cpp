@@ -714,18 +714,28 @@ void leaderboard()
 	//animateText(leaderboardIntro);
 	//leaderboardIntro.close();
 
-	vector<string> type = { "PvP","PvC" };
-
-	int choice = controlMenuByArrow(type);
-
-	if (choice == 0)
+	vector<string> type = { "PvP","PvC" , "Rule", "Back" };
+	while (1)
 	{
-		leaderboard_pvp_show();
-	}
+		int choice = controlMenuByArrow(type);
 
-	if (choice == 1)
-	{
-		leaderboard_pvc_show();
+		if (choice == 0)
+		{
+			leaderboard_pvp_show();
+		}
+
+		if (choice == 1)
+		{
+			leaderboard_pvc_show();
+		}
+		if (choice == 2)
+		{
+
+		}
+		if (choice == 3)
+		{
+			break;
+		}
 	}
 
 
