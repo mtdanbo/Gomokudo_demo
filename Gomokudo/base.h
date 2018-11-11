@@ -17,23 +17,26 @@ int getConsoleHeight();
 void setCursorSize(int size);
 
 /*-----------Color---------*/
-const int red = 12;
-const int yellow = 14;
-const int green = 10;
-const int blue = 11;
-const int purple = 13;
-const int grey = 8;
+#define red 12
+#define yellow 14
+#define green 10
+#define blue 11
+#define purple 13
+#define grey 8
+
 
 /*-------Cursor Size-------*/
-const int smallCursor = 20;
-const int largeCursor = 100;
+#define smallCursor 20
+#define largeCursor 100
 
 /*-------Arrow Key-------*/
-const int arrowUp = 72;
-const int arrowRight = 77;
-const int arrowLeft = 75;
-const int arrowDown = 80;
-const int escKey = 27;
+#define arrowUp 72
+#define arrowRight 77
+#define arrowLeft 75
+#define arrowDown 80
+#define escKey 27
+#define enterKey 13
+
 
 /*-------------Create object and point--------------*/
 struct Object
@@ -57,6 +60,7 @@ struct Point
 	int y = 0;
 };
 
+/*---------------Setting struct------------*/
 struct OnState
 {
 	bool on;
@@ -72,42 +76,6 @@ struct Color
 	int hightLightColor;
 	int activeColor;
 };
-void getColor(Color &color);
-
-
-/*---------------AI feature------------*/
-const int atkPoint = 9;
-const int defPoint = 6;
-
-const int maxDepthHard = 8;
-const int maxMoveHard = 4;
-
-const int maxDepthMed = 3;
-const int maxMoveMed = 3;
-
-const int maxDepthEasy = 2;
-const int maxMoveEasy = 2;
-
-/*------------Default key-------------*/
-struct PlayerKey 
-{
-
-	char up;
-	char down;
-	char left;
-	char right;
-	char attack;
-
-};
-
-struct ControlGame
-{
-	char back = 'B';
-	char undo = 'U';
-	char save = 'L';
-};
-
-void getKey(PlayerKey &mainPlayer, PlayerKey &secondPlayer, ControlGame &controlGame);
 
 struct PvPConfig
 {
@@ -136,10 +104,58 @@ struct Priority
 	string prior;
 };
 
+struct ConsoleConfig
+{
+	int introMusic;
+	int bgMusic;
+	int introAnimate;
+	int winAnimate;
+};
+
+
+/*------------Default key-------------*/
+struct PlayerKey
+{
+
+	char up;
+	char down;
+	char left;
+	char right;
+	char attack;
+
+};
+
+struct ControlGame
+{
+	char back = 'B';
+	char undo = 'U';
+	char save = 'L';
+};
+
+/*---------------AI feature------------*/
+#define atkPoint 9
+#define defPoint 6
+
+
+#define maxDepthHard 8
+#define maxMoveHard 4
+
+
+#define maxDepthMed 3
+#define maxMoveMed 3
+
+#define maxDepthEasy 2
+#define maxMoveEasy 2
+
+
+
+/*---------------Get function------------*/
+
+void getKey(PlayerKey &mainPlayer, PlayerKey &secondPlayer, ControlGame &controlGame);
 void getPvPConfig(PvPConfig &pvpConfig);
 void getPvCConfig(PvCConfig &pvcConfig);
-
-
+void getConfig(ConsoleConfig &config);
+void getColor(Color &color);
 
 
 

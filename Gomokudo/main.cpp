@@ -3,9 +3,19 @@
 
 
 int main() {
+	ConsoleConfig config;
+	getConfig(config);
 
-	//PlaySound("sound.wav",NULL, SND_FILENAME | SND_ASYNC);
-	//intro();
+	if (config.introMusic == 1)
+	{
+		PlaySound("sound.wav", NULL, SND_FILENAME | SND_ASYNC);
+	}
+	else
+	{
+		PlaySound(NULL, NULL, SND_FILENAME | SND_ASYNC);
+	}
+	
+	intro();
 	COORD size;
 	size.X = 114;
 	size.Y = 1174;
@@ -13,12 +23,25 @@ int main() {
 
 	setCursorSize(smallCursor);
 
+
+
 	int quitGame = 0;
 
 	while (quitGame == 0)	
 	{
+		
+		getConfig(config);
+
 		system("cls");
-		PlaySound("menu_sound.wav", NULL, SND_FILENAME | SND_ASYNC);
+		if (config.bgMusic == 1)
+		{
+			
+			PlaySound("menu_sound.wav", NULL, SND_FILENAME | SND_ASYNC);
+		}
+		else
+		{
+			PlaySound(NULL, NULL, SND_FILENAME | SND_ASYNC);
+		}
 		int state = menu();
 		system("cls");
 		PlaySound(NULL, NULL, SND_FILENAME | SND_ASYNC);

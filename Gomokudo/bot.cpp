@@ -4,7 +4,7 @@
 
 	#pragma region setScoreBoard3
 
-	void setScoreVertical3(int size, vector<vector<string>> board, int turn, Object &o)
+	void setScoreVertical3(int size, vector<vector<string>> board, int turn, Object &o, Object player, Object bot)
 	{
 		int numPlayer = 0;
 		int numBot = 0;
@@ -20,12 +20,12 @@
 				}
 				for (int temp = 0; temp < 3; temp++)
 				{
-					if (board[x][y + temp] == "X")
+					if (board[x][y + temp] == player.icon)
 					{
 						numPlayer++;
 
 					}
-					if (board[x][y + temp] == "O")
+					if (board[x][y + temp] == bot.icon)
 					{
 						numBot++;
 
@@ -73,7 +73,7 @@
 		}
 	}
 
-	void setScoreHorizontal3(int size, vector<vector<string>> Board, int turn, Object &o) {
+	void setScoreHorizontal3(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot) {
 		int numPlayer = 0;
 		int numBot = 0;
 		for (int y = 0; y < size; y++)
@@ -84,11 +84,11 @@
 				numBot = 0;
 				for (int temp = 0; temp < 3; temp++)
 				{
-					if (Board[x + temp][y] == "X")
+					if (Board[x + temp][y] == player.icon)
 					{
 						numPlayer++;
 					}
-					if (Board[x + temp][y] == "O")
+					if (Board[x + temp][y] == bot.icon)
 					{
 						numBot++;
 					}
@@ -135,7 +135,7 @@
 		}
 	}
 
-	void setScoreDiagonalDown3(int size, vector<vector<string>> Board, int turn, Object &o)
+	void setScoreDiagonalDown3(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot)
 	{
 		int numPlayer = 0;
 		int numBot = 0;
@@ -147,11 +147,11 @@
 				numBot = 0;
 				for (int temp = 0; temp < 3; temp++)
 				{
-					if (Board[x + temp][y + temp] == "X")
+					if (Board[x + temp][y + temp] == player.icon)
 					{
 						numPlayer++;
 					}
-					if (Board[x + temp][y + temp] == "O")
+					if (Board[x + temp][y + temp] == bot.icon)
 					{
 						numBot++;
 					}
@@ -198,7 +198,7 @@
 		}
 	}
 
-	void setScoreDiagonalUp3(int size, vector<vector<string>> Board, int turn, Object &o)
+	void setScoreDiagonalUp3(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot)
 	{
 		int numPlayer = 0;
 		int numBot = 0;
@@ -212,11 +212,11 @@
 				{
 					if (y >= 2)
 					{
-						if (Board[x + temp][y - temp] == "X")
+						if (Board[x + temp][y - temp] == player.icon)
 						{
 							numPlayer++;
 						}
-						if (Board[x + temp][y - temp] == "O")
+						if (Board[x + temp][y - temp] == bot.icon)
 						{
 							numBot++;
 						}
@@ -265,12 +265,12 @@
 		}
 	}
 
-	void setScore3(int size, vector<vector<string>> Board, int turn, Object &o)
+	void setScore3(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot)
 	{
-		setScoreVertical3(size, Board, turn, o);
-		setScoreHorizontal3(size, Board, turn, o);
-		setScoreDiagonalUp3(size, Board, turn, o);
-		setScoreDiagonalDown3(size, Board, turn, o);
+		setScoreVertical3(size, Board, turn, o,player,bot);
+		setScoreHorizontal3(size, Board, turn, o,player,bot);
+		setScoreDiagonalUp3(size, Board, turn, o,player,bot);
+		setScoreDiagonalDown3(size, Board, turn, o,player,bot);
 
 	}
 
@@ -343,7 +343,7 @@
 
 	#pragma region findMove
 
-	int findMove3(int maxDepth, int maxMove, int depth, vector<vector<string>> board, Object p, Object b, int size, int &miniMax, Point &point)
+	int findMove3(int maxDepth, int maxMove, int depth, vector<vector<string>> board, Object p, Object b, int size, int &miniMax, Point &point, Object player, Object bot)
 	{
 		if (miniMax == 10)
 		{
@@ -370,7 +370,7 @@
 
 				resetScore3(size, b);
 
-				setScore3(size, board, turn, b);
+				setScore3(size, board, turn, b,player,bot);
 
 				findMaxScore3(size, b);
 
@@ -391,7 +391,7 @@
 					}
 
 
-					findMove3(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point);
+					findMove3(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point,player,bot);
 
 					if (miniMax == 10 && depth != 0)
 					{
@@ -434,7 +434,7 @@
 
 				resetScore3(size, p);
 
-				setScore3(size, board, turn, p);
+				setScore3(size, board, turn, p,player,bot);
 
 				findMaxScore3(size, p);
 
@@ -454,7 +454,7 @@
 						miniMax = -10;
 					}
 
-					findMove3(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point);
+					findMove3(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point,player,bot);
 
 					if (miniMax == 10 && depth != 0)
 					{
@@ -484,7 +484,7 @@
 
 	#pragma region setScoreBoard4
 
-	void setScoreVertical4(int size, vector<vector<string>> board, int turn, Object &o)
+	void setScoreVertical4(int size, vector<vector<string>> board, int turn, Object &o, Object player, Object bot)
 	{
 		int numPlayer = 0;
 		int numBot = 0;
@@ -500,12 +500,12 @@
 				}
 				for (int temp = 0; temp < 4; temp++)
 				{
-					if (board[x][y + temp] == "X")
+					if (board[x][y + temp] == player.icon)
 					{
 						numPlayer++;
 
 					}
-					if (board[x][y + temp] == "O")
+					if (board[x][y + temp] == bot.icon)
 					{
 						numBot++;
 
@@ -553,7 +553,7 @@
 		}
 	}
 
-	void setScoreHorizontal4(int size, vector<vector<string>> Board, int turn, Object &o) {
+	void setScoreHorizontal4(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot) {
 		int numPlayer = 0;
 		int numBot = 0;
 		for (int y = 0; y < size; y++)
@@ -564,11 +564,11 @@
 				numBot = 0;
 				for (int temp = 0; temp < 4; temp++)
 				{
-					if (Board[x + temp][y] == "X")
+					if (Board[x + temp][y] == player.icon)
 					{
 						numPlayer++;
 					}
-					if (Board[x + temp][y] == "O")
+					if (Board[x + temp][y] == bot.icon)
 					{
 						numBot++;
 					}
@@ -615,7 +615,7 @@
 		}
 	}
 
-	void setScoreDiagonalDown4(int size, vector<vector<string>> Board, int turn, Object &o)
+	void setScoreDiagonalDown4(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot)
 	{
 		int numPlayer = 0;
 		int numBot = 0;
@@ -627,11 +627,11 @@
 				numBot = 0;
 				for (int temp = 0; temp < 4; temp++)
 				{
-					if (Board[x + temp][y + temp] == "X")
+					if (Board[x + temp][y + temp] == player.icon)
 					{
 						numPlayer++;
 					}
-					if (Board[x + temp][y + temp] == "O")
+					if (Board[x + temp][y + temp] == bot.icon)
 					{
 						numBot++;
 					}
@@ -678,7 +678,7 @@
 		}
 	}
 
-	void setScoreDiagonalUp4(int size, vector<vector<string>> Board, int turn, Object &o)
+	void setScoreDiagonalUp4(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot)
 	{
 		int numPlayer = 0;
 		int numBot = 0;
@@ -692,11 +692,11 @@
 				{
 					if (y >= 3)
 					{
-						if (Board[x + temp][y - temp] == "X")
+						if (Board[x + temp][y - temp] == player.icon)
 						{
 							numPlayer++;
 						}
-						if (Board[x + temp][y - temp] == "O")
+						if (Board[x + temp][y - temp] == bot.icon)
 						{
 							numBot++;
 						}
@@ -745,12 +745,12 @@
 		}
 	}
 
-	void setScore4(int size, vector<vector<string>> Board, int turn, Object &o)
+	void setScore4(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot)
 	{
-		setScoreVertical4(size, Board, turn, o);
-		setScoreHorizontal4(size, Board, turn, o);
-		setScoreDiagonalUp4(size, Board, turn, o);
-		setScoreDiagonalDown4(size, Board, turn, o);
+		setScoreVertical4(size, Board, turn, o,player,bot);
+		setScoreHorizontal4(size, Board, turn, o,player,bot);
+		setScoreDiagonalUp4(size, Board, turn, o,player,bot);
+		setScoreDiagonalDown4(size, Board, turn, o,player,bot);
 
 	}
 
@@ -823,7 +823,7 @@
 
 	#pragma region findMove
 
-	int findMove4(int maxDepth, int maxMove, int depth, vector<vector<string>> board, Object p, Object b, int size, int &miniMax, Point &point)
+	int findMove4(int maxDepth, int maxMove, int depth, vector<vector<string>> board, Object p, Object b, int size, int &miniMax, Point &point, Object player, Object bot)
 	{
 		if (miniMax == 10)
 		{
@@ -851,7 +851,7 @@
 
 				resetScore4(size, b);
 
-				setScore4(size, board, turn, b);
+				setScore4(size, board, turn, b,player,bot);
 
 				findMaxScore4(size, b);
 
@@ -872,7 +872,7 @@
 					}
 
 
-					findMove4(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point);
+					findMove4(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point,player,bot);
 
 					if (miniMax == 10 && depth != 0)
 					{
@@ -915,7 +915,7 @@
 
 				resetScore4(size, p);
 
-				setScore4(size, board, turn, p);
+				setScore4(size, board, turn, p,player,bot);
 
 				findMaxScore4(size, p);
 
@@ -935,7 +935,7 @@
 						miniMax = -10;
 					}
 
-					findMove4(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point);
+					findMove4(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point,player,bot);
 
 					if (miniMax == 10 && depth != 0)
 					{
@@ -965,7 +965,7 @@
 
 	#pragma region setScoreBoard
 
-	void setScoreVertical(int size, vector<vector<string>> board, int turn, Object &o)
+	void setScoreVertical(int size, vector<vector<string>> board, int turn, Object &o, Object player, Object bot)
 	{
 		int numPlayer = 0;
 		int numBot = 0;
@@ -981,12 +981,12 @@
 				}
 				for (int temp = 0; temp < 5; temp++)
 				{
-					if (board[x][y + temp] == "X")
+					if (board[x][y + temp] == player.icon)
 					{
 						numPlayer++;
 
 					}
-					if (board[x][y + temp] == "O")
+					if (board[x][y + temp] == bot.icon)
 					{
 						numBot++;
 
@@ -1034,7 +1034,7 @@
 		}
 	}
 
-	void setScoreHorizontal(int size, vector<vector<string>> Board, int turn, Object &o) {
+	void setScoreHorizontal(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot) {
 		int numPlayer = 0;
 		int numBot = 0;
 		for (int y = 0; y < size; y++)
@@ -1045,11 +1045,11 @@
 				numBot = 0;
 				for (int temp = 0; temp < 5; temp++)
 				{
-					if (Board[x + temp][y] == "X")
+					if (Board[x + temp][y] == player.icon)
 					{
 						numPlayer++;
 					}
-					if (Board[x + temp][y] == "O")
+					if (Board[x + temp][y] == bot.icon)
 					{
 						numBot++;
 					}
@@ -1096,7 +1096,7 @@
 		}
 	}
 
-	void setScoreDiagonalDown(int size, vector<vector<string>> Board, int turn, Object &o)
+	void setScoreDiagonalDown(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot)
 	{
 		int numPlayer = 0;
 		int numBot = 0;
@@ -1108,11 +1108,11 @@
 				numBot = 0;
 				for (int temp = 0; temp < 5; temp++)
 				{
-					if (Board[x + temp][y + temp] == "X")
+					if (Board[x + temp][y + temp] == player.icon)
 					{
 						numPlayer++;
 					}
-					if (Board[x + temp][y + temp] == "O")
+					if (Board[x + temp][y + temp] == bot.icon)
 					{
 						numBot++;
 					}
@@ -1159,7 +1159,7 @@
 		}
 	}
 
-	void setScoreDiagonalUp(int size, vector<vector<string>> Board, int turn, Object &o)
+	void setScoreDiagonalUp(int size, vector<vector<string>> Board, int turn, Object &o,Object player, Object bot)
 	{
 		int numPlayer = 0;
 		int numBot = 0;
@@ -1173,11 +1173,11 @@
 				{
 					if (y >= 4)
 					{
-						if (Board[x + temp][y - temp] == "X")
+						if (Board[x + temp][y - temp] == player.icon)
 						{
 							numPlayer++;
 						}
-						if (Board[x + temp][y - temp] == "O")
+						if (Board[x + temp][y - temp] == bot.icon)
 						{
 							numBot++;
 						}
@@ -1226,12 +1226,12 @@
 		}
 	}
 
-	void setScore(int size, vector<vector<string>> Board, int turn, Object &o)
+	void setScore(int size, vector<vector<string>> Board, int turn, Object &o, Object player, Object bot)
 	{
-		setScoreVertical(size, Board, turn, o);
-		setScoreHorizontal(size, Board, turn, o);
-		setScoreDiagonalUp(size, Board, turn, o);
-		setScoreDiagonalDown(size, Board, turn, o);
+		setScoreVertical(size, Board, turn, o,player,bot);
+		setScoreHorizontal(size, Board, turn, o,player,bot);
+		setScoreDiagonalUp(size, Board, turn, o,player,bot);
+		setScoreDiagonalDown(size, Board, turn, o,player,bot);
 
 	}
 
@@ -1304,7 +1304,7 @@
 
 	#pragma region findMove
 
-	int findMove(int maxDepth, int maxMove, int depth, vector<vector<string>> board, Object p, Object b, int size, int &miniMax, Point &point)
+	int findMove(int maxDepth, int maxMove, int depth, vector<vector<string>> board, Object p, Object b, int size, int &miniMax, Point &point, Object player, Object bot)
 	{
 		if (miniMax == 10)
 		{
@@ -1333,7 +1333,7 @@
 
 				resetScore(size, b);
 
-				setScore(size, board, turn, b);
+				setScore(size, board, turn, b,player,bot);
 
 				findMaxScore(size, b);
 
@@ -1354,7 +1354,7 @@
 					}
 
 
-					findMove(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point);
+					findMove(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point,player,bot);
 
 					if (miniMax == 10 && depth != 0)
 					{
@@ -1397,7 +1397,7 @@
 
 				resetScore(size, p);
 
-				setScore(size, board, turn, p);
+				setScore(size, board, turn, p,player,bot);
 
 				findMaxScore(size, p);
 
@@ -1417,7 +1417,7 @@
 						miniMax = -10;
 					}
 
-					findMove(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point);
+					findMove(maxDepth, maxMove, depth + 1, board, p, b, size, miniMax, point,player,bot);
 
 					if (miniMax == 10 && depth != 0)
 					{

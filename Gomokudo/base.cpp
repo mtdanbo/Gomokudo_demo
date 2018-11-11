@@ -250,3 +250,32 @@ void getPvCConfig(PvCConfig &pvcConfig)
 
 	pvc.close();
 }
+
+void getConfig(ConsoleConfig &config)
+{
+	ifstream loadSetting;
+	loadSetting.open("text/console_setting.txt", ios_base::app);
+
+	while (!loadSetting.eof())
+	{
+		string temp;
+		loadSetting >> temp;
+
+		if (temp == "introMusic:")
+		{
+			loadSetting >> config.introMusic;
+		}
+		if (temp == "bgMusic:")
+		{
+			loadSetting >> config.bgMusic;
+		}
+		if (temp == "introAnimate:")
+		{
+			loadSetting >> config.introAnimate;
+		}
+		if (temp == "winAnimate:")
+		{
+			loadSetting >> config.winAnimate;
+		}
+	}
+}

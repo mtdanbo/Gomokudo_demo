@@ -117,7 +117,6 @@ void drawColorStateSetting(int width, int height, int currentIndex, vector<pair<
 
 void drawConsoleSetting(int width, int height, vector<pair<string, string>> configuration)
 {
-
 	for (int i = 0; i < configuration.size(); i++)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), curTextColor.color);
@@ -201,7 +200,7 @@ void modifyConsoleOn(int width, int height, int currentIndex, vector<pair<string
 			gotoXY(width / 4 + 40, height / 4 + currentIndex * 2);
 
 		}
-		if (key == 'B' || key == 'b')
+		if (key == enterKey)
 		{
 			break;
 		}
@@ -259,7 +258,7 @@ void modifyConsoleColor(int width, int height, int currentIndex, vector<pair<str
 			}
 		}
 
-		if (key == 'B' || key == 'b')
+		if (key == enterKey)
 		{
 			if (colorIndex == 1)
 			{
@@ -377,6 +376,7 @@ void confirmConsoleSetting()
 
 void consoleSetting(int width, int height)
 {
+
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), curTextColor.color);
 	system("cls");
 
@@ -471,7 +471,7 @@ void consoleSetting(int width, int height)
 
 		}
 
-		if (key == 13)
+		if (key == enterKey)
 		{
 			if (currentIndex < configuration.size() - 2)
 			{
@@ -753,7 +753,7 @@ void keypadSetting(int width, int height)
 
 		gotoXY(currentX, currentY);
 
-		if (key == 13)
+		if (key == enterKey)
 		{
 			if (currentIndex < mainKey.size() - 2)
 			{
@@ -785,7 +785,7 @@ void keypadSetting(int width, int height)
 				{
 					char temp_key = _getch();
 
-					if (temp_key == 27)
+					if (temp_key == enterKey)
 					{
 						gotoXY(currentX, currentY);
 						break;
@@ -1154,7 +1154,7 @@ void configIcon(int width, int height, int currentIndex, vector<pair<string, str
 	{
 		char tempKey = _getch();
 
-		if (tempKey == 27)
+		if (tempKey == enterKey)
 		{
 			break;
 		}
@@ -1245,7 +1245,7 @@ void configColor(int width, int height, vector<pair<string, string>> configurati
 
 		drawColorStateConfig(configuration, currentIndex, nextColor, color);
 
-		if (tempKey == escKey)
+		if (tempKey == enterKey)
 		{
 
 			if (colorIndex == 1)
@@ -1303,7 +1303,7 @@ void configPriorityPvP(int width, int height, vector<pair<string, string>> confi
 		{
 			prior.prior = "second";
 		}
-		if (tempKey == escKey)
+		if (tempKey == enterKey)
 		{
 			break;
 		}
@@ -1334,7 +1334,7 @@ void configPriorityPvC(int width, int height, vector<pair<string, string>> confi
 		{
 			prior.prior = "bot";
 		}
-		if (tempKey == escKey)
+		if (tempKey == enterKey)
 		{
 			break;
 		}

@@ -1,5 +1,6 @@
 #include "undo.h"
 
+/*-------------------UNDO PVP----------------*/
 void undop1(Object &player1, Object &player2, vector<vector<string>> &board, int size, int &go_first) {
 	PvPConfig pvpConfig;
 	getPvPConfig(pvpConfig);
@@ -79,6 +80,8 @@ void undop2(Object &player1, Object &player2, vector<vector<string>> &board, int
 
 	}
 }
+
+/*-------------------UNDO RULE1----------------*/
 
 void undop1Rule1(Object &player1, Object &player2, Object &obstacle, vector<vector<string>> &board, int size, int &go_first, int numRock) {
 	PvPConfig pvpConfig;
@@ -160,6 +163,8 @@ void undop2Rule1(Object &player1, Object &player2, Object &obstacle, vector<vect
 	}
 }
 
+/*-------------------UNDO RULE2----------------*/
+
 void undop1Rule2(Object &player1, Object &player2, Object &obstacle, vector<vector<string>> &board, int size, int &go_first) {
 	PvPConfig pvpConfig;
 	getPvPConfig(pvpConfig);
@@ -240,7 +245,94 @@ void undop2Rule2(Object &player1, Object &player2, Object &obstacle, vector<vect
 	}
 }
 
+/*-------------------UNDO RULE3----------------*/
+void undop1Rule3(Object &player1, Object &player2, vector<vector<string>> &board, int size, int &go_first, int currentTime) {
+	PvPConfig pvpConfig;
+	getPvPConfig(pvpConfig);
+
+	if (player2.historyMove.size() > 0)
+	{
+		player1.turn = 0;
+		player2.turn = 1;
+
+		board[player2.historyMove[player2.historyMove.size() - 1].first][player2.historyMove[player2.historyMove.size() - 1].second] = "_";
+
+		player2.historyMove.pop_back();
+
+		player1.undo = 0;
+		player2.undo = 0;
+
+
+		system("cls");
+
+		drawBoardRule3(size, board, player1, player2, pvpConfig.boardColor, currentTime);
+
+	}
+	else
+	{
+		if (go_first == 1)
+		{
+			player1.turn = 1;
+			player2.turn = 0;
+		}
+		if (go_first == 2)
+		{
+			player1.turn = 0;
+			player2.turn = 1;
+		}
+
+		player1.undo = 0;
+		player2.undo = 0;
+
+	}
+}
+
+void undop2Rule3(Object &player1, Object &player2, vector<vector<string>> &board, int size, int &go_first, int currentTime) {
+	PvPConfig pvpConfig;
+
+	getPvPConfig(pvpConfig);
+
+	if (player1.historyMove.size() > 0)
+	{
+		player1.turn = 1;
+		player2.turn = 0;
+
+		board[player1.historyMove[player1.historyMove.size() - 1].first][player1.historyMove[player1.historyMove.size() - 1].second] = "_";
+
+		player1.historyMove.pop_back();
+
+		player1.undo = 0;
+		player2.undo = 0;
+
+		system("cls");
+
+		drawBoardRule3(size, board, player1, player2, pvpConfig.boardColor, currentTime);
+	}
+	else
+	{
+		if (go_first == 1)
+		{
+			player1.turn = 1;
+			player2.turn = 0;
+		}
+		if (go_first == 2)
+		{
+			player1.turn = 0;
+			player2.turn = 1;
+		}
+
+		player1.undo = 0;
+		player2.undo = 0;
+
+	}
+}
+
+/*-------------------UNDO RULE5----------------*/
+
 void undop1Rule5(Object &player1, Object &player2, vector<vector<string>> &board, int size, int &go_first, int currentBoom) {
+	PvPConfig pvpConfig;
+	getPvPConfig(pvpConfig);
+	
 	if (player1.historyMove.size() != 0 && player2.historyMove.size() != 0)
 	{
 		player1.turn = 0;
@@ -256,7 +348,7 @@ void undop1Rule5(Object &player1, Object &player2, vector<vector<string>> &board
 
 		system("cls");
 
-		board = drawBoardRule5(size, board, player1, player2,currentBoom);
+		board = drawBoardRule5(size, board, player1, player2,pvpConfig.boardColor,currentBoom);
 
 	}
 	else
@@ -279,6 +371,10 @@ void undop1Rule5(Object &player1, Object &player2, vector<vector<string>> &board
 }
 
 void undop2Rule5(Object &player1, Object &player2, vector<vector<string>> &board, int size, int &go_first, int currentBoom) {
+	PvPConfig pvpConfig;
+	getPvPConfig(pvpConfig);
+	
+	
 	if (player1.historyMove.size() != 0 && player1.historyMove.size() != 0)
 	{
 		player1.turn = 1;
@@ -292,7 +388,7 @@ void undop2Rule5(Object &player1, Object &player2, vector<vector<string>> &board
 		player2.undo = 0;
 
 		system("cls");
-		board = drawBoardRule5(size, board, player1, player2,currentBoom);
+		board = drawBoardRule5(size, board, player1, player2,pvpConfig.boardColor,currentBoom);
 	}
 	else
 	{
@@ -313,7 +409,12 @@ void undop2Rule5(Object &player1, Object &player2, vector<vector<string>> &board
 	}
 }
 
+/*-------------------UNDO RULE8----------------*/
+
 void undop1Rule8(Object &player1, Object &player2, vector<vector<string>> &board, int size, int &go_first, int currentChangedItem) {
+	PvPConfig pvpConfig;
+	getPvPConfig(pvpConfig);
+	
 	if (player1.historyMove.size() != 0 && player2.historyMove.size() != 0)
 	{
 		player1.turn = 0;
@@ -329,7 +430,7 @@ void undop1Rule8(Object &player1, Object &player2, vector<vector<string>> &board
 
 		system("cls");
 
-		board = drawBoardRule8(size, board, player1, player2, currentChangedItem);
+		board = drawBoardRule8(size, board, player1, player2, currentChangedItem,pvpConfig.boardColor);
 
 	}
 	else
@@ -352,6 +453,9 @@ void undop1Rule8(Object &player1, Object &player2, vector<vector<string>> &board
 }
 
 void undop2Rule8(Object &player1, Object &player2, vector<vector<string>> &board, int size, int &go_first, int currentChangedItem) {
+	PvPConfig pvpConfig;
+	getPvPConfig(pvpConfig);
+	
 	if (player1.historyMove.size() != 0 && player1.historyMove.size() != 0)
 	{
 		player1.turn = 1;
@@ -365,7 +469,7 @@ void undop2Rule8(Object &player1, Object &player2, vector<vector<string>> &board
 		player2.undo = 0;
 
 		system("cls");
-		board = drawBoardRule8(size, board, player1, player2, currentChangedItem);
+		board = drawBoardRule8(size, board, player1, player2, currentChangedItem,pvpConfig.boardColor);
 	}
 	else
 	{

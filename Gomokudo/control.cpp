@@ -224,7 +224,7 @@ Object secondControl(Object p, int size, vector<vector<string>> board) {
 
 }
 
-Object mainControlRule6(Object p, int size, vector<vector<string>> Board, int numMove, int maxMove) {
+Object mainControlRule6(Object p, int size, vector<vector<string>> board, int numMove, int maxMove) {
 
 	PlayerKey mainPlayer;
 	PlayerKey secondPlayer;
@@ -257,56 +257,56 @@ Object mainControlRule6(Object p, int size, vector<vector<string>> Board, int nu
 
 		if (key == mainPlayer.left || key == mainPlayer.left + 32)
 		{
-			if (p.x == 0)
+			if (p.x == 2)
 			{
 				p.x = p.x;
 			}
 			else
 			{
-				p.x -= 2;
+				p.x -= 4;
 			}
 			numMove++;
 		}
 		if (key == mainPlayer.right || key == mainPlayer.right + 32)
 		{
-			if (p.x / 2 == size - 1)
+			if (p.x == size*4 - 2)
 			{
 				p.x = p.x;
 			}
 			else
 			{
-				p.x += 2;
+				p.x += 4;
 			}
 			numMove++;
 		}
 		if (key == mainPlayer.up || key == mainPlayer.up + 32)
 		{
-			if (p.y == 0)
+			if (p.y == 1)
 			{
 				p.y = p.y;
 			}
 			else
 			{
-				p.y -= 1;
+				p.y -= 2;
 			}
 			numMove++;
 		}
 		if (key == mainPlayer.down || key == mainPlayer.down + 32)
 		{
-			if (p.y == size - 1)
+			if (p.y == size*2 - 1)
 			{
 				p.y = p.y;
 			}
 			else
 			{
-				p.y += 1;
+				p.y += 2;
 			}
 			numMove++;
 		}
 		gotoXY(p.x, p.y);
 		if (key == mainPlayer.attack || key == mainPlayer.attack + 32)
 		{
-			if (Board[p.x / 2][p.y] == "_" || Board[p.x / 2][p.y] == "B")
+			if (board[(p.x - 2) / 4][(p.y - 1) / 2] == "_" || board[(p.x - 2) / 4][(p.y - 1) / 2] == "B" || board[(p.x - 2) / 4][(p.y - 1) / 2] == "C")
 			{
 				cout << p.icon;
 				press = 1;
@@ -337,7 +337,7 @@ Object mainControlRule6(Object p, int size, vector<vector<string>> Board, int nu
 
 		if (numMove == maxMove)
 		{
-			if (Board[p.x / 2][p.y] != "_" )
+			if (board[(p.x - 2) / 4][(p.y - 1) / 2] != "_")
 			{
 				numMove--;
 			}
@@ -354,7 +354,7 @@ Object mainControlRule6(Object p, int size, vector<vector<string>> Board, int nu
 	return p;
 }
 
-Object secondControlRule6(Object p, int size, vector<vector<string>> Board, int numMove, int maxMove) {
+Object secondControlRule6(Object p, int size, vector<vector<string>> board, int numMove, int maxMove) {
 
 	PlayerKey mainPlayer;
 	PlayerKey secondPlayer;
@@ -389,56 +389,56 @@ Object secondControlRule6(Object p, int size, vector<vector<string>> Board, int 
 
 		if (key == secondPlayer.left || key == secondPlayer.left + 32)
 		{
-			if (p.x == 0)
+			if (p.x == 2)
 			{
 				p.x = p.x;
 			}
 			else
 			{
-				p.x -= 2;
+				p.x -= 4;
 			}
 			numMove++;
 		}
 		if (key == secondPlayer.right || key == secondPlayer.right + 32)
 		{
-			if (p.x / 2 == size - 1)
+			if (p.x == size*4 - 2)
 			{
 				p.x = p.x;
 			}
 			else
 			{
-				p.x += 2;
+				p.x += 4;
 			}
 			numMove++;
 		}
 		if (key == secondPlayer.up || key == secondPlayer.up + 32)
 		{
-			if (p.y == 0)
+			if (p.y == 1)
 			{
 				p.y = p.y;
 			}
 			else
 			{
-				p.y -= 1;
+				p.y -= 2;
 			}
 			numMove++;
 		}
 		if (key == secondPlayer.down || key == secondPlayer.down + 32)
 		{
-			if (p.y == size - 1)
+			if (p.y == size*2 - 1)
 			{
 				p.y = p.y;
 			}
 			else
 			{
-				p.y += 1;
+				p.y += 2;
 			}
 			numMove++;
 		}
 		gotoXY(p.x, p.y);
 		if (key == secondPlayer.attack || key == secondPlayer.attack + 32)
 		{
-			if (Board[p.x / 2][p.y] == "_" || Board[p.x / 2][p.y] == "B")
+			if (board[(p.x - 2) / 4][(p.y - 1) / 2] == "_" || board[(p.x - 2) / 4][(p.y - 1) / 2] == "B" || board[(p.x - 2) / 4][(p.y - 1) / 2] == "C")
 			{
 				cout << p.icon;
 				press = 1;
@@ -468,7 +468,7 @@ Object secondControlRule6(Object p, int size, vector<vector<string>> Board, int 
 
 		if (numMove == maxMove)
 		{
-			if (Board[p.x / 2][p.y] != "_")
+			if (board[(p.x - 2) / 4][(p.y - 1) / 2] != "_")
 			{
 				numMove--;
 			}
@@ -484,7 +484,7 @@ Object secondControlRule6(Object p, int size, vector<vector<string>> Board, int 
 
 }
 
-Object mainControlRule7(Object p, int size, vector<vector<string>> Board, int lastXPos, int lastYPos, int range) {
+Object mainControlRule7(Object p, int size, vector<vector<string>> board, int lastXPos, int lastYPos, int range) {
 
 	PlayerKey mainPlayer;
 	PlayerKey secondPlayer;
@@ -517,52 +517,52 @@ Object mainControlRule7(Object p, int size, vector<vector<string>> Board, int la
 
 		if (key == mainPlayer.left || key == mainPlayer.left + 32)
 		{
-			if (p.x/2 == 0 || p.x/2 == lastXPos - range)
+			if (p.x == 2 || (p.x - 2) / 4 == lastXPos - range)
 			{
 				p.x = p.x;
 			}
 			else
 			{
-				p.x -= 2;
+				p.x -= 4;
 			}
 		}
 		if (key == mainPlayer.right || key == mainPlayer.right + 32)
 		{
-			if (p.x / 2 == size - 1 || p.x/2 == lastXPos + range)
+			if (p.x == size*4 - 2 || (p.x - 2) / 4 == lastXPos + range)
 			{
 				p.x = p.x;
 			}
 			else
 			{
-				p.x += 2;
+				p.x += 4;
 			}
 		}
 		if (key == mainPlayer.up || key == mainPlayer.up + 32)
 		{
-			if (p.y == 0 || p.y == lastYPos - range)
+			if (p.y == 1 || (p.y - 1) / 2 == lastYPos - range)
 			{
 				p.y = p.y;
 			}
 			else
 			{
-				p.y -= 1;
+				p.y -= 2;
 			}
 		}
 		if (key == mainPlayer.down || key == mainPlayer.down + 32)
 		{
-			if (p.y == size - 1 || p.y == lastYPos + range)
+			if (p.y == size*2 - 1 || (p.y - 1) / 2 == lastYPos + range)
 			{
 				p.y = p.y;
 			}
 			else
 			{
-				p.y += 1;
+				p.y += 2;
 			}
 		}
 		gotoXY(p.x, p.y);
 		if (key == mainPlayer.attack || key == mainPlayer.attack + 32)
 		{
-			if (Board[p.x / 2][p.y] == "_" || Board[p.x / 2][p.y] == "B")
+			if (board[(p.x - 2) / 4][(p.y - 1) / 2] == "_" || board[(p.x - 2) / 4][(p.y - 1) / 2] == "B")
 			{
 				cout << p.icon;
 				press = 1;
@@ -595,7 +595,7 @@ Object mainControlRule7(Object p, int size, vector<vector<string>> Board, int la
 	return p;
 }
 
-Object secondControlRule7(Object p, int size, vector<vector<string>> Board, int lastXPos, int lastYPos, int range) {
+Object secondControlRule7(Object p, int size, vector<vector<string>> board, int lastXPos, int lastYPos, int range) {
 
 	PlayerKey mainPlayer;
 	PlayerKey secondPlayer;
@@ -630,52 +630,52 @@ Object secondControlRule7(Object p, int size, vector<vector<string>> Board, int 
 
 		if (key == secondPlayer.left || key == secondPlayer.left + 32)
 		{
-			if (p.x/2 == 0 || p.x/2 == lastXPos - range)
+			if (p.x == 2 || (p.x - 2) / 4 == lastXPos - range)
 			{
 				p.x = p.x;
 			}
 			else
 			{
-				p.x -= 2;
+				p.x -= 4;
 			}
 		}
 		if (key == secondPlayer.right || key == secondPlayer.right + 32)
 		{
-			if (p.x / 2 == size - 1 || p.x/2 == lastXPos + range)
+			if (p.x == size*4 - 2 || (p.x - 2) / 4 == lastXPos + range)
 			{
 				p.x = p.x;
 			}
 			else
 			{
-				p.x += 2;
+				p.x += 4;
 			}
 		}
 		if (key == secondPlayer.up || key == secondPlayer.up + 32)
 		{
-			if (p.y == 0 || p.y == lastYPos - range)
+			if (p.y == 1 || (p.y - 1) / 2 == lastYPos - range)
 			{
 				p.y = p.y;
 			}
 			else
 			{
-				p.y -= 1;
+				p.y -= 2;
 			}
 		}
 		if (key == secondPlayer.down || key == secondPlayer.down + 32)
 		{
-			if (p.y == size - 1 || p.y == lastYPos + range)
+			if (p.y == size*2 - 1 || (p.y - 1) / 2 == lastYPos + range)
 			{
 				p.y = p.y;
 			}
 			else
 			{
-				p.y += 1;
+				p.y += 2;
 			}
 		}
 		gotoXY(p.x, p.y);
 		if (key == secondPlayer.attack || key == secondPlayer.attack + 32)
 		{
-			if (Board[p.x / 2][p.y] == "_" || Board[p.x / 2][p.y] == "B")
+			if (board[(p.x - 2) / 4][(p.y - 1) / 2] == "_" || board[(p.x - 2) / 4][(p.y - 1) / 2] == "B")
 			{
 				cout << p.icon;
 				press = 1;

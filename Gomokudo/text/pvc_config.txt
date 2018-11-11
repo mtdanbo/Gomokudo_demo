@@ -1,7 +1,7 @@
-playerIcon: X
-botIcon: O
-boardSize: 4
+playerIcon: A
+botIcon: B
+boardSize: 10
 boardColor: 14
-goFirst: bot
-playerColor: 12
-botColor: 10
+goFirst: player
+playerColor: 10
+botColor: 12

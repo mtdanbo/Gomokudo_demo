@@ -1,0 +1,2 @@
+winner B_Bot
+loser A_Player

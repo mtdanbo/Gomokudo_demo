@@ -7,10 +7,12 @@ void start() {
 
 	gotoXY(width / 2 - 15, height / 2 - 1);
 
-	//ifstream start_intro;
-	//start_intro.open("text/start.txt", ios_base::app);
+	ifstream start_intro;
+	start_intro.open("text/start.txt", ios_base::app);
 
-	//animateText(start_intro);
+	animateText(start_intro);
+
+	Sleep(2000);
 
 	vector<string> type = { "Player vs Player", "Player vs Computer" , "Back" };
 

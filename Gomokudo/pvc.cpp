@@ -149,15 +149,15 @@ int gameMode(int maxDepth, int maxMove, int mode)
 
 			if (size > 4)
 			{
-				findMove(maxDepth, maxMove, depth, board, player, bot, size, miniMax, point);
+				findMove(maxDepth, maxMove, depth, board, player, bot, size, miniMax, point,player,bot);
 			}
 			if (size == 3)
 			{
-				findMove3(maxDepth, maxMove, depth, board, player, bot, size, miniMax, point);
+				findMove3(maxDepth, maxMove, depth, board, player, bot, size, miniMax, point,player,bot);
 			}
 			if (size == 4)
 			{
-				findMove4(maxDepth, maxMove, depth, board, player, bot, size, miniMax, point);
+				findMove4(maxDepth, maxMove, depth, board, player, bot, size, miniMax, point,player,bot);
 			}
 
 			board[point.x][point.y] = bot.icon;
